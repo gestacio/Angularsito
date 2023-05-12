@@ -1,7 +1,8 @@
-<div class="row mt-2">
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-2">
     <div class="col-lg-4 offset-lg-4">
         <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
-            <div class="card-header text-center">Agregar Producto</div>
+            <div class="card-header text-center">{{ operation }} Producto</div>
             <div class="card-body">
                 <form [formGroup]="form" (ngSubmit)="addProduct()">
                     <input formControlName="name" type="text" class="form-control mt-2" placeholder="Ingrese nombre">
