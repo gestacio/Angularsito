@@ -2,6 +2,9 @@ import express, {Application, Request, Response} from 'express';
 import routesProducto from '../routes/producto';
 import db from '../db/connection';
 import cors from 'cors';
+import sequelize from '../db/connection';
+import SeUsuario from './seusuario';
+import Producto from './producto';
 
 
 class Server {
@@ -44,6 +47,12 @@ class Server {
         try {
             await db.authenticate();
             console.log('base de datos conectada');
+            await SeUsuario.sync();
+            await Producto.sync()
+            // console.log("All models were synchronized successfully.");
+            console.log('\x1b[32m --- \x1b[0m');
+            console.log('\x1b[32m All models were synchronized successfully.! \x1b[0m');
+            console.log('\x1b[32m --- \x1b[0m');
         } catch (error) {
             console.log(error);
             console.log('error al conectarse a la base de datos');

@@ -2,7 +2,12 @@ import db from '../db/connection';
 import { DataTypes } from 'sequelize';
 
 
-const Producto = db.define('Producto', {
+const MaProducto = db.define('maproducto', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     name: {
         type: DataTypes.STRING
     },
@@ -13,12 +18,12 @@ const Producto = db.define('Producto', {
         type: DataTypes.DOUBLE
     },
     stock: {
-        type: DataTypes.NUMBER
+        type: DataTypes.INTEGER
     }
 }, {
-    createdAt: false,
-    updatedAt: false,
+    // createdAt: false,
+    // updatedAt: false,
 }
 );
 
-export default Producto;
+export default MaProducto;

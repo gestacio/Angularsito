@@ -17,6 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
 import { AddEditProductComponent } from './components/add-edit-product/add-edit-product.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     NavbarComponent,
     ListProductsComponent,
     AddEditProductComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

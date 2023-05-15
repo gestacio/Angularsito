@@ -7,4 +7,9 @@ const server_1 = __importDefault(require("./models/server"));
 const dotenv_1 = __importDefault(require("dotenv"));
 // Configuramos las variables de entorno
 dotenv_1.default.config();
+// Sincronizamos sequelize
+// function sincronizar() async {
+//     await sequelize.sync({ force: true });
+//     console.log("All models were synchronized successfully.");
+// }
 const server = new server_1.default();

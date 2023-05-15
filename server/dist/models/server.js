@@ -16,6 +16,8 @@ const express_1 = __importDefault(require("express"));
 const producto_1 = __importDefault(require("../routes/producto"));
 const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
+const seusuario_1 = __importDefault(require("./seusuario"));
+const producto_2 = __importDefault(require("./producto"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -49,6 +51,12 @@ class Server {
             try {
                 yield connection_1.default.authenticate();
                 console.log('base de datos conectada');
+                yield seusuario_1.default.sync();
+                yield producto_2.default.sync();
+                // console.log("All models were synchronized successfully.");
+                console.log('\x1b[32m --- \x1b[0m');
+                console.log('\x1b[32m All models were synchronized successfully.! \x1b[0m');
+                console.log('\x1b[32m --- \x1b[0m');
             }
             catch (error) {
                 console.log(error);
