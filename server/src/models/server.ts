@@ -1,5 +1,6 @@
 import express, {Application, Request, Response} from 'express';
 import routesProducto from '../routes/producto';
+import routesSeUsuario from '../routes/seusuario';
 import db from '../db/connection';
 import cors from 'cors';
 import sequelize from '../db/connection';
@@ -33,6 +34,7 @@ class Server {
             });
         });
         this.app.use('/api/productos', routesProducto)
+        this.app.use('/api/seusuario', routesSeUsuario)
     }
 
     midlewares() {

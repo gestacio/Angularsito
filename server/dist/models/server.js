@@ -14,9 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const producto_1 = __importDefault(require("../routes/producto"));
+const seusuario_1 = __importDefault(require("../routes/seusuario"));
 const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
-const seusuario_1 = __importDefault(require("./seusuario"));
+const seusuario_2 = __importDefault(require("./seusuario"));
 const producto_2 = __importDefault(require("./producto"));
 class Server {
     constructor() {
@@ -39,6 +40,7 @@ class Server {
             });
         });
         this.app.use('/api/productos', producto_1.default);
+        this.app.use('/api/seusuario', seusuario_1.default);
     }
     midlewares() {
         // Parseamos el body
@@ -51,7 +53,7 @@ class Server {
             try {
                 yield connection_1.default.authenticate();
                 console.log('base de datos conectada');
-                yield seusuario_1.default.sync();
+                yield seusuario_2.default.sync();
                 yield producto_2.default.sync();
                 // console.log("All models were synchronized successfully.");
                 console.log('\x1b[32m --- \x1b[0m');

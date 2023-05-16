@@ -5,7 +5,8 @@ import { ListProductsComponent } from './components/list-products/list-products.
 import { AddEditProductComponent } from './components/add-edit-product/add-edit-product.component';
 
 const routes: Routes = [
-  { path: '', component: ListProductsComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'products', component: ListProductsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'add', component: AddEditProductComponent },
   { path: 'edit/:id', component: AddEditProductComponent },
@@ -16,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

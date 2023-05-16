@@ -1,23 +1,23 @@
-<div class="row mt-5 p-3">
+<div class="row mt-5 pt-5">
     <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
-            <div class="card-header text-center">Entrar</div>
+        <div class="card text-white mb-3 border-primary" style="max-width: 25rem;">
+            <h3 class="card-header text-center bg-info">Entrar</h3>
             <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="entrar()">
-                    <input formControlName="xusuario" type="text" class="form-control mt-2" placeholder="Usuario" required>
+                <form [formGroup]="form" (ngSubmit)="postLoginSeusuario()">
+                    <input formControlName="xusuario" type="text" class="form-control mt-4" placeholder="Usuario" required>
                     <!-- <span *ngIf="form.get('xusuario')?.hasError('required') && form.get('xusuario')?.touched">
                         El campo nombre es <strong>requerido</strong>
                     </span> -->
-                    <input formControlName="xclave" type="password" class="form-control mt-2" placeholder="Contraseña">
+                    <input formControlName="xclave" type="password" class="form-control mt-4" placeholder="Contraseña">
                     <!-- <span *ngIf="form.get('description')?.hasError('required') && form.get('description')?.touched">
                         El campo nombre es <strong>descripción</strong>
                     </span> -->
-                    <div class="row mt-2 text-center">
-                        <div class="col-lg-6">
+                    <div class="row mt-5 text-center">
+                        <!-- <div class="col-lg-6">
                             <button routerLink="/" type="button" class="btn btn-secondary">Volver</button>
-                        </div>
-                        <div class="col-lg-6">
-                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+                        </div> -->
+                        <div class="">
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-info">Aceptar</button>
                         </div>
                     </div>
                 </form>
