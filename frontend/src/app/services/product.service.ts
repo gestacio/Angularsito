@@ -21,6 +21,10 @@ export class ProductService {
     return this.http.get<Product[]>(this.myAppUrl + this.myApiUrl);
   }
 
+  postListProductsWhere(name: String): Observable<Product[]> {
+    return this.http.post<Product[]>(this.myAppUrl + this.myApiUrl + "sell/", name)
+  }
+
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(this.myAppUrl + this.myApiUrl + id)
   }

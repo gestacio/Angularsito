@@ -22,8 +22,8 @@ const postLoginSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.json(seusuario);
     }
     else {
-        res.status(404).json({
-            msg: `No existe el usuario ${body.xusuario}`
+        res.status(401).json({
+            msg: `Credenciales inválidas, no existe el usuario: ${body.xusuario}`
         });
     }
 });

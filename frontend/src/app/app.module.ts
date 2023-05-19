@@ -18,6 +18,7 @@ import { ListProductsComponent } from './components/list-products/list-products.
 import { AddEditProductComponent } from './components/add-edit-product/add-edit-product.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
 import { LoginComponent } from './components/login/login.component';
+import { SellProductComponent } from './components/sell-product/sell-product.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginComponent } from './components/login/login.component';
     ListProductsComponent,
     AddEditProductComponent,
     ProgressBarComponent,
-    LoginComponent
+    LoginComponent,
+    SellProductComponent
   ],
   imports: [
     BrowserModule,

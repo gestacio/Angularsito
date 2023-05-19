@@ -2,7 +2,7 @@
 <app-navbar></app-navbar>
 <div *ngIf="!loading" class="row mt-2">
     <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
+        <div class="card text-white bg-info mb-3" style="max-width: 25rem;">
             <div class="card-header text-center">{{ operation }} Producto</div>
             <div class="card-body">
                 <form [formGroup]="form" (ngSubmit)="addProduct()">
@@ -25,10 +25,10 @@
 
                     <div class="row mt-2 text-center">
                         <div class="col-lg-6">
-                            <button routerLink="/" type="button" class="btn btn-secondary">Volver</button>
+                            <button routerLink="/products" type="button" class="btn btn-primary">Volver</button>
                         </div>
                         <div class="col-lg-6">
-                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-success">Aceptar</button>
                         </div>
                     </div>
                 </form>

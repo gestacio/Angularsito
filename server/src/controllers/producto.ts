@@ -1,11 +1,21 @@
 import {Request, Response} from 'express';
 import Producto from '../models/producto';
+import { Op } from 'sequelize';
 
 
 export const getProducts = async (req: Request, res: Response) => {
     const listProducts = await Producto.findAll()
 
     res.json(listProducts);
+}
+
+export const postProductsWhere = async (req: Request, res: Response) => {
+    console.log("******** holita *******")
+    const { body } = req;
+    console.log(body);
+    const listProductsWhere = await Producto.findAll({where: {name: body.name}} )
+
+    res.json(listProductsWhere);
 }
 
 export const getProduct = async (req: Request, res: Response) => {

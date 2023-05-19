@@ -10,8 +10,8 @@ export const postLoginSeUsuario = async (req: Request, res: Response) => {
     if(seusuario) {
         res.json(seusuario);
     } else {
-        res.status(404).json({
-            msg: `No existe el usuario ${body.xusuario}`
+        res.status(401).json({
+            msg: `Credenciales inválidas, no existe el usuario: ${body.xusuario}`
         });
     }
     

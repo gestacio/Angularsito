@@ -12,13 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.postProduct = exports.deleteProduct = exports.getProduct = exports.getProducts = void 0;
+exports.updateProduct = exports.postProduct = exports.deleteProduct = exports.getProduct = exports.postProductsWhere = exports.getProducts = void 0;
 const producto_1 = __importDefault(require("../models/producto"));
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listProducts = yield producto_1.default.findAll();
     res.json(listProducts);
 });
 exports.getProducts = getProducts;
+const postProductsWhere = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("******** holita *******");
+    const { body } = req;
+    console.log(body);
+    const listProductsWhere = yield producto_1.default.findAll({ where: { name: body.name } });
+    res.json(listProductsWhere);
+});
+exports.postProductsWhere = postProductsWhere;
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const product = yield producto_1.default.findByPk(id);

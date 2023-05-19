@@ -52,7 +52,7 @@ export class AddEditProductComponent {
       this._productService.saveProduct(product).subscribe(() => {
         this.toastr.success(`El producto ${product.name} fue registrado con éxito`, "Producto registrado")
         this.loading = false;
-        this.router.navigate(['/'])
+        this.router.navigate(['/products'])
       })
     } else {
       // Es editar
@@ -60,7 +60,7 @@ export class AddEditProductComponent {
       this._productService.updateProduct(this.id, product).subscribe(() => {
         this.toastr.info(`El producto ${product.name} fue actualizado con éxito`, "Producto actualizado")
         this.loading = false;
-        this.router.navigate(['/'])
+        this.router.navigate(['/products'])
       })
     }
     
