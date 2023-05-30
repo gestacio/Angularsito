@@ -22,6 +22,10 @@ const SeUsuario = connection_1.default.define('seusuario', {
     xusuario: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
+        unique: {
+            name: "Validation - unique value en xusario",
+            msg: 'El email necesita ser unico',
+        },
     },
     xclave: {
         type: sequelize_1.DataTypes.STRING(40),

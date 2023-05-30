@@ -19,6 +19,10 @@ const SeUsuario = db.define('seusuario', {
     xusuario: {
         type: DataTypes.STRING(40),
         allowNull: false,
+        unique: {
+            name: "Validation - unique value en xusario",
+            msg: 'El email necesita ser unico',
+        },
     },
     xclave: {
         type: DataTypes.STRING(40),
