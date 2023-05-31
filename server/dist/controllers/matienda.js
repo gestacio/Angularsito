@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMaEmpresa = exports.createMaEmpresa = exports.getMaEmpresa = void 0;
-const maempresa_1 = __importDefault(require("../models/maempresa"));
-const getMaEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const maempresa = yield maempresa_1.default.findOne();
-    if (maempresa) {
-        res.json(maempresa);
+exports.updateMaTienda = exports.createMaTienda = exports.getMaTiendas = exports.getMaTienda = void 0;
+const matienda_1 = __importDefault(require("../models/matienda"));
+const getMaTienda = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nstore } = req.params;
+    const matienda = yield matienda_1.default.findOne({ where: { nstore: nstore } });
+    if (matienda) {
+        res.json(matienda);
     }
     else {
         res.status(404).json({
@@ -25,11 +26,16 @@ const getMaEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
-exports.getMaEmpresa = getMaEmpresa;
-const createMaEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getMaTienda = getMaTienda;
+const getMaTiendas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const matienda = yield matienda_1.default.findAll();
+    res.json(matienda);
+});
+exports.getMaTiendas = getMaTiendas;
+const createMaTienda = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        yield maempresa_1.default.findOrCreate(body);
+        yield matienda_1.default.findOrCreate(body);
         res.json({
             msg: `La empresa fue agregada con exito!`
         });
@@ -41,21 +47,21 @@ const createMaEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.createMaEmpresa = createMaEmpresa;
-const updateMaEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createMaTienda = createMaTienda;
+const updateMaTienda = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { body } = req;
     try {
-        const maempresa = yield maempresa_1.default.findByPk(id);
-        if (maempresa) {
-            yield maempresa.update(body);
+        const matienda = yield matienda_1.default.findByPk(id);
+        if (matienda) {
+            yield matienda.update(body);
             res.json({
-                msg: `El maempresa fue actualizado con éxito`
+                msg: `El matienda fue actualizado con éxito`
             });
         }
         else {
             res.status(404).json({
-                msg: `No existe un maempresa con el id ${id}`
+                msg: `No existe un matienda con el id ${id}`
             });
         }
     }
@@ -66,4 +72,4 @@ const updateMaEmpresa = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.updateMaEmpresa = updateMaEmpresa;
+exports.updateMaTienda = updateMaTienda;

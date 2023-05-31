@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,8 @@ import { SeUsuarioService } from 'src/app/services/seusuario.service';
 import { catchError } from 'rxjs/operators'
 import { MaEmpresaService } from 'src/app/services/maempresa.service';
 import { MaEmpresa } from 'src/app/interfaces/maempresa';
+import { MaTiendaService } from 'src/app/services/matienda.service';
+import { MaTienda } from 'src/app/interfaces/matienda';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,7 @@ export class LoginComponent {
   constructor(
     private _seusuarioService: SeUsuarioService,
     private _maempresaService: MaEmpresaService,
+    private _matiendaService: MaTiendaService,
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,) {
@@ -70,9 +73,24 @@ export class LoginComponent {
           'xaddress': data.xaddress,
         };
 
-        const jsonMaEmpresa = JSON.stringify(obj)
-        sessionStorage.setItem('MaEmpresa', jsonMaEmpresa);
+        const sessionJson = JSON.stringify(obj)
+        sessionStorage.setItem('MaEmpresa', sessionJson);
       })
+
+      this._matiendaService.getMaTienda(2189).subscribe((data: MaTienda) => {
+        
+        const obj = {
+          'idempresa': data.idempresa,
+          'xname': data.xname,
+          'nstore': data.nstore,
+          'xtelf': data.xtelf,
+          'xaddress': data.xaddress,
+        };
+
+        const sessionJson = JSON.stringify(obj)
+        sessionStorage.setItem('MaTienda', sessionJson);
+      })
+
     }
 
 }

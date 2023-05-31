@@ -18,7 +18,7 @@ const MaProducto = connection_1.default.define('maproducto', {
         type: sequelize_1.DataTypes.STRING
     },
     price: {
-        type: sequelize_1.DataTypes.FLOAT(10, 2)
+        type: sequelize_1.DataTypes.FLOAT
     },
     stock: {
         type: sequelize_1.DataTypes.INTEGER

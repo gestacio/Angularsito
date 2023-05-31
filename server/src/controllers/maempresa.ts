@@ -14,22 +14,22 @@ export const getMaEmpresa = async (req: Request, res: Response) => {
     }
 }
 
-// export const createMaEmpresa = async (req: Request, res: Response) => {
-//     const { body } = req;
+export const createMaEmpresa = async (req: Request, res: Response) => {
+    const { body } = req;
 
-//     try {
-//         await MaEmpresa.findOrCreate(body);
-//         res.json({
-//             msg: `La empresa fue agregada con exito!`
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.json({
-//             msg: 'Upss ocurrió un error'
-//         });
-//     }
+    try {
+        await MaEmpresa.findOrCreate(body);
+        res.json({
+            msg: `La empresa fue agregada con exito!`
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
 
-// }
+}
 
 export const updateMaEmpresa = async (req: Request, res: Response) => {
     const { id } = req.params;

@@ -2,12 +2,14 @@ import express, {Application, Request, Response} from 'express';
 import routesProducto from '../routes/producto';
 import routesSeUsuario from '../routes/seusuario';
 import routesMaEmpresa from '../routes/maempresa';
+import routesMaTienda from '../routes/matienda';
 import db from '../db/connection';
 import cors from 'cors';
 // import sequelize from '../db/connection';
 import SeUsuario from './seusuario';
 import Producto from './producto';
 import MaEmpresa from './maempresa';
+import MaTienda from './matienda';
 
 
 class Server {
@@ -36,6 +38,7 @@ class Server {
             });
         });
         this.app.use('/api/maempresa', routesMaEmpresa)
+        this.app.use('/api/matiendas', routesMaTienda)
         this.app.use('/api/productos', routesProducto)
         this.app.use('/api/seusuario', routesSeUsuario)
     }
@@ -54,6 +57,7 @@ class Server {
             console.log('base de datos conectada');
             // await sequelize.sync({ force: true });
             await MaEmpresa.sync();
+            await MaTienda.sync();
             await SeUsuario.sync();
             await Producto.sync();
             await MaEmpresa.findOrCreate({
@@ -64,8 +68,18 @@ class Server {
                     xlongname: "FARMATODO, Compañia Anonima",
                     xaddress: "Av. Los Guayabitos, CC Expreso Baruta, Nivel 5, Of. Unica, Urb. La Trinidad (Sector Puerta Azul), Caracas."
                 }
-            })                
-            // console.log("All models were synchronized successfully.");
+            });
+            await MaTienda.findOrCreate({
+                where: {nstore: 2189},
+                defaults: {
+                    idempresa: 1,
+                    xname: "FARMACIA OPALO",
+                    nstore: 2189,
+                    xtelf: "0800-FARMATODO",
+                    xaddress: "CCS: Sabana Gnd. Casanova/Recreo. Ed. Rupi",
+                }
+            });
+            console.log("All models were synchronized successfully.");
 
             console.log('\x1b[32m --- \x1b[0m');
             console.log('\x1b[32m All models were synchronized successfully.! \x1b[0m');
