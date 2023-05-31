@@ -1,11 +1,13 @@
 import express, {Application, Request, Response} from 'express';
 import routesProducto from '../routes/producto';
 import routesSeUsuario from '../routes/seusuario';
+import routesMaEmpresa from '../routes/maempresa';
 import db from '../db/connection';
 import cors from 'cors';
-import sequelize from '../db/connection';
+// import sequelize from '../db/connection';
 import SeUsuario from './seusuario';
 import Producto from './producto';
+import MaEmpresa from './maempresa';
 
 
 class Server {
@@ -33,6 +35,7 @@ class Server {
                 msg: 'API Working'
             });
         });
+        this.app.use('/api/maempresa', routesMaEmpresa)
         this.app.use('/api/productos', routesProducto)
         this.app.use('/api/seusuario', routesSeUsuario)
     }
@@ -50,11 +53,18 @@ class Server {
             await db.authenticate();
             console.log('base de datos conectada');
             // await sequelize.sync({ force: true });
+            await MaEmpresa.sync();
             await SeUsuario.sync();
-            await Producto.sync()
-            // await SeUsuario.create({xnombre: "gabriel", xapellido: "estacio", xusuario: "gestacio", xclave: "N3wp4ssa.."})
-
-                
+            await Producto.sync();
+            await MaEmpresa.findOrCreate({
+                where: {xrif: "J-000202001"},
+                defaults: {
+                    xrif: "J-000202001",
+                    xshortname: "FARMATODO, C.A.",
+                    xlongname: "FARMATODO, Compañia Anonima",
+                    xaddress: "Av. Los Guayabitos, CC Expreso Baruta, Nivel 5, Of. Unica, Urb. La Trinidad (Sector Puerta Azul), Caracas."
+                }
+            })                
             // console.log("All models were synchronized successfully.");
 
             console.log('\x1b[32m --- \x1b[0m');

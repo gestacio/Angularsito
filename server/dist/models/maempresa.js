@@ -5,26 +5,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const connection_1 = __importDefault(require("../db/connection"));
 const sequelize_1 = require("sequelize");
-const MaProducto = connection_1.default.define('maproducto', {
+const MaEmpresa = connection_1.default.define('maempresa', {
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
-        type: sequelize_1.DataTypes.STRING
+    xrif: {
+        type: sequelize_1.DataTypes.STRING(11),
+        allowNull: false,
+        unique: true,
     },
-    description: {
-        type: sequelize_1.DataTypes.STRING
+    xshortname: {
+        type: sequelize_1.DataTypes.STRING(20),
+        allowNull: false,
     },
-    price: {
-        type: sequelize_1.DataTypes.FLOAT(10, 2)
+    xlongname: {
+        type: sequelize_1.DataTypes.STRING(250),
+        allowNull: false,
     },
-    stock: {
-        type: sequelize_1.DataTypes.INTEGER
+    xaddress: {
+        type: sequelize_1.DataTypes.STRING(250),
+        allowNull: false,
     }
 }, {
 // createdAt: false,
 // updatedAt: false,
 });
-exports.default = MaProducto;
+exports.default = MaEmpresa;
