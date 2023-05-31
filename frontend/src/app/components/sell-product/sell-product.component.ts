@@ -30,11 +30,11 @@ export class SellProductComponent {
 
   postListProductsWhere(e: Event) {
     const filtro = (e.target as HTMLInputElement).value;
-    this._productService.postListProductsWhere(filtro).subscribe((data: Product[]) => {
-      console.log(data)
-      this.array_products = data;
+    // this._productService.postListProductsWhere(filtro).subscribe((data: Product[]) => {
+      // console.log(data)
+      // this.array_products = data;
       // this.loading = false;
-    })
+    // })
     // const filtro = (e.target as HTMLInputElement).value;
     // console.log(filtro);
     // this.array_products = this.listProducts.filter((product) => {

@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.postProduct = exports.deleteProduct = exports.getProduct = exports.postProductsWhere = exports.getProducts = void 0;
+exports.sellProduct = exports.updateProduct = exports.postProduct = exports.deleteProduct = exports.getProduct = exports.postProductsWhere = exports.getProducts = void 0;
 const producto_1 = __importDefault(require("../models/producto"));
+const connection_1 = __importDefault(require("../db/connection"));
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listProducts = yield producto_1.default.findAll();
     res.json(listProducts);
@@ -95,3 +96,28 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateProduct = updateProduct;
+const sellProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        const product = yield producto_1.default.findByPk(id);
+        if (product) {
+            yield connection_1.default.query(`UPDATE maproductos SET stock = stock - 1 where id = ${id}`);
+            res.json({
+                msg: `El producto fue actualizado con éxito`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe un producto con el id ${id}`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+});
+exports.sellProduct = sellProduct;

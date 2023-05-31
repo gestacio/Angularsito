@@ -21,9 +21,9 @@ export class ProductService {
     return this.http.get<Product[]>(this.myAppUrl + this.myApiUrl);
   }
 
-  postListProductsWhere(name: String): Observable<Product[]> {
-    return this.http.post<Product[]>(this.myAppUrl + this.myApiUrl + "sell/", name)
-  }
+  // postListProductsWhere(name: String): Observable<Product[]> {
+  //   return this.http.post<Product[]>(this.myAppUrl + this.myApiUrl + "sell/", name)
+  // }
 
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(this.myAppUrl + this.myApiUrl + id)
@@ -39,5 +39,9 @@ export class ProductService {
 
   updateProduct(id: number, product: Product): Observable<void> {
     return this.http.put<void>(this.myAppUrl + this.myApiUrl + id, product)
+  }
+
+  sellProducto(id: number, product: Product): Observable<void> {
+    return this.http.put<void>(this.myAppUrl + this.myApiUrl + "sell/" + id, product)
   }
 }

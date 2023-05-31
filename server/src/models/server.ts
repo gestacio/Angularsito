@@ -49,12 +49,12 @@ class Server {
         try {
             await db.authenticate();
             console.log('base de datos conectada');
-            await sequelize.sync({ force: true });
-            // await SeUsuario.sync();
-            await SeUsuario.create({xnombre: "gabriel", xapellido: "estacio", xusuario: "gestacio", xclave: "N3wp4ssa.."})
+            // await sequelize.sync({ force: true });
+            await SeUsuario.sync();
+            await Producto.sync()
+            // await SeUsuario.create({xnombre: "gabriel", xapellido: "estacio", xusuario: "gestacio", xclave: "N3wp4ssa.."})
 
                 
-            // await Producto.sync()
             // console.log("All models were synchronized successfully.");
 
             console.log('\x1b[32m --- \x1b[0m');

@@ -30,7 +30,7 @@ import { CajaComponent } from './components/caja/caja.component';
     ProgressBarComponent,
     LoginComponent,
     SellProductComponent,
-    CajaComponent
+    CajaComponent,
   ],
   imports: [
     BrowserModule,
