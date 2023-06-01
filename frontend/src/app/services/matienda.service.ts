@@ -16,8 +16,8 @@ export class MaTiendaService {
     this.myApiUrl = 'api/matiendas/';
   }
 
-  getMaTienda(nstore: number): Observable<MaTienda> {
-    return this.http.get<MaTienda>(this.myAppUrl + this.myApiUrl + nstore)
+  getMaTienda(nstore: number): Observable<MaTienda[]> {
+    return this.http.get<MaTienda[]>(this.myAppUrl + this.myApiUrl + "?nstore=" + nstore)
   }
 
   getListMaTiendas(): Observable<MaTienda[]> {
@@ -27,7 +27,6 @@ export class MaTiendaService {
   saveMaTienda(matienda: MaTienda): Observable<void> {
     return this.http.post<void>(this.myAppUrl + this.myApiUrl, matienda)
   }
-
 
   updateMaTienda(id: number, matienda: MaTienda): Observable<void> {
     return this.http.put<void>(this.myAppUrl + this.myApiUrl + id, matienda)

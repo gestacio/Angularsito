@@ -19,6 +19,7 @@ export class LoginComponent {
   form: FormGroup;
   isLogin: boolean = true;
   resSeUsuario!: SeUsuario;
+  
 
   constructor(
     private _seusuarioService: SeUsuarioService,
@@ -63,34 +64,35 @@ export class LoginComponent {
 
   }
 
-    setSessionData() {
-      this._maempresaService.getMaEmpresa().subscribe((data: MaEmpresa) => {
-        
-        const obj = {
-          'xrif': data.xrif,
-          'xshortname': data.xshortname,
-          'xlongname': data.xlongname,
-          'xaddress': data.xaddress,
-        };
+  setSessionData() {
+    this._maempresaService.getMaEmpresa().subscribe((data: MaEmpresa) => {
 
-        const sessionJson = JSON.stringify(obj)
-        sessionStorage.setItem('MaEmpresa', sessionJson);
-      })
+      const obj = {
+        'xrif': data.xrif,
+        'xshortname': data.xshortname,
+        'xlongname': data.xlongname,
+        'xaddress': data.xaddress,
+      };
 
-      this._matiendaService.getMaTienda(2189).subscribe((data: MaTienda) => {
-        
-        const obj = {
-          'idempresa': data.idempresa,
-          'xname': data.xname,
-          'nstore': data.nstore,
-          'xtelf': data.xtelf,
-          'xaddress': data.xaddress,
-        };
+      const sessionJson = JSON.stringify(obj)
+      sessionStorage.setItem('MaEmpresa', sessionJson);
+    })
 
-        const sessionJson = JSON.stringify(obj)
-        sessionStorage.setItem('MaTienda', sessionJson);
-      })
+    this._matiendaService.getMaTienda(2189).subscribe((data: MaTienda[]) => {
+      var tienda = data[0];
 
-    }
+      const obj = {
+        'idempresa': tienda.idempresa,
+        'xname': tienda.xname,
+        'nstore': tienda.nstore,
+        'xtelf': tienda.xtelf,
+        'xaddress': tienda.xaddress,
+      };
+
+      const sessionJson = JSON.stringify(obj);
+      sessionStorage.setItem('MaTienda', sessionJson);
+    })
+    
+  }
 
 }

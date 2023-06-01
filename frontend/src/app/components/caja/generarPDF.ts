@@ -6,10 +6,16 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 export function createPDF(listaProductos: Product[], totalNeto: number, totalIva: number, TotalCarrito: number) {
     const dataMaEmpresa = JSON.parse(sessionStorage.getItem('MaEmpresa')!);
+    const dataMaTienda = JSON.parse(sessionStorage.getItem('MaTienda')!);
 
     const xrif = dataMaEmpresa.xrif;
     const xshortname = dataMaEmpresa.xshortname;
     const xaddress = dataMaEmpresa.xaddress;
+
+    const xnameTienda = dataMaTienda.xname;
+    const nstore = dataMaTienda.nstore;
+    const xtelfTienda = dataMaTienda.xtelf;
+    const xaddressTienda = dataMaTienda.xaddress;
 
     let neto = (Math.round(totalNeto * 100) / 100).toFixed(2);
     let iva = (Math.round(totalIva * 100) / 100).toFixed(2);
@@ -39,10 +45,12 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
                 { text: `RIF ${xrif}`, style: 'title' },
                 { text: `${xshortname}`, style: 'title', bold: false },
                 { text: `${xaddress}`, style: 'dataTitle', margin: [ 35, 0 ] },
-                { text: "FARMACIA OPALO, TLF:0800-FARMATODO\nCCS:Sabana Gnc. Casanova/Recreo. Ed Rupi\nCAJA 06", style: 'dataTitle' },
+                { text: `${xnameTienda}, ${xtelfTienda}`, style: 'dataTitle' },
+                { text: `${xaddressTienda}`, style: 'dataTitle' },
+                { text: "CAJA 06", style: 'dataTitle' },
                 { text: "RIF/C.I.: V25221952", style: 'data' },
                 { text: "RAZON SOCIAL: Gabriel Jose Estacio Rivas", style: 'data' },
-                { text: "Tienda: 2189", style: 'data' },
+                { text: `Tienda: ${nstore}`, style: 'data' },
                 { text: "Ticket: 13129", style: 'data' },
                 { text: "Le Atendió: OTAMENDI LUIS", style: 'data' },
                 { text: "FACTURA", style: 'dataTitle' },

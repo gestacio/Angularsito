@@ -2,8 +2,27 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div *ngIf="!loading" class="container">
     <div class="title my-3">
-        <h4>Venta de Productos - Caja</h4>
-        <h6>Usuario: Gestacio</h6>
+        <div class="row">
+            <div class="col">
+                <h4>Venta de Productos - Caja</h4>
+                <h6>Usuario: Gestacio</h6>
+            </div>
+            <div class="col">
+                <div class="float-end">
+                    <form action=""></form>
+                    <label for="cedula">Buscar Cliente</label>
+                    <div>
+                        <input (keypress)="numberOnly($event)" 
+                        (change)="getDNI($event)"
+                        maxlength="9" type="text" name="cedula" id="cedula"
+                            placeholder="CI/RIF:" autofocus="autofocus">
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" id="inputLarge">
+                  </div> -->
+            </div>
+        </div>
         <!-- <form class="d-flex gap-2">
             <button type="button" class="btn btn-info" routerLink="/add">Agregar Producto</button>
             <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button>
@@ -15,7 +34,7 @@
     <div class="row">
         <!-- COLUMNA IZQUIERDA -->
         <div class="col-6">
-            <div style="max-height: 70vh; overflow-y: scroll;">
+            <div class="row" style="max-height: 35vh; overflow-y: scroll;">
 
                 <table *ngIf="listProducts.length > 0" class="table table-info table-hover">
                     <thead>
@@ -41,6 +60,40 @@
                     </tbody>
                 </table>
                 <h5 *ngIf="listProducts.length < 1">No hay productos para mostar</h5>
+            </div>
+            <hr>
+            <div class="row" style="height: 32vh; overflow-y: scroll;">
+                <table *ngIf="listProducts.length > 0" class="table table-info table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cliente:</th>
+                            <th>{{ cliente.xbusinessname }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-light">
+                        <tr>
+                            <td>CI/RIF: {{ cliente.xdni }} </td>
+                            <td>Dirección: {{ cliente.xshortaddress }} </td>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>Dirección Larga: {{ cliente.xlongaddress }} </td>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button (click)="clearListCart()" class="btn btn-danger btn-sm">Limpiar</button>
+                            </td>
+                            <td></td>
+                            <td class="text-end">
+                                <button [disabled]="listCart.length == 0" (click)="confirmarCompra()"
+                                    class="btn btn-info btn-sm">Facturar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -117,7 +170,8 @@
                             </td>
                             <td></td>
                             <td class="text-end">
-                                <button [disabled]="listCart.length == 0" (click)="confirmarCompra()" class="btn btn-info btn-sm">Facturar</button>
+                                <button [disabled]="listCart.length == 0" (click)="confirmarCompra()"
+                                    class="btn btn-info btn-sm">Facturar</button>
                             </td>
                         </tr>
                     </tbody>

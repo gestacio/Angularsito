@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/interfaces/product';
+import { MaCliente } from 'src/app/interfaces/macliente';
 import { ProductService } from 'src/app/services/product.service';
 import { createPDF } from './generarPDF';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Router } from '@angular/router';
+import { MaClienteService } from 'src/app/services/macliente.service';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -17,16 +19,28 @@ import { Router } from '@angular/router';
 export class CajaComponent implements OnInit {
   listProducts: Product[] = []
   loading: boolean = false;
-  listCart: Product[] = []
+  listCart: Product[] = [];
   cartCostoNeto = 0;
   cartIva = 0;
   cartTotal = 0;
 
-  constructor(private _productService: ProductService, private toastr: ToastrService, private router: Router,) { }
+  cliente = {
+    'xdni': '',
+    'xbusinessname': '',
+    'xtelf': '',
+    'xshortaddress': '',
+    'xlongaddress': '',
+  };
+
+  constructor(
+    private _productService: ProductService,
+    private _maclienteService: MaClienteService,
+    private toastr: ToastrService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.getListProducts()
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   getListProducts() {
@@ -97,6 +111,54 @@ export class CajaComponent implements OnInit {
       this.getListProducts();
       this.router.navigate([uri]);
     })
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  getDNI(event: Event) {
+    let dni = (event.target as HTMLInputElement).value;
+
+    if (dni.length > 8) {
+      dni = 'J' + dni;
+    } else if (parseInt(dni) >= 80000000) {
+      dni = 'E' + dni;
+    } else {
+      dni = 'V' + dni;
+    }
+
+    console.log(dni);
+    
+
+    
+      this._maclienteService.getMaCliente(dni).subscribe((data: MaCliente) => {
+        var macliente = data;
+        console.log(macliente);
+  
+        this.cliente = {
+          'xdni': macliente.xdni,
+          'xbusinessname': macliente.xbusinessname,
+          'xtelf': macliente.xtelf,
+          'xshortaddress': macliente.xshortaddress,
+          'xlongaddress': macliente.xlongaddress ? macliente.xlongaddress : "",
+        };
+
+        if (macliente.xdni == '') {
+          // alert(`No se ha encontrado cliente con CI/DNI ${dni}`)
+          this.toastr.info(`No se ha encontrado cliente con CI/DNI ${dni}`)
+        }
+        
+      });
+    
+
+    (event.target as HTMLInputElement).value = '';
+    
+    
   }
 
 }

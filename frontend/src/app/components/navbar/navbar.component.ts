@@ -15,8 +15,11 @@ export class NavbarComponent {
     // return this.router.name;
   }
 
-  data = JSON.parse(sessionStorage.getItem('MaEmpresa')!);
-  empresa = this.data.xshortname;
+  maempresa = JSON.parse(sessionStorage.getItem('MaEmpresa')!);
+  matienda = JSON.parse(sessionStorage.getItem('MaTienda')!);
+
+  empresa = this.maempresa.xshortname;
+  tienda = this.matienda.xname;
   
 
 }

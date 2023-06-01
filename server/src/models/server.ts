@@ -3,6 +3,7 @@ import routesProducto from '../routes/producto';
 import routesSeUsuario from '../routes/seusuario';
 import routesMaEmpresa from '../routes/maempresa';
 import routesMaTienda from '../routes/matienda';
+import routesMaCliente from '../routes/macliente';
 import db from '../db/connection';
 import cors from 'cors';
 // import sequelize from '../db/connection';
@@ -10,6 +11,7 @@ import SeUsuario from './seusuario';
 import Producto from './producto';
 import MaEmpresa from './maempresa';
 import MaTienda from './matienda';
+import MaCliente from './macliente';
 
 
 class Server {
@@ -37,6 +39,7 @@ class Server {
                 msg: 'API Working'
             });
         });
+        this.app.use('/api/maclientes', routesMaCliente)
         this.app.use('/api/maempresa', routesMaEmpresa)
         this.app.use('/api/matiendas', routesMaTienda)
         this.app.use('/api/productos', routesProducto)
@@ -56,6 +59,7 @@ class Server {
             await db.authenticate();
             console.log('base de datos conectada');
             // await sequelize.sync({ force: true });
+            await MaCliente.sync();
             await MaEmpresa.sync();
             await MaTienda.sync();
             await SeUsuario.sync();
@@ -77,6 +81,15 @@ class Server {
                     nstore: 2189,
                     xtelf: "0800-FARMATODO",
                     xaddress: "CCS: Sabana Gnd. Casanova/Recreo. Ed. Rupi",
+                }
+            });
+            await MaCliente.findOrCreate({
+                where: {xdni: 'V25221952'},
+                defaults: {
+                    xdni: 'V25221952',
+                    xbusinessname: "GABRIEL JOSE ESTACIO RIVAS",
+                    xtelf: "04241829583",
+                    xshortaddress: "Petare, Jose Felix Ribas",
                 }
             });
             console.log("All models were synchronized successfully.");

@@ -17,6 +17,7 @@ const producto_1 = __importDefault(require("../routes/producto"));
 const seusuario_1 = __importDefault(require("../routes/seusuario"));
 const maempresa_1 = __importDefault(require("../routes/maempresa"));
 const matienda_1 = __importDefault(require("../routes/matienda"));
+const macliente_1 = __importDefault(require("../routes/macliente"));
 const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
 // import sequelize from '../db/connection';
@@ -24,6 +25,7 @@ const seusuario_2 = __importDefault(require("./seusuario"));
 const producto_2 = __importDefault(require("./producto"));
 const maempresa_2 = __importDefault(require("./maempresa"));
 const matienda_2 = __importDefault(require("./matienda"));
+const macliente_2 = __importDefault(require("./macliente"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -44,6 +46,7 @@ class Server {
                 msg: 'API Working'
             });
         });
+        this.app.use('/api/maclientes', macliente_1.default);
         this.app.use('/api/maempresa', maempresa_1.default);
         this.app.use('/api/matiendas', matienda_1.default);
         this.app.use('/api/productos', producto_1.default);
@@ -61,6 +64,7 @@ class Server {
                 yield connection_1.default.authenticate();
                 console.log('base de datos conectada');
                 // await sequelize.sync({ force: true });
+                yield macliente_2.default.sync();
                 yield maempresa_2.default.sync();
                 yield matienda_2.default.sync();
                 yield seusuario_2.default.sync();
@@ -82,6 +86,15 @@ class Server {
                         nstore: 2189,
                         xtelf: "0800-FARMATODO",
                         xaddress: "CCS: Sabana Gnd. Casanova/Recreo. Ed. Rupi",
+                    }
+                });
+                yield macliente_2.default.findOrCreate({
+                    where: { xdni: 'V25221952' },
+                    defaults: {
+                        xdni: 'V25221952',
+                        xbusinessname: "GABRIEL JOSE ESTACIO RIVAS",
+                        xtelf: "04241829583",
+                        xshortaddress: "Petare, Jose Felix Ribas",
                     }
                 });
                 console.log("All models were synchronized successfully.");
