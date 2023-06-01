@@ -1,17 +1,17 @@
 import express, {Application, Request, Response} from 'express';
-import routesProducto from '../routes/producto';
-import routesSeUsuario from '../routes/seusuario';
-import routesMaEmpresa from '../routes/maempresa';
-import routesMaTienda from '../routes/matienda';
-import routesMaCliente from '../routes/macliente';
-import db from '../db/connection';
+import routesProducto from './routes/producto';
+import routesSeUsuario from './routes/seusuario';
+import routesMaEmpresa from './routes/maempresa';
+import routesMaTienda from './routes/matienda';
+import routesMaCliente from './routes/macliente';
+import db from './db/connection';
 import cors from 'cors';
 // import sequelize from '../db/connection';
-import SeUsuario from './seusuario';
-import Producto from './producto';
-import MaEmpresa from './maempresa';
-import MaTienda from './matienda';
-import MaCliente from './macliente';
+import SeUsuario from './models/seusuario';
+import Producto from './models/producto';
+import MaEmpresa from './models/maempresa';
+import MaTienda from './models/matienda';
+import MaCliente from './models/macliente';
 
 
 class Server {

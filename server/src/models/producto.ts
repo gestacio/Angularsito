@@ -15,7 +15,7 @@ const MaProducto = db.define('maproducto', {
         type: DataTypes.STRING
     },
     price: {
-        type: DataTypes.FLOAT
+        type: DataTypes.DECIMAL(10, 2)
     },
     stock: {
         type: DataTypes.INTEGER

@@ -37,15 +37,18 @@ export class CajaComponent implements OnInit {
     private _maclienteService: MaClienteService,
     private toastr: ToastrService,
     private router: Router,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-    this.getListProducts()
+    this.getListProducts();
   }
 
   getListProducts() {
     this.loading = true;
     this._productService.getListProducts().subscribe((data: Product[]) => {
+      console.log(data);
+      
       this.listProducts = data;
       this.loading = false;
     })
@@ -84,7 +87,7 @@ export class CajaComponent implements OnInit {
 
   confirmarCompra() {
     if (confirm("¿Desea generar la factura con estos productos?") == true) {
-      createPDF(this.listCart, this.cartCostoNeto, this.cartIva, this.cartTotal);
+      createPDF(this.listCart, this.cartCostoNeto, this.cartIva, this.cartTotal, this.cliente.xdni, this.cliente.xbusinessname);
 
       for (let i = 0; i < this.listCart.length; i++) {
         const product = this.listCart[i];
@@ -132,33 +135,36 @@ export class CajaComponent implements OnInit {
       dni = 'V' + dni;
     }
 
-    console.log(dni);
-    
+    this._maclienteService.getMaCliente(dni).subscribe((data: MaCliente) => {
+      var macliente = data;
 
-    
-      this._maclienteService.getMaCliente(dni).subscribe((data: MaCliente) => {
-        var macliente = data;
-        console.log(macliente);
-  
-        this.cliente = {
-          'xdni': macliente.xdni,
-          'xbusinessname': macliente.xbusinessname,
-          'xtelf': macliente.xtelf,
-          'xshortaddress': macliente.xshortaddress,
-          'xlongaddress': macliente.xlongaddress ? macliente.xlongaddress : "",
-        };
 
-        if (macliente.xdni == '') {
-          // alert(`No se ha encontrado cliente con CI/DNI ${dni}`)
-          this.toastr.info(`No se ha encontrado cliente con CI/DNI ${dni}`)
-        }
-        
-      });
-    
+      this.cliente = {
+        'xdni': macliente.xdni,
+        'xbusinessname': macliente.xbusinessname,
+        'xtelf': macliente.xtelf,
+        'xshortaddress': macliente.xshortaddress,
+        'xlongaddress': macliente.xlongaddress ? macliente.xlongaddress : "",
+      };
 
-    (event.target as HTMLInputElement).value = '';
-    
-    
+      if (macliente.xdni == '') {
+        // alert(`No se ha encontrado cliente con CI/DNI ${dni}`)
+        this.toastr.info(`No se ha encontrado cliente con CI/RIF ${dni}`);
+        (event.target as HTMLInputElement).value = '';
+      }
+
+    });
+  }
+
+  clearThisCliente() {
+    (document.getElementById('inputDNI') as HTMLInputElement).value = '';
+    this.cliente = {
+      'xdni': '',
+      'xbusinessname': '',
+      'xtelf': '',
+      'xshortaddress': '',
+      'xlongaddress': '',
+    };
   }
 
 }

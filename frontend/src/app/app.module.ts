@@ -39,7 +39,7 @@ import { CajaComponent } from './components/caja/caja.component';
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
-      timeOut: 2000,
+      timeOut: 5000,
       positionClass: 'toast-bottom-right',
     }), // ToastrModule added
   ],

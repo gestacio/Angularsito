@@ -58,7 +58,7 @@ export class LoginComponent {
       .subscribe((data: SeUsuario) => {
         this.resSeUsuario = data;
         this.setSessionData();
-        this.router.navigate(['/products'])
+        this.router.navigate(['/caja'])
       })
     // this.toastr.info(`Usuario ${this.form.value.xusuario} no encontrado`, "Error")
 

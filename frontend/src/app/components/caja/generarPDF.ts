@@ -4,7 +4,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
-export function createPDF(listaProductos: Product[], totalNeto: number, totalIva: number, TotalCarrito: number) {
+export function createPDF(listaProductos: Product[], totalNeto: number, totalIva: number, TotalCarrito: number, xdni: string, xbusinessname: string) {
     const dataMaEmpresa = JSON.parse(sessionStorage.getItem('MaEmpresa')!);
     const dataMaTienda = JSON.parse(sessionStorage.getItem('MaTienda')!);
 
@@ -16,6 +16,9 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
     const nstore = dataMaTienda.nstore;
     const xtelfTienda = dataMaTienda.xtelf;
     const xaddressTienda = dataMaTienda.xaddress;
+
+    // const xdni = xdni;
+    // const xbusinessname = xbusinessname;
 
     let neto = (Math.round(totalNeto * 100) / 100).toFixed(2);
     let iva = (Math.round(totalIva * 100) / 100).toFixed(2);
@@ -48,8 +51,8 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
                 { text: `${xnameTienda}, ${xtelfTienda}`, style: 'dataTitle' },
                 { text: `${xaddressTienda}`, style: 'dataTitle' },
                 { text: "CAJA 06", style: 'dataTitle' },
-                { text: "RIF/C.I.: V25221952", style: 'data' },
-                { text: "RAZON SOCIAL: Gabriel Jose Estacio Rivas", style: 'data' },
+                { text: `RIF/C.I.: ${xdni}`, style: 'data' },
+                { text: `RAZÓN SOCIAL ${xbusinessname}`, style: 'data' },
                 { text: `Tienda: ${nstore}`, style: 'data' },
                 { text: "Ticket: 13129", style: 'data' },
                 { text: "Le Atendió: OTAMENDI LUIS", style: 'data' },
