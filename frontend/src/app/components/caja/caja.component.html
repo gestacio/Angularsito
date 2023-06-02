@@ -9,14 +9,11 @@
             </div>
             <div class="col">
                 <div class="float-end">
-                    <form action=""></form>
                     <label for="inputDNI">Buscar Cliente</label>
                     <div>
-                        <input (keypress)="numberOnly($event)" 
-                        (change)="getDNI($event)"
-                        class="form-control"
-                        maxlength="9" type="text" name="inputDNI" id="inputDNI"
-                            placeholder="CI/RIF:" autofocus="autofocus">
+                        <input (keypress)="numberOnly($event)" (keyup)="getDNI($event)" class="form-control"
+                            minlength="5" maxlength="9" type="text" name="inputDNI" id="inputDNI" placeholder="CI/RIF:"
+                            autofocus="autofocus">
                     </div>
                 </div>
                 <!-- <div class="form-group">
@@ -160,14 +157,14 @@
                     </thead>
                     <tbody class="table-light">
                         <tr>
-                            <td>Costo Neto: {{ cartCostoNeto | currency:'symbol':'Bs. '  }}</td>
+                            <td>Costo Neto: {{ cartCostoNeto | currency:'symbol':'Bs. ' }}</td>
                             <td></td>
-                            <td class="text-end">Iva (16%): {{ cartIva | currency:'symbol':'Bs. '  }}</td>
+                            <td class="text-end">Iva (16%): {{ cartIva | currency:'symbol':'Bs. ' }}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td class="text-end">Total: {{ cartTotal | currency:'symbol':'Bs. '  }}</td>
+                            <td class="text-end">Total: {{ cartTotal | currency:'symbol':'Bs. ' }}</td>
                         </tr>
                         <tr>
                             <td>
@@ -175,8 +172,8 @@
                             </td>
                             <td></td>
                             <td class="text-end">
-                                <button [disabled]="listCart.length == 0 || cliente.xdni == '' " (click)="confirmarCompra()"
-                                    class="btn btn-info btn-sm">Facturar</button>
+                                <button [disabled]="listCart.length == 0 || cliente.xdni == '' "
+                                    (click)="confirmarCompra()" class="btn btn-info btn-sm">Facturar</button>
                             </td>
                         </tr>
                     </tbody>
@@ -184,8 +181,81 @@
             </div>
         </div>
     </div>
-    
+
+
+
+
+
+
+
+    <!-- MODAL FORMULARIO CLIENTE -->
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formClienteModal" id="btnModal"
+        hidden></button>
+
+
+
+    <div class="modal fade" id="formClienteModal" tabindex="-1" role="dialog" aria-labelledby="formClienteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-2"></div>
+                    <div class="col text-center">
+                        <h3 class="modal-title" id="formClienteModalLabel">Ingreso: {{ this.dniCliente }}</h3>
+                    </div>
+                    <div class="col-2">
+                        <button (click)="clearForm()" type="button" class="btn-close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+
+                </div>
+                <form [formGroup]="formCliente" (ngSubmit)="saveMaCliente()">
+                    <div class="modal-body">
+                        <input formControlName="xbusinessname" type="text" class="form-control mt-2"
+                            placeholder="Nombre Completo" maxlength="60">
+                        <span
+                            *ngIf="formCliente.get('xbusinessname')?.hasError('required') && formCliente.get('xbusinessname')?.touched">
+                            El campo nombre es <strong>requerido</strong>
+                        </span>
+                        <input (keypress)="numberOnly($event)" formControlName="xtelf" type="text"
+                            class="form-control mt-2" placeholder="Teléfono" maxlength="11" minlength="11">
+                        <span
+                            *ngIf="formCliente.get('xtelf')?.hasError('required') && formCliente.get('xtelf')?.touched">
+                            El campo teléfono es <strong>requerido</strong>
+                        </span>
+                        <input formControlName="xshortaddress" type="text" class="form-control mt-2"
+                            placeholder="Dirección Corta" maxlength="60">
+                        <span
+                            *ngIf="formCliente.get('xshortaddress')?.hasError('required') && formCliente.get('xshortaddress')?.touched">
+                            El campo dirección corta es <strong>requerido</strong>
+                        </span>
+                        <input formControlName="xlongaddress" type="text" class="form-control mt-2"
+                            placeholder="Dirección Larga" maxlength="250">
+
+                        <!-- <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button routerLink="/products" type="button" class="btn btn-primary">Volver</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button [disabled]="formCliente.invalid" type="submit" class="btn btn-success">Aceptar</button>
+                        </div>
+                    </div> -->
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button> -->
+                        <button (click)="clearForm()" type="button" class="btn btn-danger" id="cancelModal"
+                            data-dismiss="modal">Cancelar</button>
+                        <button [disabled]="formCliente.invalid" type="submit" class="btn btn-info">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 </div>
-
-  

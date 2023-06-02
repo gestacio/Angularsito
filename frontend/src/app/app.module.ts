@@ -41,6 +41,7 @@ import { CajaComponent } from './components/caja/caja.component';
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
+      enableHtml: true,
     }), // ToastrModule added
   ],
   providers: [],
