@@ -11,15 +11,24 @@ const SeUsuario = connection_1.default.define('seusuario', {
         autoIncrement: true,
         primaryKey: true
     },
-    xnombre: {
+    xcodeemployee: {
+        type: sequelize_1.DataTypes.CHAR(8),
+        allowNull: false,
+        unique: true,
+    },
+    nrol: {
+        type: sequelize_1.DataTypes.SMALLINT,
+        allowNull: false,
+    },
+    xfnmae: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
     },
-    xapellido: {
+    xlname: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
     },
-    xusuario: {
+    xusername: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
         unique: {
@@ -27,7 +36,7 @@ const SeUsuario = connection_1.default.define('seusuario', {
             msg: 'El email necesita ser unico',
         },
     },
-    xclave: {
+    xpassword: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
     }

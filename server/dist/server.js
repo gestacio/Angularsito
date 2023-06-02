@@ -69,6 +69,7 @@ class Server {
                 yield matienda_2.default.sync();
                 yield seusuario_2.default.sync();
                 yield producto_2.default.sync();
+                // 
                 yield maempresa_2.default.findOrCreate({
                     where: { xrif: "J-000202001" },
                     defaults: {
@@ -95,6 +96,17 @@ class Server {
                         xbusinessname: "GABRIEL JOSE ESTACIO RIVAS",
                         xtelf: "04241829583",
                         xshortaddress: "Petare, Jose Felix Ribas",
+                    }
+                });
+                yield seusuario_2.default.findOrCreate({
+                    where: { xusername: 'gestacio' },
+                    defaults: {
+                        xcodeemployee: 'X723H145',
+                        nrol: 0,
+                        xfname: 'Gabriel',
+                        xlastname: "Estacio",
+                        xusername: "gestacio",
+                        xpassword: "N3wp4ssa..",
                     }
                 });
                 console.log("All models were synchronized successfully.");

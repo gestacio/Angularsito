@@ -8,15 +8,24 @@ const SeUsuario = db.define('seusuario', {
         autoIncrement: true,
         primaryKey: true
     },
-    xnombre: {
+    xcodeemployee: {
+        type: DataTypes.CHAR(8),
+        allowNull: false,
+        unique: true,
+    },
+    nrol: {
+        type: DataTypes.SMALLINT,
+        allowNull: false,
+    },
+    xfnmae: {
         type: DataTypes.STRING(40),
         allowNull: false,
     },
-    xapellido: {
+    xlname: {
         type: DataTypes.STRING(40),
         allowNull: false,
     },
-    xusuario: {
+    xusername: {
         type: DataTypes.STRING(40),
         allowNull: false,
         unique: {
@@ -24,7 +33,7 @@ const SeUsuario = db.define('seusuario', {
             msg: 'El email necesita ser unico',
         },
     },
-    xclave: {
+    xpassword: {
         type: DataTypes.STRING(40),
         allowNull: false,
     }

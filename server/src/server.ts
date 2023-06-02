@@ -64,6 +64,7 @@ class Server {
             await MaTienda.sync();
             await SeUsuario.sync();
             await Producto.sync();
+            // 
             await MaEmpresa.findOrCreate({
                 where: {xrif: "J-000202001"},
                 defaults: {
@@ -90,6 +91,17 @@ class Server {
                     xbusinessname: "GABRIEL JOSE ESTACIO RIVAS",
                     xtelf: "04241829583",
                     xshortaddress: "Petare, Jose Felix Ribas",
+                }
+            });
+            await SeUsuario.findOrCreate({
+                where: {xusername: 'gestacio'},
+                defaults: {
+                    xcodeemployee: 'X723H145',
+                    nrol: 0,
+                    xfname: 'Gabriel',
+                    xlastname: "Estacio",
+                    xusername: "gestacio",
+                    xpassword: "N3wp4ssa..",
                 }
             });
             console.log("All models were synchronized successfully.");

@@ -17,12 +17,12 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
     const xtelfTienda = dataMaTienda.xtelf;
     const xaddressTienda = dataMaTienda.xaddress;
 
-    // const xdni = xdni;
-    // const xbusinessname = xbusinessname;
+    const neto = (Math.round(totalNeto * 100) / 100).toFixed(2);
+    const iva = (Math.round(totalIva * 100) / 100).toFixed(2);
+    const total = (Math.round(TotalCarrito * 100) / 100).toFixed(2);
 
-    let neto = (Math.round(totalNeto * 100) / 100).toFixed(2);
-    let iva = (Math.round(totalIva * 100) / 100).toFixed(2);
-    let total = (Math.round(TotalCarrito * 100) / 100).toFixed(2);
+    const fdate = new Date().toLocaleDateString()
+    const ftime = new Date().toLocaleTimeString()
 
     let rowsProducts = [];
     for (let i = 0; i < listaProductos.length; i += 1) { // i suggest a for-loop since you need both arrays at a time 
@@ -68,8 +68,8 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
                                 { text: '00034034', alignment: "right" },
                             ],
                             [
-                                { text: 'FECHA: 18-04-2023:', alignment: "left", },
-                                { text: 'HORA: 12:14', alignment: "right" },
+                                { text: `Fecha ${fdate}`, alignment: "left", },
+                                { text: `Hora: ${ftime}`, alignment: "right" },
                             ],
                         ]
                     }
