@@ -14,6 +14,7 @@ import { SeUsuarioService } from 'src/app/services/seusuario.service';
 export class UsuariosComponent {
   listSeUsuarios: SeUsuario[] = [];
   formSeUsuario: FormGroup;
+  idEmployee: number = 0;
 
   constructor(
     private _seusuarioService: SeUsuarioService,
@@ -38,13 +39,17 @@ export class UsuariosComponent {
   getListSeUsuarios() {
     this._seusuarioService.getListSeUsuarios().subscribe((data: SeUsuario[]) => {
       this.listSeUsuarios = data;
+      this.listSeUsuarios.sort(
+        (firstObject: SeUsuario, secondObject: SeUsuario) =>
+    	  (firstObject.xfirstname > secondObject.xfirstname) ? 1 : -1
+      );
     })
   }
 
   deleteSeUsuario(id: number) {
     this._seusuarioService.deleteSeUsuario(id).subscribe(() => {
       this.getListSeUsuarios();
-      this.toastr.warning("El producto fue eliminado con éxito", "Atención");
+      this.toastr.warning("El usuario fue eliminado con éxito", "Atención");
     })
   }
 
@@ -58,11 +63,6 @@ export class UsuariosComponent {
       xpassword: this.formSeUsuario.value.xpassword,
     }
 
-    const getWhereSeUsuario: LoginSeUsuario = {
-      xusername: this.formSeUsuario.value.xusername,
-      xpassword: this.formSeUsuario.value.xpassword,
-    }
-
     try {
       this._seusuarioService.saveSeUsuario(seusuario).subscribe(() => {
         this._seusuarioService.postLoginSeUsuario(seusuario)
@@ -71,15 +71,53 @@ export class UsuariosComponent {
             throw "Error: " + err
           }))
           .subscribe((data: SeUsuario) => {
-            this.toastr.success(`${seusuario.xusername} </br>${seusuario.xcodeemployee}<br>${seusuario.nrol}`, "Usuario Registrado");
-            (document.getElementById('cancelModal') as HTMLInputElement).click();
+            this.toastr.success(`${data.xfirstname} ${data.xlastname}<br>${data.xusername}</br>${data.nrol} | ${data.xcodeemployee}`, "Usuario Registrado");
+            (document.getElementById('cancelAddModal') as HTMLInputElement).click();
           });
 
-          this.getListSeUsuarios();
+        this.getListSeUsuarios();
       });
     } catch (error) {
       console.log(error);
     }
+  }
+
+  editSeUsuario() {
+    const seusuario: SeUsuario = {
+      xcodeemployee: this.formSeUsuario.value.xcodeemployee,
+      nrol: this.formSeUsuario.value.nrol,
+      xfirstname: this.formSeUsuario.value.xfirstname,
+      xlastname: this.formSeUsuario.value.xlastname,
+      xusername: this.formSeUsuario.value.xusername,
+      xpassword: this.formSeUsuario.value.xpassword,
+    }
+
+    console.log(seusuario);
+
+
+    try {
+      this._seusuarioService.updateSeUsuario(this.idEmployee!, seusuario).subscribe(() => {
+        this.toastr.info(`El usuario ${seusuario.xusername} fue actualizado con éxito`);
+        (document.getElementById('cancelEditModal') as HTMLInputElement).click();
+        this.getListSeUsuarios();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getSeUsuario(id: number) {
+    this._seusuarioService.getSeUsuario(id).subscribe((seusuario: SeUsuario) => {
+      this.formSeUsuario.patchValue({
+        xcodeemployee: seusuario.xcodeemployee,
+        nrol: seusuario.nrol,
+        xfirstname: seusuario.xfirstname,
+        xlastname: seusuario.xlastname,
+        xusername: seusuario.xusername,
+        xpassword: seusuario.xpassword
+      });
+      this.idEmployee = id;
+    })
   }
 
   numberOnly(event: any): boolean {

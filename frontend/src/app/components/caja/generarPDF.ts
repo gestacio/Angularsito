@@ -7,6 +7,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 export function createPDF(listaProductos: Product[], totalNeto: number, totalIva: number, TotalCarrito: number, xdni: string, xbusinessname: string) {
     const dataMaEmpresa = JSON.parse(sessionStorage.getItem('MaEmpresa')!);
     const dataMaTienda = JSON.parse(sessionStorage.getItem('MaTienda')!);
+    const dataSeUsuario = JSON.parse(sessionStorage.getItem('SeUsuario')!);
 
     const xrif = dataMaEmpresa.xrif;
     const xshortname = dataMaEmpresa.xshortname;
@@ -16,6 +17,9 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
     const nstore = dataMaTienda.nstore;
     const xtelfTienda = dataMaTienda.xtelf;
     const xaddressTienda = dataMaTienda.xaddress;
+
+    const xfirstname = dataSeUsuario.xfirstname;
+    const xlastname = dataSeUsuario.xlastname;
 
     const neto = (Math.round(totalNeto * 100) / 100).toFixed(2);
     const iva = (Math.round(totalIva * 100) / 100).toFixed(2);
@@ -55,7 +59,7 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
                 { text: `RAZÓN SOCIAL ${xbusinessname}`, style: 'data' },
                 { text: `Tienda: ${nstore}`, style: 'data' },
                 { text: "Ticket: 13129", style: 'data' },
-                { text: "Le Atendió: OTAMENDI LUIS", style: 'data' },
+                { text: `Le Atendió: ${xfirstname}, ${xlastname}`, style: 'data' },
                 { text: "FACTURA", style: 'dataTitle' },
                 {
                     style: 'data',
