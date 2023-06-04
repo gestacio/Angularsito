@@ -20,11 +20,11 @@ const SeUsuario = connection_1.default.define('seusuario', {
         type: sequelize_1.DataTypes.SMALLINT,
         allowNull: false,
     },
-    xfnmae: {
+    xfirstname: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
     },
-    xlname: {
+    xlastname: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
     },

@@ -103,7 +103,7 @@ class Server {
                     defaults: {
                         xcodeemployee: 'X723H145',
                         nrol: 0,
-                        xfname: 'Gabriel',
+                        xfirstname: 'Gabriel',
                         xlastname: "Estacio",
                         xusername: "gestacio",
                         xpassword: "N3wp4ssa..",

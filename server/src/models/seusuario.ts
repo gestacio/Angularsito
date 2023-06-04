@@ -17,11 +17,11 @@ const SeUsuario = db.define('seusuario', {
         type: DataTypes.SMALLINT,
         allowNull: false,
     },
-    xfnmae: {
+    xfirstname: {
         type: DataTypes.STRING(40),
         allowNull: false,
     },
-    xlname: {
+    xlastname: {
         type: DataTypes.STRING(40),
         allowNull: false,
     },

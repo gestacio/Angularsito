@@ -1,9 +1,11 @@
 export interface SeUsuario {
     id?: number;
-    xnombre?: string;
-    xapellido?: string;
-    xusuario: string;
-    xclave: string;
+    xcodeemployee: string;
+    nrol: string;
+    xfirstname: string;
+    xlastname: string;
+    xusername: string;
+    xpassword: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

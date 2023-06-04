@@ -9,6 +9,7 @@ import { MaEmpresaService } from 'src/app/services/maempresa.service';
 import { MaEmpresa } from 'src/app/interfaces/maempresa';
 import { MaTiendaService } from 'src/app/services/matienda.service';
 import { MaTienda } from 'src/app/interfaces/matienda';
+import { LoginSeUsuario } from 'src/app/interfaces/loginseusuario';
 
 @Component({
   selector: 'app-login',
@@ -29,30 +30,20 @@ export class LoginComponent {
     private router: Router,
     private toastr: ToastrService,) {
     this.form = this.fb.group({
-      xusuario: ['', Validators.required],
-      xclave: ['', Validators.required],
+      xusername: ['', Validators.required],
+      xpassword: ['', Validators.required],
     })
   }
 
-  postLoginSeusuario() {
-    const seusuario: SeUsuario = {
-      xusuario: this.form.value.xusuario,
-      xclave: this.form.value.xclave,
+  getSeUsuario() {
+    const seusuario: LoginSeUsuario = {
+      xusername: this.form.value.xusername,
+      xpassword: this.form.value.xpassword,
     }
-
-    // this._seusuarioService.postLoginSeUsuario(seusuario).subscribe((data: SeUsuario) => {
-    //   // console.log(data);
-    //   this.resSeUsuario = data;
-
-    //   // console.log(this.resSeUsuario);
-    //   if (this.resSeUsuario) {
-    //     this.router.navigate(['/products'])
-    //   }
-    // })
 
     this._seusuarioService.postLoginSeUsuario(seusuario)
       .pipe(catchError(err => {
-        this.toastr.info(`Usuario ${seusuario.xusuario} no encontrado o contraseña inválida`, "Error")
+        this.toastr.info(`Usuario ${seusuario.xusername} no encontrado o contraseña inválida`, "Error")
         throw "Error: " + err
       }))
       .subscribe((data: SeUsuario) => {
@@ -65,6 +56,17 @@ export class LoginComponent {
   }
 
   setSessionData() {
+      const obj = {
+        'nrol': this.resSeUsuario.nrol,
+        'xfirstname': this.resSeUsuario.xfirstname,
+        'xlastname': this.resSeUsuario.xlastname,
+        'xusername': this.resSeUsuario.xusername,
+      };
+      
+      const sessionJson = JSON.stringify(obj)
+      sessionStorage.setItem('SeUsuario', sessionJson);
+    
+
     this._maempresaService.getMaEmpresa().subscribe((data: MaEmpresa) => {
 
       const obj = {

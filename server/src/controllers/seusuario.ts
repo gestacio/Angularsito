@@ -4,14 +4,13 @@ import SeUsuario from '../models/seusuario';
 
 export const postLoginSeUsuario = async (req: Request, res: Response) => {
     const { body } = req;
-    console.log(body)
-    const seusuario = await SeUsuario.findOne({where: {xusuario: body.xusuario, xclave: body.xclave}})
+    const seusuario = await SeUsuario.findOne({where: {xusername: body.xusername, xpassword: body.xpassword}})
 
     if(seusuario) {
         res.json(seusuario);
     } else {
         res.status(401).json({
-            msg: `Credenciales inválidas, no existe el usuario: ${body.xusuario}`
+            msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
         });
     }
     

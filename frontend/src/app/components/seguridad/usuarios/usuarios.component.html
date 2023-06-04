@@ -1,0 +1,88 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="title my-3">
+        <h4>Listado de Usuarios</h4>
+        <form class="d-flex gap-2">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#formClienteModal" id="btnModal">Agregar Usuario</button>
+
+            <!-- <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button> -->
+        </form>
+    </div>
+    
+
+    <table *ngIf="listSeUsuarios.length > 0" class="table table-info table-hover">
+        <thead >
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">apellido</th>
+                <th scope="col">usuario</th>
+                <th scope="col">rol</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let usuario of listSeUsuarios" class="table-light">
+                <td>{{ usuario.xfirstname }}</td>
+                <td>{{ usuario.xlastname }}</td>
+                <td>{{ usuario.xusername }}</td>
+                <td>{{ usuario.nrol }}</td>
+                <td class="text-center">
+                    <button routerLink="/edit/{{ usuario.id }}" type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
+                    <button (click)="deleteSeUsuario(usuario.id!)" type="button" class="btn btn-danger btn-sm ms-2"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h5 *ngIf="listSeUsuarios.length < 1">No hay productos para mostar</h5>
+</div>
+
+<!-- MODAL FORMULARIO CLIENTE -->
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formClienteModal" id="btnModal"
+hidden></button>
+
+
+
+<div class="modal fade" id="formClienteModal" tabindex="-1" role="dialog" aria-labelledby="formClienteModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="col-2"></div>
+            <div class="col text-center">
+                <h3 class="modal-title" id="formClienteModalLabel">Agregar Usuario</h3>
+                <p class="modal-title" id="formClienteModalLabel">(Todos los campos son obligatorios)</p>
+            </div>
+            <div class="col-2">
+                <button (click)="clearForm()" type="button" class="btn-close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+
+
+        </div>
+        <form [formGroup]="formSeUsuario" (ngSubmit)="saveSeUsuario()">
+            <div class="modal-body">
+                <input formControlName="xcodeemployee" type="text" class="form-control mt-2"
+                    placeholder="Código Empleado" minlength="8" maxlength="8">
+                <input formControlName="nrol" (keypress)="numberOnly($event)" type="text"
+                    placeholder="Rol Empleado" class="form-control mt-2" maxlength="2" minlength="1">
+                <input formControlName="xfirstname" type="text" class="form-control mt-2"
+                    placeholder="Nombre" maxlength="40">
+                <input formControlName="xlastname" type="text" class="form-control mt-2"
+                    placeholder="Apellido" maxlength="40">
+                <input formControlName="xusername" type="text" class="form-control mt-2"
+                    placeholder="Nombre de Usuario" maxlength="40">
+                <input formControlName="xpassword" type="text" class="form-control mt-2"
+                    placeholder="Contraseña" maxlength="40">
+            </div>
+            <div class="modal-footer">
+                <button (click)="clearForm()" type="button" class="btn btn-danger" id="cancelModal"
+                    data-dismiss="modal">Cancelar</button>
+                <button [disabled]="formSeUsuario.invalid" type="submit" class="btn btn-info">Aceptar</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>

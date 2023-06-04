@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators'
 // import 'rxjs/add/operator/catch';
 import { SeUsuario } from '../interfaces/seusuario';
+import { LoginSeUsuario } from '../interfaces/loginseusuario';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class SeUsuarioService {
       this.myApiUrl = 'api/seusuario/';
     }
 
-    postLoginSeUsuario(seusuario: SeUsuario): Observable<SeUsuario> {
+    postLoginSeUsuario(seusuario: LoginSeUsuario): Observable<SeUsuario> {
         return this.http.post<SeUsuario>(this.myAppUrl + this.myApiUrl + "login/", seusuario)
       }
   
@@ -26,7 +27,7 @@ export class SeUsuarioService {
       return this.http.get<SeUsuario>(this.myAppUrl + this.myApiUrl + id)
     }
 
-    getListSeUsuario(): Observable<SeUsuario[]> {
+    getListSeUsuarios(): Observable<SeUsuario[]> {
       return this.http.get<SeUsuario[]>(this.myAppUrl + this.myApiUrl);
     }
   

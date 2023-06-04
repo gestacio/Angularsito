@@ -40,7 +40,7 @@ export class CajaComponent implements OnInit {
     private _productService: ProductService,
     private _maclienteService: MaClienteService,
     private toastr: ToastrService,
-    private router: Router,    
+    private router: Router,
   ) {
     this.formCliente = this.fb.group({
       xbusinessname: ['', Validators.required],
@@ -56,7 +56,7 @@ export class CajaComponent implements OnInit {
 
   getListProducts() {
     this.loading = true;
-    this._productService.getListProducts().subscribe((data: Product[]) => {      
+    this._productService.getListProducts().subscribe((data: Product[]) => {
       this.listProducts = data;
       this.loading = false;
     })
@@ -144,7 +144,7 @@ export class CajaComponent implements OnInit {
     if (this.isEnter(event)) {
 
       this.dniCliente = (event.target as HTMLInputElement).value;
-  
+
       if (this.dniCliente.length > 8) {
         this.dniCliente = 'J' + this.dniCliente;
       } else if (parseInt(this.dniCliente) >= 80000000) {
@@ -152,11 +152,11 @@ export class CajaComponent implements OnInit {
       } else {
         this.dniCliente = 'V' + this.dniCliente;
       }
-  
+
       this._maclienteService.getMaCliente(this.dniCliente).subscribe((data: MaCliente) => {
         var macliente = data;
-  
-  
+
+
         this.cliente = {
           'xdni': macliente.xdni,
           'xbusinessname': macliente.xbusinessname,
@@ -164,14 +164,14 @@ export class CajaComponent implements OnInit {
           'xshortaddress': macliente.xshortaddress,
           'xlongaddress': macliente.xlongaddress ? macliente.xlongaddress : "",
         };
-  
+
         if (macliente.xdni == '') {
           this.toastr.error(`No se ha encontrado cliente con CI/RIF:<br>${this.dniCliente}`);
           // (event.target as HTMLInputElement).value = '';
           this.clearForm();
           (document.getElementById('btnModal') as HTMLInputElement).click();
         }
-  
+
       });
     }
   }
@@ -183,31 +183,31 @@ export class CajaComponent implements OnInit {
       xtelf: this.formCliente.value.xtelf,
       xshortaddress: this.formCliente.value.xshortaddress,
       xlongaddress: this.formCliente.value.xlongaddress,
-    }   
+    }
 
-      try {
-        this._maclienteService.saveMaCliente(macliente).subscribe(() => {
-          this.toastr.success(`${macliente.xdni} </br>${macliente.xbusinessname}`, "Cliente Registrado")
+    try {
+      this._maclienteService.saveMaCliente(macliente).subscribe(() => {
+        this.toastr.success(`${macliente.xdni} </br>${macliente.xbusinessname}`, "Cliente Registrado")
 
-          this.cliente = {
-            'xdni': macliente.xdni,
-            'xbusinessname': macliente.xbusinessname,
-            'xtelf': macliente.xtelf,
-            'xshortaddress': macliente.xshortaddress,
-            'xlongaddress': macliente.xlongaddress ? macliente.xlongaddress : "",
-          };
+        this.cliente = {
+          'xdni': macliente.xdni,
+          'xbusinessname': macliente.xbusinessname,
+          'xtelf': macliente.xtelf,
+          'xshortaddress': macliente.xshortaddress,
+          'xlongaddress': macliente.xlongaddress ? macliente.xlongaddress : "",
+        };
 
-          // this.formCliente.reset();
-          (document.getElementById('cancelModal') as HTMLInputElement).click();
-        });
+        // this.formCliente.reset();
+        (document.getElementById('cancelModal') as HTMLInputElement).click();
+      });
 
-      } catch (error) {
-        console.log(error);
-      }
+    } catch (error) {
+      console.log(error);
+    }
 
-        
-        // this.loading = false;
-        // this.router.navigate(['/products'])
+
+    // this.loading = false;
+    // this.router.navigate(['/products'])
   }
 
   clearThisCliente() {

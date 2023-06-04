@@ -5,6 +5,7 @@ import { ListProductsComponent } from './components/list-products/list-products.
 import { AddEditProductComponent } from './components/add-edit-product/add-edit-product.component';
 import { SellProductComponent } from './components/sell-product/sell-product.component';
 import { CajaComponent } from './components/caja/caja.component';
+import { UsuariosComponent } from './components/seguridad/usuarios/usuarios.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'edit/:id', component: AddEditProductComponent },
   { path: 'sell', component: SellProductComponent },
   { path: 'caja', component: CajaComponent },
+  { path: 'usuarios', component: UsuariosComponent },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

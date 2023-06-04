@@ -16,14 +16,13 @@ exports.updateSeUsuario = exports.postSeUsuario = exports.deleteSeUsuario = expo
 const seusuario_1 = __importDefault(require("../models/seusuario"));
 const postLoginSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    console.log(body);
-    const seusuario = yield seusuario_1.default.findOne({ where: { xusuario: body.xusuario, xclave: body.xclave } });
+    const seusuario = yield seusuario_1.default.findOne({ where: { xusername: body.xusername, xpassword: body.xpassword } });
     if (seusuario) {
         res.json(seusuario);
     }
     else {
         res.status(401).json({
-            msg: `Credenciales inválidas, no existe el usuario: ${body.xusuario}`
+            msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
         });
     }
 });
