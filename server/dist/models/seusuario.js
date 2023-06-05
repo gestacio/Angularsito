@@ -16,10 +16,6 @@ const SeUsuario = connection_1.default.define('seusuario', {
         allowNull: false,
         unique: true,
     },
-    nrol: {
-        type: sequelize_1.DataTypes.SMALLINT,
-        allowNull: false,
-    },
     xfirstname: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,
@@ -44,4 +40,11 @@ const SeUsuario = connection_1.default.define('seusuario', {
 // createdAt: false,
 // updatedAt: false,
 });
+// (async () => {
+//     //     await SeRol.sync();
+//     //     // Code here
+//     })();
+// (async () => {
+//     SeUsuario.belongsTo(SeRol)
+// })
 exports.default = SeUsuario;

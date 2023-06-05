@@ -1,0 +1,109 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="title my-3">
+        <h4>Listado de Usuarios</h4>
+        <form class="d-flex gap-2">
+            <button (click)="clearForm();" type="button" class="btn btn-info" data-toggle="modal"
+                data-target="#formAgregarRol" id="btnModal">Agregar Rol</button>
+
+            <!-- <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button> -->
+        </form>
+    </div>
+
+
+    <table *ngIf="listSeRoles.length > 0" class="table table-info table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Rol</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rol of listSeRoles" class="table-light">
+                <td>{{ rol.id }}</td>
+                <td>{{ rol.xrol }}</td>
+                <td class="text-center">
+                    <button (click)="getSeRol(rol.id!)" data-toggle="modal" data-target="#formEditarRol"
+                        type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
+                    <button (click)="deleteSeRol(rol.id!)" type="button" class="btn btn-danger btn-sm ms-2"><i
+                            class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h5 *ngIf="listSeRoles.length < 1">No hay roles para mostar</h5>
+</div>
+
+
+<!-- MODAL FORMULARIO AGREGAR USUARIO -->
+<div class="modal fade" id="formAgregarRol" tabindex="-1" role="dialog" aria-labelledby="formAgregarRolLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-2"></div>
+                <div class="col text-center">
+                    <h3 class="modal-title" id="formAgregarRolLabel">Agregar Rol</h3>
+                    <p class="modal-title" id="formAgregarRolLabel">(Todos los campos son obligatorios)</p>
+                </div>
+                <div class="col-2">
+                    <button (click)="clearForm()" type="button" class="btn-close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+
+
+            </div>
+            <form [formGroup]="formSeRol" (ngSubmit)="saveSeRol()">
+                <div class="modal-body">
+                    <input formControlName="xrol" type="text" class="form-control mt-2"
+                        placeholder="Rol Usuario" maxlength="20">
+                </div>
+                <div class="modal-footer">
+                    <button (click)="clearForm()" type="button" class="btn btn-danger" id="cancelAddModal"
+                        data-dismiss="modal">Cancelar</button>
+                    <button [disabled]="formSeRol.invalid" type="submit" class="btn btn-info">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL FORMULARIO EDITAR USUARIO -->
+<div class="modal fade" id="formEditarRol" tabindex="-1" role="dialog" aria-labelledby="formEditarRolLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-2"></div>
+                <div class="col text-center">
+                    <h3 class="modal-title" id="formEditarRolLabel">Editar Usuario</h3>
+                    <p class="modal-title" id="formEditarRolLabel">(Todos los campos son obligatorios)</p>
+                </div>
+                <div class="col-2">
+                    <button (click)="clearForm()" type="button" class="btn-close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+
+
+            </div>
+            <form [formGroup]="formSeRol" (ngSubmit)="editSeRol()">
+                <div class="modal-body">
+                    <label for="xrol">Rol</label>
+                    <input formControlName="xrol" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
+                        class="form-control mt-2" maxlength="20" autofocus="autofocus">
+                </div>
+                <div class="modal-footer">
+                    <button (click)="clearForm()" type="button" class="btn btn-danger" id="cancelEditModal"
+                        data-dismiss="modal">Cancelar</button>
+                    <button [disabled]="formSeRol.invalid" type="submit" class="btn btn-info">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

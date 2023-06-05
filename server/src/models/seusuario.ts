@@ -1,5 +1,6 @@
 import db from '../db/connection';
 import { DataTypes } from 'sequelize';
+import SeRol from './serol';
 
 
 const SeUsuario = db.define('seusuario', {
@@ -12,10 +13,6 @@ const SeUsuario = db.define('seusuario', {
         type: DataTypes.CHAR(8),
         allowNull: false,
         unique: true,
-    },
-    nrol: {
-        type: DataTypes.SMALLINT,
-        allowNull: false,
     },
     xfirstname: {
         type: DataTypes.STRING(40),
@@ -40,7 +37,15 @@ const SeUsuario = db.define('seusuario', {
 }, {
     // createdAt: false,
     // updatedAt: false,
-}
-);
+});
+
+// (async () => {
+//     //     await SeRol.sync();
+//     //     // Code here
+//     })();
+
+// (async () => {
+//     SeUsuario.belongsTo(SeRol)
+// })
 
 export default SeUsuario;

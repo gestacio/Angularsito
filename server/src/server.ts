@@ -1,9 +1,11 @@
-import express, {Application, Request, Response} from 'express';
+import express, { Application, Request, Response } from 'express';
 import routesProducto from './routes/producto';
 import routesSeUsuario from './routes/seusuario';
 import routesMaEmpresa from './routes/maempresa';
 import routesMaTienda from './routes/matienda';
 import routesMaCliente from './routes/macliente';
+import routesSeRol from './routes/serol';
+import routesFaVenta from './routes/faventa';
 import db from './db/connection';
 import cors from 'cors';
 // import sequelize from '../db/connection';
@@ -12,6 +14,9 @@ import Producto from './models/producto';
 import MaEmpresa from './models/maempresa';
 import MaTienda from './models/matienda';
 import MaCliente from './models/macliente';
+import SeRol from './models/serol';
+import FaVenta from './models/faventa';
+import FaFactura from './models/fafactura';
 
 
 class Server {
@@ -43,7 +48,9 @@ class Server {
         this.app.use('/api/maempresa', routesMaEmpresa)
         this.app.use('/api/matiendas', routesMaTienda)
         this.app.use('/api/productos', routesProducto)
+        this.app.use('/api/serol', routesSeRol)
         this.app.use('/api/seusuario', routesSeUsuario)
+        this.app.use('/api/faventa', routesFaVenta)
     }
 
     midlewares() {
@@ -59,14 +66,37 @@ class Server {
             await db.authenticate();
             console.log('base de datos conectada');
             // await sequelize.sync({ force: true });
-            await MaCliente.sync();
             await MaEmpresa.sync();
+            await MaEmpresa.hasMany(FaFactura);
+
             await MaTienda.sync();
+            await MaTienda.hasMany(FaFactura);
+
+            await MaCliente.sync();
+            await MaCliente.hasMany(FaFactura);
+
+            await SeRol.sync();
+            await SeRol.hasMany(SeUsuario);
+
             await SeUsuario.sync();
+            await SeUsuario.hasMany(FaFactura);
+            await SeUsuario.belongsTo(SeRol);
+            
             await Producto.sync();
+
+            await FaFactura.sync();
+            await FaFactura.hasMany(FaVenta);
+            await FaFactura.belongsTo(MaEmpresa);
+            await FaFactura.belongsTo(MaTienda);
+            await FaFactura.belongsTo(MaCliente);
+            await FaFactura.belongsTo(SeUsuario);
+
+            await FaVenta.sync();
+            await FaVenta.belongsTo(FaFactura);
+
             // 
             await MaEmpresa.findOrCreate({
-                where: {xrif: "J-000202001"},
+                where: { xrif: "J-000202001" },
                 defaults: {
                     xrif: "J-000202001",
                     xshortname: "FARMATODO, C.A.",
@@ -75,7 +105,7 @@ class Server {
                 }
             });
             await MaTienda.findOrCreate({
-                where: {nstore: 2189},
+                where: { nstore: 2189 },
                 defaults: {
                     idempresa: 1,
                     xname: "FARMACIA OPALO",
@@ -85,7 +115,7 @@ class Server {
                 }
             });
             await MaCliente.findOrCreate({
-                where: {xdni: 'V25221952'},
+                where: { xdni: 'V25221952' },
                 defaults: {
                     xdni: 'V25221952',
                     xbusinessname: "GABRIEL JOSE ESTACIO RIVAS",
@@ -93,19 +123,45 @@ class Server {
                     xshortaddress: "Petare, Jose Felix Ribas",
                 }
             });
+            await SeRol.findOrCreate({
+                where: { id: '1' },
+                defaults: {
+                    id: '1',
+                    xrol: 'superadmin',
+                }
+            });
             await SeUsuario.findOrCreate({
-                where: {xusername: 'gestacio'},
+                where: { xusername: 'gestacio' },
                 defaults: {
                     xcodeemployee: 'X723H145',
-                    nrol: 0,
                     xfirstname: 'Gabriel',
                     xlastname: "Estacio",
                     xusername: "gestacio",
                     xpassword: "N3wp4ssa..",
+                    serolId: 1,
                 }
             });
-            console.log("All models were synchronized successfully.");
+            await FaFactura.findOrCreate({
+                where: { id: '1' },
+                defaults: {
+                    ncaja: 6,
+                    maempresaId: 1,
+                    matiendaId: 1,
+                    maclienteId: 1,
+                    seusuarioId: 1,
+                }
+            });
+            await FaVenta.findOrCreate({
+                where: { id: "1" },
+                defaults: {
+                    xidproduct: "111920464",
+                    xproduct: "FLIPS DULCE DE LECHE",
+                    mprice: 44.74,
+                    fafacturaId: 1,
+                }
+            });
 
+            // console.log("All models were synchronized successfully.");
             console.log('\x1b[32m --- \x1b[0m');
             console.log('\x1b[32m All models were synchronized successfully.! \x1b[0m');
             console.log('\x1b[32m --- \x1b[0m');

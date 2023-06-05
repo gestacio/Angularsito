@@ -6,6 +6,7 @@ import { AddEditProductComponent } from './components/add-edit-product/add-edit-
 import { SellProductComponent } from './components/sell-product/sell-product.component';
 import { CajaComponent } from './components/caja/caja.component';
 import { UsuariosComponent } from './components/seguridad/usuarios/usuarios.component';
+import { RolesComponent } from './components/seguridad/roles/roles.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'edit/:id', component: AddEditProductComponent },
   { path: 'sell', component: SellProductComponent },
   { path: 'caja', component: CajaComponent },
+  { path: 'roles', component: RolesComponent },
   { path: 'usuarios', component: UsuariosComponent },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];

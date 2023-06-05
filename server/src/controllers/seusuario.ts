@@ -1,37 +1,42 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import SeUsuario from '../models/seusuario';
+import SeRol from '../models/serol';
 
 
 export const postLoginSeUsuario = async (req: Request, res: Response) => {
     const { body } = req;
-    const seusuario = await SeUsuario.findOne({where: {xusername: body.xusername, xpassword: body.xpassword}})
+    const seusuario = await SeUsuario.findOne({ where: { xusername: body.xusername, xpassword: body.xpassword } })
 
-    if(seusuario) {
+    if (seusuario) {
         res.json(seusuario);
     } else {
         res.status(401).json({
             msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
         });
     }
-    
+
 }
 
 export const getSeUsuario = async (req: Request, res: Response) => {
     const { id } = req.params;
     const seusuario = await SeUsuario.findByPk(id)
 
-    if(seusuario) {
+    if (seusuario) {
         res.json(seusuario);
     } else {
         res.status(404).json({
             msg: `No existe un usuario con el id ${id}`
         });
     }
-    
+
 }
 
 export const getSeUsuarios = async (req: Request, res: Response) => {
-    const listSeUsuarios = await SeUsuario.findAll()
+    const listSeUsuarios = await SeUsuario.findAll({
+        include: [{
+            model: SeRol
+        }]
+    })
 
     res.json(listSeUsuarios);
 }
@@ -39,8 +44,8 @@ export const getSeUsuarios = async (req: Request, res: Response) => {
 export const deleteSeUsuario = async (req: Request, res: Response) => {
     const { id } = req.params;
     const seusuario = await SeUsuario.findByPk(id)
-    
-    if(seusuario) {
+
+    if (seusuario) {
         await seusuario.destroy();
         res.json('el usuarioo fue eliminado con éxito');
     } else {
@@ -52,7 +57,7 @@ export const deleteSeUsuario = async (req: Request, res: Response) => {
 
 export const postSeUsuario = async (req: Request, res: Response) => {
     const { body } = req;
-    
+
     try {
         await SeUsuario.create(body);
         res.json({
@@ -70,20 +75,20 @@ export const postSeUsuario = async (req: Request, res: Response) => {
 export const updateSeUsuario = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { body } = req;
-    
+
     try {
         const seusuario = await SeUsuario.findByPk(id)
 
-    if (seusuario) {
-        await seusuario.update(body);
-        res.json({
-            msg: `El seusuario fue actualizado con éxito`
-        })
-    } else {
-        res.status(404).json({
-            msg: `No existe un seusuario con el id ${id}`
-        });
-    }
+        if (seusuario) {
+            await seusuario.update(body);
+            res.json({
+                msg: `El seusuario fue actualizado con éxito`
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existe un seusuario con el id ${id}`
+            });
+        }
     } catch (error) {
         console.log(error);
         res.json({

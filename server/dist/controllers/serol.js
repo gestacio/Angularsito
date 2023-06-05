@@ -12,27 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateSeUsuario = exports.postSeUsuario = exports.deleteSeUsuario = exports.getSeUsuarios = exports.getSeUsuario = exports.postLoginSeUsuario = void 0;
-const seusuario_1 = __importDefault(require("../models/seusuario"));
+exports.updateSeRol = exports.postSeRol = exports.deleteSeRol = exports.getSeRoles = exports.getSeRol = exports.getSeRolWhere = void 0;
 const serol_1 = __importDefault(require("../models/serol"));
-const postLoginSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getSeRolWhere = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const seusuario = yield seusuario_1.default.findOne({ where: { xusername: body.xusername, xpassword: body.xpassword } });
-    if (seusuario) {
-        res.json(seusuario);
+    const serol = yield serol_1.default.findOne({ where: { xrol: body.xrol } });
+    if (serol) {
+        res.json(serol);
     }
     else {
         res.status(401).json({
-            msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
+            msg: `Credenciales inválidas, no existe el rol: ${body.xrol}`
         });
     }
 });
-exports.postLoginSeUsuario = postLoginSeUsuario;
-const getSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getSeRolWhere = getSeRolWhere;
+const getSeRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const seusuario = yield seusuario_1.default.findByPk(id);
-    if (seusuario) {
-        res.json(seusuario);
+    const serol = yield serol_1.default.findByPk(id);
+    if (serol) {
+        res.json(serol);
     }
     else {
         res.status(404).json({
@@ -40,21 +39,17 @@ const getSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
-exports.getSeUsuario = getSeUsuario;
-const getSeUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listSeUsuarios = yield seusuario_1.default.findAll({
-        include: [{
-                model: serol_1.default
-            }]
-    });
-    res.json(listSeUsuarios);
+exports.getSeRol = getSeRol;
+const getSeRoles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const listSeRols = yield serol_1.default.findAll();
+    res.json(listSeRols);
 });
-exports.getSeUsuarios = getSeUsuarios;
-const deleteSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getSeRoles = getSeRoles;
+const deleteSeRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const seusuario = yield seusuario_1.default.findByPk(id);
-    if (seusuario) {
-        yield seusuario.destroy();
+    const serol = yield serol_1.default.findByPk(id);
+    if (serol) {
+        yield serol.destroy();
         res.json('el usuarioo fue eliminado con éxito');
     }
     else {
@@ -63,11 +58,11 @@ const deleteSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.deleteSeUsuario = deleteSeUsuario;
-const postSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteSeRol = deleteSeRol;
+const postSeRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        yield seusuario_1.default.create(body);
+        yield serol_1.default.create(body);
         res.json({
             msg: `El usuario fue agregado con exito!`
         });
@@ -79,21 +74,21 @@ const postSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-exports.postSeUsuario = postSeUsuario;
-const updateSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postSeRol = postSeRol;
+const updateSeRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { body } = req;
     try {
-        const seusuario = yield seusuario_1.default.findByPk(id);
-        if (seusuario) {
-            yield seusuario.update(body);
+        const serol = yield serol_1.default.findByPk(id);
+        if (serol) {
+            yield serol.update(body);
             res.json({
-                msg: `El seusuario fue actualizado con éxito`
+                msg: `El serol fue actualizado con éxito`
             });
         }
         else {
             res.status(404).json({
-                msg: `No existe un seusuario con el id ${id}`
+                msg: `No existe un serol con el id ${id}`
             });
         }
     }
@@ -104,4 +99,4 @@ const updateSeUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
-exports.updateSeUsuario = updateSeUsuario;
+exports.updateSeRol = updateSeRol;

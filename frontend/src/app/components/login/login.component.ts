@@ -57,7 +57,7 @@ export class LoginComponent {
 
   setSessionData() {
       const obj = {
-        'nrol': this.resSeUsuario.nrol,
+        'serolId': this.resSeUsuario.serolId,
         'xfirstname': this.resSeUsuario.xfirstname,
         'xlastname': this.resSeUsuario.xlastname,
         'xusername': this.resSeUsuario.xusername,

@@ -26,7 +26,7 @@
                 <td>{{ usuario.xfirstname }}</td>
                 <td>{{ usuario.xlastname }}</td>
                 <td>{{ usuario.xusername }}</td>
-                <td>{{ usuario.nrol }}</td>
+                <td>{{ usuario.serol!.xrol }}</td>
                 <td class="text-center">
                     <button (click)="getSeUsuario(usuario.id!)" data-toggle="modal" data-target="#formEditarUsuario"
                         type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
@@ -64,7 +64,7 @@
                 <div class="modal-body">
                     <input formControlName="xcodeemployee" type="text" class="form-control mt-2"
                         placeholder="Código Empleado" minlength="8" maxlength="8">
-                    <input formControlName="nrol" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
+                    <input formControlName="serolId" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
                         class="form-control mt-2" maxlength="2" minlength="1">
                     <input formControlName="xfirstname" type="text" class="form-control mt-2" placeholder="Nombre"
                         maxlength="40">
@@ -110,7 +110,7 @@
                 <div class="modal-body">
                     <input formControlName="xcodeemployee" type="hidden">
                     <label for="xcodeemployee">Rol</label>
-                    <input formControlName="nrol" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
+                    <input formControlName="serolId" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
                         class="form-control mt-2" maxlength="2" minlength="1" autofocus="autofocus">
                     <label for="xfirstname">Nombre</label>
                     <input formControlName="xfirstname" type="text" class="form-control mt-2" placeholder="Nombre"

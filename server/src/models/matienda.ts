@@ -13,10 +13,6 @@ const MaTienda = db.define('matienda', {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        references: {
-            model: MaEmpresa,
-            key: 'id',
-        }
     },
     xname: {
         type: DataTypes.STRING(40),

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs';
-import { LoginSeUsuario } from 'src/app/interfaces/loginseusuario';
 import { SeUsuario } from 'src/app/interfaces/seusuario';
 import { SeUsuarioService } from 'src/app/services/seusuario.service';
 
@@ -24,7 +23,7 @@ export class UsuariosComponent {
 
     this.formSeUsuario = this.formBuilder.group({
       xcodeemployee: ['', Validators.required],
-      nrol: ['', Validators.required],
+      serolId: ['', Validators.required],
       xfirstname: ['', Validators.required],
       xlastname: ['', Validators.required],
       xusername: ['', Validators.required],
@@ -39,6 +38,11 @@ export class UsuariosComponent {
   getListSeUsuarios() {
     this._seusuarioService.getListSeUsuarios().subscribe((data: SeUsuario[]) => {
       this.listSeUsuarios = data;
+      console.log(data);
+      console.log(data[0].serol);
+
+      
+      
       this.listSeUsuarios.sort(
         (firstObject: SeUsuario, secondObject: SeUsuario) =>
     	  (firstObject.xfirstname > secondObject.xfirstname) ? 1 : -1
@@ -56,7 +60,7 @@ export class UsuariosComponent {
   saveSeUsuario() {
     const seusuario: SeUsuario = {
       xcodeemployee: this.formSeUsuario.value.xcodeemployee,
-      nrol: this.formSeUsuario.value.nrol,
+      serolId: this.formSeUsuario.value.serolId,
       xfirstname: this.formSeUsuario.value.xfirstname,
       xlastname: this.formSeUsuario.value.xlastname,
       xusername: this.formSeUsuario.value.xusername,
@@ -71,7 +75,7 @@ export class UsuariosComponent {
             throw "Error: " + err
           }))
           .subscribe((data: SeUsuario) => {
-            this.toastr.success(`${data.xfirstname} ${data.xlastname}<br>${data.xusername}</br>${data.nrol} | ${data.xcodeemployee}`, "Usuario Registrado");
+            this.toastr.success(`${data.xfirstname} ${data.xlastname}<br>${data.xusername}</br>${data.serolId} | ${data.xcodeemployee}`, "Usuario Registrado");
             (document.getElementById('cancelAddModal') as HTMLInputElement).click();
           });
 
@@ -85,7 +89,7 @@ export class UsuariosComponent {
   editSeUsuario() {
     const seusuario: SeUsuario = {
       xcodeemployee: this.formSeUsuario.value.xcodeemployee,
-      nrol: this.formSeUsuario.value.nrol,
+      serolId: this.formSeUsuario.value.serolId,
       xfirstname: this.formSeUsuario.value.xfirstname,
       xlastname: this.formSeUsuario.value.xlastname,
       xusername: this.formSeUsuario.value.xusername,
@@ -110,7 +114,7 @@ export class UsuariosComponent {
     this._seusuarioService.getSeUsuario(id).subscribe((seusuario: SeUsuario) => {
       this.formSeUsuario.patchValue({
         xcodeemployee: seusuario.xcodeemployee,
-        nrol: seusuario.nrol,
+        serolId: seusuario.serolId,
         xfirstname: seusuario.xfirstname,
         xlastname: seusuario.xlastname,
         xusername: seusuario.xusername,
