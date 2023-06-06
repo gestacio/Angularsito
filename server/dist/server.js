@@ -20,6 +20,7 @@ const matienda_1 = __importDefault(require("./routes/matienda"));
 const macliente_1 = __importDefault(require("./routes/macliente"));
 const serol_1 = __importDefault(require("./routes/serol"));
 const faventa_1 = __importDefault(require("./routes/faventa"));
+const fafactura_1 = __importDefault(require("./routes/fafactura"));
 const connection_1 = __importDefault(require("./db/connection"));
 const cors_1 = __importDefault(require("cors"));
 // import sequelize from '../db/connection';
@@ -30,7 +31,7 @@ const matienda_2 = __importDefault(require("./models/matienda"));
 const macliente_2 = __importDefault(require("./models/macliente"));
 const serol_2 = __importDefault(require("./models/serol"));
 const faventa_2 = __importDefault(require("./models/faventa"));
-const fafactura_1 = __importDefault(require("./models/fafactura"));
+const fafactura_2 = __importDefault(require("./models/fafactura"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -52,12 +53,13 @@ class Server {
             });
         });
         this.app.use('/api/maclientes', macliente_1.default);
-        this.app.use('/api/maempresa', maempresa_1.default);
+        this.app.use('/api/maempresas', maempresa_1.default);
         this.app.use('/api/matiendas', matienda_1.default);
         this.app.use('/api/productos', producto_1.default);
-        this.app.use('/api/serol', serol_1.default);
-        this.app.use('/api/seusuario', seusuario_1.default);
-        this.app.use('/api/faventa', faventa_1.default);
+        this.app.use('/api/seroles', serol_1.default);
+        this.app.use('/api/seusuarios', seusuario_1.default);
+        this.app.use('/api/faventas', faventa_1.default);
+        this.app.use('/api/fafacturas', fafactura_1.default);
     }
     midlewares() {
         // Parseamos el body
@@ -72,25 +74,25 @@ class Server {
                 console.log('base de datos conectada');
                 // await sequelize.sync({ force: true });
                 yield maempresa_2.default.sync();
-                yield maempresa_2.default.hasMany(fafactura_1.default);
+                yield maempresa_2.default.hasMany(fafactura_2.default);
                 yield matienda_2.default.sync();
-                yield matienda_2.default.hasMany(fafactura_1.default);
+                yield matienda_2.default.hasMany(fafactura_2.default);
                 yield macliente_2.default.sync();
-                yield macliente_2.default.hasMany(fafactura_1.default);
+                yield macliente_2.default.hasMany(fafactura_2.default);
                 yield serol_2.default.sync();
                 yield serol_2.default.hasMany(seusuario_2.default);
                 yield seusuario_2.default.sync();
-                yield seusuario_2.default.hasMany(fafactura_1.default);
+                yield seusuario_2.default.hasMany(fafactura_2.default);
                 yield seusuario_2.default.belongsTo(serol_2.default);
                 yield producto_2.default.sync();
-                yield fafactura_1.default.sync();
-                yield fafactura_1.default.hasMany(faventa_2.default);
-                yield fafactura_1.default.belongsTo(maempresa_2.default);
-                yield fafactura_1.default.belongsTo(matienda_2.default);
-                yield fafactura_1.default.belongsTo(macliente_2.default);
-                yield fafactura_1.default.belongsTo(seusuario_2.default);
+                yield fafactura_2.default.sync();
+                yield fafactura_2.default.hasMany(faventa_2.default);
+                yield fafactura_2.default.belongsTo(maempresa_2.default);
+                yield fafactura_2.default.belongsTo(matienda_2.default);
+                yield fafactura_2.default.belongsTo(macliente_2.default);
+                yield fafactura_2.default.belongsTo(seusuario_2.default);
                 yield faventa_2.default.sync();
-                yield faventa_2.default.belongsTo(fafactura_1.default);
+                yield faventa_2.default.belongsTo(fafactura_2.default);
                 // 
                 yield maempresa_2.default.findOrCreate({
                     where: { xrif: "J-000202001" },
@@ -138,7 +140,7 @@ class Server {
                         serolId: 1,
                     }
                 });
-                yield fafactura_1.default.findOrCreate({
+                yield fafactura_2.default.findOrCreate({
                     where: { id: '1' },
                     defaults: {
                         ncaja: 6,

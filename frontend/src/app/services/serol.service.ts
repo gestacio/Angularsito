@@ -13,7 +13,7 @@ export class SeRolService {
   constructor(private http: HttpClient) { 
     // this.myAppUrl = environment.endpoint;
     this.myAppUrl = 'http://localhost:3000/';
-    this.myApiUrl = 'api/serol/';
+    this.myApiUrl = 'api/seroles/';
   }
 
   getListSeRoles(): Observable<SeRol[]> {

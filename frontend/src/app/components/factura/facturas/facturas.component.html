@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+    <div class="title my-3">
+        <h4>Listado de Productos</h4>
+        <form class="d-flex gap-2">
+            <button type="button" class="btn btn-info" routerLink="/add">Agregar Producto</button>
+            <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button>
+        </form>
+    </div>
+    
+
+    <table *ngIf="listFaFacturas.length > 0" class="table table-info table-hover">
+        <thead >
+            <tr>
+                <th scope="col">Nro. Factura</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Tienda</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Productos</th>
+                <th scope="col">Costo Neto</th>
+                <th scope="col">IVA</th>
+                <th scope="col">Costo Total</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let factura of listFaFacturas" class="table-light">
+                <td>{{ factura.id }}</td>
+                <td>{{ factura.maempresa!.xshortname }}</td>
+                <td>{{ factura.matienda!.xname }}</td>
+                <td>{{ factura.macliente!.xbusinessname }}</td>
+                <td>{{ factura.seusuario!.xfirstname }}, {{ factura.seusuario!.xlastname }}</td>
+                <td>
+                    <li *ngFor="let producto of factura.faventa" style="margin: 0; padding: 0;">
+                        <!-- <ul>{{ producto.xproduct }}</ul> -->
+                        {{ producto.xproduct }}
+                    </li>
+                </td>
+                <td>chill</td>
+                <td>chill</td>
+                <td>chill</td>
+
+                <td>
+                    <!-- <button [routerLink]="['/edit', factura.id]" type="button" class="btn btn-info btn-sm">Edit</button> -->
+                    <button type="button" class="btn btn-info btn-sm"><i class="bi bi-cart-plus"></i></button>
+                    <button routerLink="/edit/{{ factura.id }}" type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h5 *ngIf="listFaFacturas.length < 1">No hay facturaos para mostar</h5>
+</div>

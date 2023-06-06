@@ -55,6 +55,7 @@ const deleteFaVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.deleteFaVenta = deleteFaVenta;
 const postFaVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
+    console.log("***" + body.xidproduct);
     try {
         yield faventa_1.default.create(body);
         res.json({

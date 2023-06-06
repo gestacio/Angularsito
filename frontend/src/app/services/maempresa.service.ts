@@ -13,7 +13,7 @@ export class MaEmpresaService {
   constructor(private http: HttpClient) { 
     // this.myAppUrl = environment.endpoint;
     this.myAppUrl = 'http://localhost:3000/';
-    this.myApiUrl = 'api/maempresa/';
+    this.myApiUrl = 'api/maempresas/';
   }
 
   getMaEmpresa(): Observable<MaEmpresa> {

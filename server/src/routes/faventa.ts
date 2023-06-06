@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', getFaVentas)
 router.get('/:nticket', getFaVenta)
-router.delete('/:nticket', deleteFaVenta)
+// router.delete('/:nticket', deleteFaVenta)
 router.post('/', postFaVenta)
 router.put('/:nticket', updateFaVenta)
 

@@ -6,6 +6,7 @@ import routesMaTienda from './routes/matienda';
 import routesMaCliente from './routes/macliente';
 import routesSeRol from './routes/serol';
 import routesFaVenta from './routes/faventa';
+import routesFaFactura from './routes/fafactura';
 import db from './db/connection';
 import cors from 'cors';
 // import sequelize from '../db/connection';
@@ -45,12 +46,13 @@ class Server {
             });
         });
         this.app.use('/api/maclientes', routesMaCliente)
-        this.app.use('/api/maempresa', routesMaEmpresa)
+        this.app.use('/api/maempresas', routesMaEmpresa)
         this.app.use('/api/matiendas', routesMaTienda)
         this.app.use('/api/productos', routesProducto)
-        this.app.use('/api/serol', routesSeRol)
-        this.app.use('/api/seusuario', routesSeUsuario)
-        this.app.use('/api/faventa', routesFaVenta)
+        this.app.use('/api/seroles', routesSeRol)
+        this.app.use('/api/seusuarios', routesSeUsuario)
+        this.app.use('/api/faventas', routesFaVenta)
+        this.app.use('/api/fafacturas', routesFaFactura)
     }
 
     midlewares() {

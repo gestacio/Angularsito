@@ -7,6 +7,7 @@ import { SellProductComponent } from './components/sell-product/sell-product.com
 import { CajaComponent } from './components/caja/caja.component';
 import { UsuariosComponent } from './components/seguridad/usuarios/usuarios.component';
 import { RolesComponent } from './components/seguridad/roles/roles.component';
+import { FacturasComponent } from './components/factura/facturas/facturas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'caja', component: CajaComponent },
   { path: 'roles', component: RolesComponent },
   { path: 'usuarios', component: UsuariosComponent },
+  { path: 'facturas', component: FacturasComponent },
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

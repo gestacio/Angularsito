@@ -46,6 +46,8 @@ export const deleteFaVenta = async (req: Request, res: Response) => {
 
 export const postFaVenta = async (req: Request, res: Response) => {
     const { body } = req;
+    console.log("***" + body.xidproduct);
+    
 
     try {
         await FaVenta.create(body);
