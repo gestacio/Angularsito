@@ -147,6 +147,9 @@ class Server {
                 where: { id: '1' },
                 defaults: {
                     ncaja: 6,
+                    mneto: 20,
+                    niva: 16,
+                    mtotal: 22,
                     maempresaId: 1,
                     matiendaId: 1,
                     maclienteId: 1,

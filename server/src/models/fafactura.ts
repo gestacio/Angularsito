@@ -12,9 +12,21 @@ const FaFactura = db.define('fafactura', {
         type: DataTypes.SMALLINT,
         allowNull: false,
     },
+    mneto: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+    },
+    niva: {
+        type: DataTypes.SMALLINT,
+        allowNull: false,
+    },
+    mtotal: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+    },
 
 }, {
-
+    
 });
 
 export default FaFactura;

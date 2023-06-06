@@ -15,5 +15,17 @@ const FaFactura = connection_1.default.define('fafactura', {
         type: sequelize_1.DataTypes.SMALLINT,
         allowNull: false,
     },
+    mneto: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+    },
+    niva: {
+        type: sequelize_1.DataTypes.SMALLINT,
+        allowNull: false,
+    },
+    mtotal: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+    },
 }, {});
 exports.default = FaFactura;

@@ -7,23 +7,112 @@ import SeUsuario from '../models/seusuario';
 import FaVenta from '../models/faventa';
 
 
-export const postLoginFaFactura = async (req: Request, res: Response) => {
-    const { body } = req;
-    const fafactura = await FaFactura.findOne({ where: { xusername: body.xusername, xpassword: body.xpassword } })
+export const getFaFactura = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const fafactura = await FaFactura.findByPk(id, {
+        include: [
+            {
+                model: MaEmpresa,
+            },
+            {
+                model: MaTienda,
+            },
+            {
+                model: MaCliente
+            },
+            {
+                model: SeUsuario
+            },
+            {
+                model: FaVenta
+            }
+        ]
+    });
 
     if (fafactura) {
         res.json(fafactura);
     } else {
-        res.status(401).json({
-            msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
+        res.status(404).json({
+            msg: `No existe un usuario con el id ${id}`
         });
     }
 
 }
 
-export const getFaFactura = async (req: Request, res: Response) => {
+export const generateFaFactura = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const fafactura = await FaFactura.findByPk(id)
+    const fafactura = await FaFactura.findByPk(id, {
+        attributes: {
+            exclude: [
+                'maempresaId',
+                'matiendaId',
+                'maclienteId',
+                'seusuarioId',
+                'updatedAt',
+            ]
+        },
+        include: [
+            {
+                model: MaEmpresa,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'xlongname',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: MaTienda,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'idempresa',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: MaCliente,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'xtelf',
+                        'xshortaddress',
+                        'xlongaddress',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: SeUsuario,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'xcodeemployee',
+                        'xusername',
+                        'xpassword',
+                        'serolId',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: FaVenta,
+                attributes: {
+                    exclude: [
+                        'fafacturaId',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            }
+        ]
+    });
 
     if (fafactura) {
         res.json(fafactura);

@@ -12,29 +12,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.getFaFactura = exports.postLoginFaFactura = void 0;
+exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
 const fafactura_1 = __importDefault(require("../models/fafactura"));
 const maempresa_1 = __importDefault(require("../models/maempresa"));
 const matienda_1 = __importDefault(require("../models/matienda"));
 const macliente_1 = __importDefault(require("../models/macliente"));
 const seusuario_1 = __importDefault(require("../models/seusuario"));
 const faventa_1 = __importDefault(require("../models/faventa"));
-const postLoginFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { body } = req;
-    const fafactura = yield fafactura_1.default.findOne({ where: { xusername: body.xusername, xpassword: body.xpassword } });
-    if (fafactura) {
-        res.json(fafactura);
-    }
-    else {
-        res.status(401).json({
-            msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
-        });
-    }
-});
-exports.postLoginFaFactura = postLoginFaFactura;
 const getFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const fafactura = yield fafactura_1.default.findByPk(id);
+    const fafactura = yield fafactura_1.default.findByPk(id, {
+        include: [
+            {
+                model: maempresa_1.default,
+            },
+            {
+                model: matienda_1.default,
+            },
+            {
+                model: macliente_1.default
+            },
+            {
+                model: seusuario_1.default
+            },
+            {
+                model: faventa_1.default
+            }
+        ]
+    });
     if (fafactura) {
         res.json(fafactura);
     }
@@ -45,6 +50,90 @@ const getFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getFaFactura = getFaFactura;
+const generateFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const fafactura = yield fafactura_1.default.findByPk(id, {
+        attributes: {
+            exclude: [
+                'maempresaId',
+                'matiendaId',
+                'maclienteId',
+                'seusuarioId',
+                'updatedAt',
+            ]
+        },
+        include: [
+            {
+                model: maempresa_1.default,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'xlongname',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: matienda_1.default,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'idempresa',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: macliente_1.default,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'xtelf',
+                        'xshortaddress',
+                        'xlongaddress',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: seusuario_1.default,
+                attributes: {
+                    exclude: [
+                        'id',
+                        'xcodeemployee',
+                        'xusername',
+                        'xpassword',
+                        'serolId',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            },
+            {
+                model: faventa_1.default,
+                attributes: {
+                    exclude: [
+                        'fafacturaId',
+                        'createdAt',
+                        'updatedAt',
+                    ],
+                },
+            }
+        ]
+    });
+    if (fafactura) {
+        res.json(fafactura);
+    }
+    else {
+        res.status(404).json({
+            msg: `No existe un usuario con el id ${id}`
+        });
+    }
+});
+exports.generateFaFactura = generateFaFactura;
 const getFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listFaFacturas = yield fafactura_1.default.findAll({
         include: [

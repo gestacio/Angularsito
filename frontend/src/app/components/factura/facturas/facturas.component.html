@@ -2,10 +2,10 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div *ngIf="!loading" class="container">
     <div class="title my-3">
-        <h4>Listado de Productos</h4>
+        <h4>Listado de Facturas</h4>
         <form class="d-flex gap-2">
-            <button type="button" class="btn btn-info" routerLink="/add">Agregar Producto</button>
-            <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button>
+            <!-- <button type="button" class="btn btn-info" routerLink="/add">Agregar Producto</button>
+            <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button> -->
         </form>
     </div>
     
@@ -31,21 +31,21 @@
                 <td>{{ factura.maempresa!.xshortname }}</td>
                 <td>{{ factura.matienda!.xname }}</td>
                 <td>{{ factura.macliente!.xbusinessname }}</td>
-                <td>{{ factura.seusuario!.xfirstname }}, {{ factura.seusuario!.xlastname }}</td>
+                <td>{{ factura.seusuario!.xfirstname }} {{ factura.seusuario!.xlastname }}</td>
                 <td>
                     <li *ngFor="let producto of factura.faventa" style="margin: 0; padding: 0;">
                         <!-- <ul>{{ producto.xproduct }}</ul> -->
                         {{ producto.xproduct }}
                     </li>
                 </td>
-                <td>chill</td>
-                <td>chill</td>
-                <td>chill</td>
+                <td>{{ factura.mneto | currency:'symbol':'Bs. ' }}</td>
+                <td>{{ factura.niva | currency:'symbol':'' }}%</td>
+                <td>{{ factura.mtotal | currency:'symbol':'Bs. ' }}</td>
 
                 <td>
                     <!-- <button [routerLink]="['/edit', factura.id]" type="button" class="btn btn-info btn-sm">Edit</button> -->
-                    <button type="button" class="btn btn-info btn-sm"><i class="bi bi-cart-plus"></i></button>
-                    <button routerLink="/edit/{{ factura.id }}" type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
+                    <!-- <button type="button" class="btn btn-info btn-sm"><i class="bi bi-cart-plus"></i></button> -->
+                    <button (click)="emitirFactura(factura.id!)" type="button" class="btn btn-danger btn-sm ms-2"><i class="bi bi-file-earmark-pdf"></i></button>
                     
                 </td>
             </tr>

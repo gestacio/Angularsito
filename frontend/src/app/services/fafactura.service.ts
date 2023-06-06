@@ -17,8 +17,12 @@ export class FaFacturaService {
   }
 
 
-  getFaFactura(id: string): Observable<FaFactura> {
+  getFaFactura(id: number): Observable<FaFactura> {
     return this.http.get<FaFactura>(this.myAppUrl + this.myApiUrl + id)
+  }
+
+  generateFaFactura(id: number): Observable<FaFactura> {
+    return this.http.get<FaFactura>(this.myAppUrl + this.myApiUrl + 'generar/' + id)
   }
 
   getListFaFacturas(): Observable<FaFactura[]> {
