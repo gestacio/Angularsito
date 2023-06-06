@@ -24,7 +24,8 @@ const FaVenta = connection_1.default.define('faventa', {
         allowNull: false,
     },
 }, {
-// createdAt: false,
-// updatedAt: false,
+    // createdAt: false,
+    // updatedAt: false,
+    tableName: 'faventas'
 });
 exports.default = FaVenta;

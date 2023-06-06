@@ -1,20 +1,40 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-info mb-2">
-    <div class="container-fluid mx-5">
-      <a class="navbar-brand" routerLink="/products">{{ empresa }} <h6 class="text-light">{{ tienda}}</h6></a>      
-      <!-- <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <div class="text-light">Listado de Productos</div>
-        </li>
-      </ul> -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarColor01">
-        <form class="d-flex ms-auto">
-          <!-- <input class="form-control me-sm-2" type="search" placeholder="Buscar Producto" onclick="getUrl()"> -->
-          <input class="form-control me-sm-2" type="search" placeholder="Buscar Producto">
-        </form>
-        <button routerLink="/login" class="btn btn-primary btn-sm" type="button">Salir <i class="bi bi-box-arrow-left"></i></button>
-      </div>
+  <div class="container-fluid mx-5">
+    <a class="navbar-brand" routerLink="/products">{{ empresa }} <h6 class="text-light">{{ tienda}}</h6></a>
+    <ul class="navbar-nav mx-3 me-auto">
+      <li class="nav-item">
+        <a routerLink="/products" class="nav-link">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/products" class="nav-link">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/clientes" class="nav-link">Clientes</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/caja" class="nav-link">Caja</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/facturas" class="nav-link">Facturas</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/usuarios" class="nav-link">Usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/roles" class="nav-link">Roles</a>
+      </li>
+    </ul>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <form class="d-flex ms-auto">
+        <!-- <input class="form-control me-sm-2" type="search" placeholder="Buscar Producto" onclick="getUrl()"> -->
+        <!-- <input class="form-control me-sm-2" type="search" placeholder="Buscar Producto"> -->
+      </form>
+      <button (click)="clearStorage()" routerLink="/login" class="btn btn-primary btn-sm" type="button">Salir <i
+          class="bi bi-box-arrow-left"></i></button>
     </div>
-  </nav>
+  </div>
+</nav>

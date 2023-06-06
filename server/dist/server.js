@@ -74,9 +74,11 @@ class Server {
                 console.log('base de datos conectada');
                 // await sequelize.sync({ force: true });
                 yield maempresa_2.default.sync();
+                yield maempresa_2.default.hasMany(matienda_2.default);
                 yield maempresa_2.default.hasMany(fafactura_2.default);
                 yield matienda_2.default.sync();
                 yield matienda_2.default.hasMany(fafactura_2.default);
+                yield matienda_2.default.belongsTo(maempresa_2.default);
                 yield macliente_2.default.sync();
                 yield macliente_2.default.hasMany(fafactura_2.default);
                 yield serol_2.default.sync();
@@ -106,11 +108,11 @@ class Server {
                 yield matienda_2.default.findOrCreate({
                     where: { nstore: 2189 },
                     defaults: {
-                        idempresa: 1,
                         xname: "FARMACIA OPALO",
                         nstore: 2189,
                         xtelf: "0800-FARMATODO",
                         xaddress: "CCS: Sabana Gnd. Casanova/Recreo. Ed. Rupi",
+                        maempresaId: 1,
                     }
                 });
                 yield macliente_2.default.findOrCreate({
@@ -145,7 +147,7 @@ class Server {
                     defaults: {
                         ncaja: 6,
                         mneto: 20,
-                        niva: 16,
+                        miva: 2,
                         mtotal: 22,
                         maempresaId: 1,
                         matiendaId: 1,
@@ -154,10 +156,19 @@ class Server {
                     }
                 });
                 yield faventa_2.default.findOrCreate({
-                    where: { id: "1" },
+                    where: { xidproduct: "111920464" },
                     defaults: {
                         xidproduct: "111920464",
                         xproduct: "FLIPS DULCE DE LECHE",
+                        mprice: 44.74,
+                        fafacturaId: 1,
+                    }
+                });
+                yield faventa_2.default.findOrCreate({
+                    where: { xidproduct: "111920464" },
+                    defaults: {
+                        xidproduct: "111920465",
+                        xproduct: "FLIPS CHOCOFUDGE",
                         mprice: 44.74,
                         fafacturaId: 1,
                     }

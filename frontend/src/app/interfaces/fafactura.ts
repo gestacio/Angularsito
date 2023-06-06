@@ -8,7 +8,7 @@ export interface FaFactura {
     id?: number;
     ncaja: number;
     mneto: number;
-    niva: number;
+    miva: number;
     mtotal: number;
     maempresaId: number;
     matiendaId: number;

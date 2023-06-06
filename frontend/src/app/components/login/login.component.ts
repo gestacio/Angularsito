@@ -49,7 +49,6 @@ export class LoginComponent {
       .subscribe((data: SeUsuario) => {
         this.resSeUsuario = data;
         this.setSessionData();
-        this.router.navigate(['/products'])
       })
     // this.toastr.info(`Usuario ${this.form.value.xusuario} no encontrado`, "Error")
 
@@ -57,6 +56,7 @@ export class LoginComponent {
 
   setSessionData() {
       const obj = {
+        'id': this.resSeUsuario.id,
         'serolId': this.resSeUsuario.serolId,
         'xfirstname': this.resSeUsuario.xfirstname,
         'xlastname': this.resSeUsuario.xlastname,
@@ -70,6 +70,7 @@ export class LoginComponent {
     this._maempresaService.getMaEmpresa().subscribe((data: MaEmpresa) => {
 
       const obj = {
+        'id': data.id,
         'xrif': data.xrif,
         'xshortname': data.xshortname,
         'xlongname': data.xlongname,
@@ -84,6 +85,7 @@ export class LoginComponent {
       var tienda = data[0];
 
       const obj = {
+        'id': tienda.id,
         'idempresa': tienda.idempresa,
         'xname': tienda.xname,
         'nstore': tienda.nstore,
@@ -93,8 +95,10 @@ export class LoginComponent {
 
       const sessionJson = JSON.stringify(obj);
       sessionStorage.setItem('MaTienda', sessionJson);
+
+      this.router.navigate(['/products'])
     })
-    
+
   }
 
 }

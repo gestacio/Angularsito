@@ -19,6 +19,7 @@ const matienda_1 = __importDefault(require("../models/matienda"));
 const macliente_1 = __importDefault(require("../models/macliente"));
 const seusuario_1 = __importDefault(require("../models/seusuario"));
 const faventa_1 = __importDefault(require("../models/faventa"));
+const connection_1 = __importDefault(require("../db/connection"));
 const getFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const fafactura = yield fafactura_1.default.findByPk(id, {
@@ -171,18 +172,48 @@ const deleteFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.deleteFaFactura = deleteFaFactura;
+// export const postFaFactura = async (req: Request, res: Response) => {
+//     const { body } = req;
+//     try {
+//         await FaFactura.create(body);
+//         res.json({
+//             msg: `El usuario fue agregado con exito!`
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.json({
+//             msg: 'Upss ocurrió un error'
+//         });
+//     }
+// }
 const postFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
+    const ncaja = body.ncaja;
+    const mneto = body.mneto;
+    const miva = body.miva;
+    const mtotal = body.mtotal;
+    const maempresaId = body.maempresaId;
+    const matiendaId = body.matiendaId;
+    const maclienteId = body.maclienteId;
+    const seusuarioId = body.seusuarioId;
     try {
-        yield fafactura_1.default.create(body);
+        const responseInsert = yield connection_1.default.query(`INSERT INTO fafacturas (ncaja, mneto, miva, mtotal, maempresaId, matiendaId, maclienteId, seusuarioId)
+            VALUES (${ncaja}, ${mneto}, ${miva}, ${mtotal}, ${maempresaId}, ${matiendaId}, ${maclienteId}, ${seusuarioId});
+            
+            SELECT id FROM fafacturas WHERE id = SCOPE_IDENTITY();
+            `);
+        // # SELECT SCOPE_IDENTITY();
+        const id = responseInsert[0][0];
         res.json({
-            msg: `El usuario fue agregado con exito!`
+            msg: `La factura ha sido ingresada`,
+            id: id,
         });
     }
     catch (error) {
         console.log(error);
         res.json({
-            msg: 'Upss ocurrió un error'
+            msg: 'Upss ocurrió un error',
+            error: error,
         });
     }
 });
@@ -212,3 +243,14 @@ const updateFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.updateFaFactura = updateFaFactura;
+// export const postFindOneFaFactura = async (req: Request, res: Response) => {
+//     const { body } = req;
+//     const fafactura = await FaFactura.findOne({ where: { createdAt: body.createdAt } })
+//     if (fafactura) {
+//         res.json(fafactura);
+//     } else {
+//         res.status(401).json({
+//             msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
+//         });
+//     }
+// }

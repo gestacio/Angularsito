@@ -24,6 +24,7 @@ const FaVenta = db.define('faventa', {
 }, {
     // createdAt: false,
     // updatedAt: false,
+    tableName: 'faventas'
 });
 
 

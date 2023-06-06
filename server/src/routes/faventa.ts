@@ -5,9 +5,9 @@ import { deleteFaVenta, getFaVenta, getFaVentas, postFaVenta, updateFaVenta } fr
 const router = Router();
 
 router.get('/', getFaVentas)
-router.get('/:nticket', getFaVenta)
+router.get('/:id', getFaVenta)
 // router.delete('/:nticket', deleteFaVenta)
 router.post('/', postFaVenta)
-router.put('/:nticket', updateFaVenta)
+router.put('/:id', updateFaVenta)
 
 export default router;

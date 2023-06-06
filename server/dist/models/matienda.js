@@ -11,11 +11,6 @@ const MaTienda = connection_1.default.define('matienda', {
         autoIncrement: true,
         primaryKey: true,
     },
-    idempresa: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false,
-        unique: true,
-    },
     xname: {
         type: sequelize_1.DataTypes.STRING(40),
         allowNull: false,

@@ -19,7 +19,7 @@ export function createPDF(fafactura: FaFactura) {
     const xlastname = fafactura.seusuario!.xlastname;
 
     const neto = (Math.round(fafactura.mneto * 100) / 100).toFixed(2);
-    const iva = (Math.round(fafactura.niva * 100) / 100).toFixed(2);
+    const iva = (Math.round(fafactura.miva * 100) / 100).toFixed(2);
     const total = (Math.round(fafactura.mtotal * 100) / 100).toFixed(2);
 
     // const fdate = new Date().toLocaleDateString()
@@ -81,7 +81,7 @@ export function createPDF(fafactura: FaFactura) {
                 {
                     style: 'data',
                     table: {
-                        widths: [20, "*", 40],
+                        widths: [30, "*", 40],
                         body: rowsProducts,
                     }
                 },
@@ -90,7 +90,7 @@ export function createPDF(fafactura: FaFactura) {
                     style: 'data',
                     layout: 'noBorders',
                     table: {
-                        widths: [20, "*", 40],
+                        widths: [40, "*", 40],
                         body: [
                             [
                                 { text: `Bs. ${neto}`, alignment: "left" },

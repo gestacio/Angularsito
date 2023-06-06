@@ -69,10 +69,12 @@ class Server {
             console.log('base de datos conectada');
             // await sequelize.sync({ force: true });
             await MaEmpresa.sync();
+            await MaEmpresa.hasMany(MaTienda);
             await MaEmpresa.hasMany(FaFactura);
 
             await MaTienda.sync();
             await MaTienda.hasMany(FaFactura);
+            await MaTienda.belongsTo(MaEmpresa);
 
             await MaCliente.sync();
             await MaCliente.hasMany(FaFactura);
@@ -109,11 +111,11 @@ class Server {
             await MaTienda.findOrCreate({
                 where: { nstore: 2189 },
                 defaults: {
-                    idempresa: 1,
                     xname: "FARMACIA OPALO",
                     nstore: 2189,
                     xtelf: "0800-FARMATODO",
                     xaddress: "CCS: Sabana Gnd. Casanova/Recreo. Ed. Rupi",
+                    maempresaId: 1,
                 }
             });
             await MaCliente.findOrCreate({
@@ -148,7 +150,7 @@ class Server {
                 defaults: {
                     ncaja: 6,
                     mneto: 20,
-                    niva: 16,
+                    miva: 2,
                     mtotal: 22,
                     maempresaId: 1,
                     matiendaId: 1,
@@ -157,10 +159,19 @@ class Server {
                 }
             });
             await FaVenta.findOrCreate({
-                where: { id: "1" },
+                where: { xidproduct: "111920464" },
                 defaults: {
                     xidproduct: "111920464",
                     xproduct: "FLIPS DULCE DE LECHE",
+                    mprice: 44.74,
+                    fafacturaId: 1,
+                }
+            });
+            await FaVenta.findOrCreate({
+                where: { xidproduct: "111920464" },
+                defaults: {
+                    xidproduct: "111920465",
+                    xproduct: "FLIPS CHOCOFUDGE",
                     mprice: 44.74,
                     fafacturaId: 1,
                 }

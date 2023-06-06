@@ -57,7 +57,8 @@ export const postFaVenta = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.json({
-            msg: 'Upss ocurrió un error'
+            msg: 'Upss ocurrió un error',
+            error: error,
         });
     }
 

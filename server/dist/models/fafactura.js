@@ -19,8 +19,8 @@ const FaFactura = connection_1.default.define('fafactura', {
         type: sequelize_1.DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
-    niva: {
-        type: sequelize_1.DataTypes.SMALLINT,
+    miva: {
+        type: sequelize_1.DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
     mtotal: {

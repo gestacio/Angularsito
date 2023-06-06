@@ -21,5 +21,8 @@ export class NavbarComponent {
   empresa = this.maempresa.xshortname;
   tienda = this.matienda.xname;
   
+  clearStorage() {
+    window.sessionStorage.clear();
+  }
 
 }

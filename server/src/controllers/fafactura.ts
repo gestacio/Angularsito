@@ -5,6 +5,7 @@ import MaTienda from '../models/matienda';
 import MaCliente from '../models/macliente';
 import SeUsuario from '../models/seusuario';
 import FaVenta from '../models/faventa';
+import sequelize from '../db/connection';
 
 
 export const getFaFactura = async (req: Request, res: Response) => {
@@ -162,18 +163,60 @@ export const deleteFaFactura = async (req: Request, res: Response) => {
     }
 }
 
+// export const postFaFactura = async (req: Request, res: Response) => {
+//     const { body } = req;
+
+//     try {
+//         await FaFactura.create(body);
+//         res.json({
+//             msg: `El usuario fue agregado con exito!`
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.json({
+//             msg: 'Upss ocurrió un error'
+//         });
+//     }
+
+// }
+
 export const postFaFactura = async (req: Request, res: Response) => {
     const { body } = req;
+    const ncaja = body.ncaja;
+    const mneto = body.mneto;
+    const miva = body.miva;
+    const mtotal = body.mtotal;
+    const maempresaId = body.maempresaId;
+    const matiendaId = body.matiendaId;
+    const maclienteId = body.maclienteId;
+    const seusuarioId = body.seusuarioId;
+
+
 
     try {
-        await FaFactura.create(body);
+        const responseInsert = await sequelize.query(
+            `INSERT INTO fafacturas (ncaja, mneto, miva, mtotal, maempresaId, matiendaId, maclienteId, seusuarioId)
+            VALUES (${ncaja}, ${mneto}, ${miva}, ${mtotal}, ${maempresaId}, ${matiendaId}, ${maclienteId}, ${seusuarioId});
+            
+            SELECT id FROM fafacturas WHERE id = SCOPE_IDENTITY();
+            `
+
+        );
+        // # SELECT SCOPE_IDENTITY();
+
+        const id = responseInsert[0][0];
+
+
+
         res.json({
-            msg: `El usuario fue agregado con exito!`
+            msg: `La factura ha sido ingresada`,
+            id: id,
         });
     } catch (error) {
         console.log(error);
         res.json({
-            msg: 'Upss ocurrió un error'
+            msg: 'Upss ocurrió un error',
+            error: error,
         });
     }
 
@@ -203,3 +246,18 @@ export const updateFaFactura = async (req: Request, res: Response) => {
         });
     }
 }
+
+
+// export const postFindOneFaFactura = async (req: Request, res: Response) => {
+//     const { body } = req;
+//     const fafactura = await FaFactura.findOne({ where: { createdAt: body.createdAt } })
+
+//     if (fafactura) {
+//         res.json(fafactura);
+//     } else {
+//         res.status(401).json({
+//             msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
+//         });
+//     }
+
+// }

@@ -65,7 +65,8 @@ const postFaVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         console.log(error);
         res.json({
-            msg: 'Upss ocurrió un error'
+            msg: 'Upss ocurrió un error',
+            error: error,
         });
     }
 });

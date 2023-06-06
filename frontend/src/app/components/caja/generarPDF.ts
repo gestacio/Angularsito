@@ -82,7 +82,7 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
                 {
                     style: 'data',
                     table: {
-                        widths: [20, "*", 40],
+                        widths: [30, "*", 40],
                         body: rowsProducts,
                     }
                 },
@@ -91,7 +91,7 @@ export function createPDF(listaProductos: Product[], totalNeto: number, totalIva
                     style: 'data',
                     layout: 'noBorders',
                     table: {
-                        widths: [20, "*", 40],
+                        widths: [40, "*", 40],
                         body: [
                             [
                                 { text: `Bs. ${neto}`, alignment: "left" },

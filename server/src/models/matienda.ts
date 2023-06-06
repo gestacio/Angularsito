@@ -9,11 +9,6 @@ const MaTienda = db.define('matienda', {
         autoIncrement: true,
         primaryKey: true,
     },
-    idempresa: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true,
-    },
     xname: {
         type: DataTypes.STRING(40),
         allowNull: false,

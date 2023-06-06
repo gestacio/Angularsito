@@ -9,6 +9,9 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Router } from '@angular/router';
 import { MaClienteService } from 'src/app/services/macliente.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InsertarFactura } from './insertarFactura';
+import { FaFacturaService } from 'src/app/services/fafactura.service';
+import { FaVentaService } from 'src/app/services/faventa.service';
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 
@@ -34,11 +37,14 @@ export class CajaComponent implements OnInit {
     'xlongaddress': '',
   };
   dniCliente: string = '';
+  maCliente?: MaCliente;
 
   constructor(
     private fb: FormBuilder,
     private _productService: ProductService,
     private _maclienteService: MaClienteService,
+    private _fafacturaService: FaFacturaService,
+    private _faventaService: FaVentaService,
     private toastr: ToastrService,
     private router: Router,
   ) {
@@ -95,12 +101,30 @@ export class CajaComponent implements OnInit {
 
   confirmarCompra() {
     if (confirm("¿Desea generar la factura con estos productos?") == true) {
-      createPDF(this.listCart, this.cartCostoNeto, this.cartIva, this.cartTotal, this.cliente.xdni, this.cliente.xbusinessname);
 
-      for (let i = 0; i < this.listCart.length; i++) {
-        const product = this.listCart[i];
-        this._productService.sellProducto(product.id!, product).subscribe();
-      }
+      let nuevaFactura = new InsertarFactura(
+        this.listCart,
+        this.maCliente!,
+        this.cartCostoNeto,
+        this.cartIva,
+        this.cartTotal,
+        this._maclienteService,
+        this._fafacturaService,
+        this._faventaService,
+        this._productService
+      );
+
+      
+      // {
+      // console.log("factura generada");
+
+      // }
+      // insertarFactura(this.listCart, this.cartCostoNeto, this.cartIva, this.cartTotal, this.cliente.xdni, this.cliente.xbusinessname);
+
+      // for (let i = 0; i < this.listCart.length; i++) {
+      //   const product = this.listCart[i];
+      //   this._productService.sellProducto(product.id!, product).subscribe();
+      // }
       this.reloadPageCaja();
 
     } else {
@@ -171,6 +195,8 @@ export class CajaComponent implements OnInit {
           this.clearForm();
           (document.getElementById('btnModal') as HTMLInputElement).click();
         }
+
+        this.maCliente = data;
 
       });
     }

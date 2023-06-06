@@ -16,8 +16,8 @@ const FaFactura = db.define('fafactura', {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
-    niva: {
-        type: DataTypes.SMALLINT,
+    miva: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
     mtotal: {
