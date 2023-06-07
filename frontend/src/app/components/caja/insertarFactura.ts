@@ -59,6 +59,7 @@ export class InsertarFactura {
 
             this._fafacturaService.saveFaFactura(fafactura)
                 .pipe(catchError(err => {
+                    this.toastr.error(`No se ha podido insertar la factura<br>(._fafacturaService.saveFaFactura(fafactura: FaFactura))`);
                     throw "Error: " + err;
                 }))
                 .subscribe((data: any) => {
@@ -93,6 +94,7 @@ export class InsertarFactura {
     emitirFactura(id: number) {
         this._fafacturaService.getFaFactura(id)
             .pipe(catchError(err => {
+                console.log(err);                
                 throw "Error: " + err
             }))
             .subscribe((data: FaFactura) => {
@@ -118,10 +120,24 @@ export class InsertarFactura {
                 const ftime = new Date(fafactura.createdAt!.toString()).toLocaleTimeString()
 
                 let rowsProducts = [];
-                for (let i = 0; i < fafactura.faventa!.length; i += 1) { // i suggest a for-loop since you need both arrays at a time 
-                    let idProducto = fafactura.faventa![i].id;
-                    let nombreProducto = fafactura.faventa![i].xproduct;
-                    let precioProducto = (Math.round(fafactura.faventa![i].mprice * 100) / 100).toFixed(2);
+                // for (let i = 0; i < fafactura.faventa!.length; i += 1) { // i suggest a for-loop since you need both arrays at a time 
+                //     let idProducto = fafactura.faventa![i].id;
+                //     let nombreProducto = fafactura.faventa![i].xproduct;
+                //     let precioProducto = (Math.round(fafactura.faventa![i].mprice * 100) / 100).toFixed(2);
+
+                //     rowsProducts.push(
+                //         [
+                //             { text: `0000${idProducto}`, alignment: "left", border: [false, false, false, false] },
+                //             { text: `${nombreProducto}`, alignment: "left", border: [false, false, false, false] },
+                //             { text: `Bs ${precioProducto}`, alignment: "right", border: [false, false, false, false] },
+                //         ],
+                //     );
+                // }
+
+                for (const producto of fafactura.faventa!) {
+                    let idProducto = producto.id;
+                    let nombreProducto = producto.xproduct;
+                    let precioProducto = (Math.round(producto.mprice * 100) / 100).toFixed(2);
 
                     rowsProducts.push(
                         [
@@ -131,6 +147,8 @@ export class InsertarFactura {
                         ],
                     );
                 }
+
+
 
                 try {
                     let pdfDefinition: any = {

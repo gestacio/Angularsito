@@ -38,10 +38,6 @@ export class UsuariosComponent {
   getListSeUsuarios() {
     this._seusuarioService.getListSeUsuarios().subscribe((data: SeUsuario[]) => {
       this.listSeUsuarios = data;
-      console.log(data);
-      console.log(data[0].serol);
-
-      
       
       this.listSeUsuarios.sort(
         (firstObject: SeUsuario, secondObject: SeUsuario) =>
