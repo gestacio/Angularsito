@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sellProduct = exports.updateProduct = exports.postProduct = exports.deleteProduct = exports.getProduct = exports.postProductsWhere = exports.getProducts = void 0;
+exports.getCountProducts = exports.sellProduct = exports.updateProduct = exports.postProduct = exports.deleteProduct = exports.getProduct = exports.postProductsWhere = exports.getProducts = void 0;
 const producto_1 = __importDefault(require("../models/producto"));
 const connection_1 = __importDefault(require("../db/connection"));
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -121,3 +121,25 @@ const sellProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.sellProduct = sellProduct;
+const getCountProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const countProducts = yield producto_1.default.count();
+        if (countProducts) {
+            res.json({
+                countProducts: countProducts,
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existen productos en BDD`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+});
+exports.getCountProducts = getCountProducts;

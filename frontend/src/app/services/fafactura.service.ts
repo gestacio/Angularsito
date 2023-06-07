@@ -29,6 +29,10 @@ export class FaFacturaService {
     return this.http.get<FaFactura[]>(this.myAppUrl + this.myApiUrl);
   }
 
+  getCountFaFacturas(): Observable<void> {
+    return this.http.get<void>(this.myAppUrl + this.myApiUrl + "/count")
+  }
+
 //   deleteFaFactura(id: number): Observable<void> {
 //     return this.http.delete<void>(this.myAppUrl + this.myApiUrl + id)
 //   }

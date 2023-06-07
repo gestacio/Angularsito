@@ -8,19 +8,23 @@ import { CajaComponent } from './components/caja/caja.component';
 import { UsuariosComponent } from './components/seguridad/usuarios/usuarios.component';
 import { RolesComponent } from './components/seguridad/roles/roles.component';
 import { FacturasComponent } from './components/factura/facturas/facturas.component';
+import { ClientesComponent } from './components/clientes/clientes.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'products', component: ListProductsComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'inicio', component: InicioComponent },
+  { path: 'products', component: ListProductsComponent },
   { path: 'add', component: AddEditProductComponent },
   { path: 'edit/:id', component: AddEditProductComponent },
   { path: 'sell', component: SellProductComponent },
   { path: 'caja', component: CajaComponent },
-  { path: 'roles', component: RolesComponent },
-  { path: 'usuarios', component: UsuariosComponent },
   { path: 'facturas', component: FacturasComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full'}
+  { path: 'usuarios', component: UsuariosComponent },
+  { path: 'roles', component: RolesComponent },
+  { path: 'clientes', component: ClientesComponent },
+  { path: '**', redirectTo: 'inicio', pathMatch: 'full'}
 ];
 
 @NgModule({

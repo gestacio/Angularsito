@@ -17,8 +17,16 @@ export class ProductService {
     this.myApiUrl = 'api/productos/';
   }
 
+  getProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(this.myAppUrl + this.myApiUrl + id)
+  }
+
   getListProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.myAppUrl + this.myApiUrl);
+  }
+
+  getCountProducts(): Observable<void> {
+    return this.http.get<void>(this.myAppUrl + this.myApiUrl + "/count")
   }
 
   // postListProductsWhere(name: String): Observable<Product[]> {
@@ -33,9 +41,7 @@ export class ProductService {
     return this.http.post<void>(this.myAppUrl + this.myApiUrl, product)
   }
 
-  getProduct(id: number): Observable<Product> {
-    return this.http.get<Product>(this.myAppUrl + this.myApiUrl + id)
-  }
+  
 
   updateProduct(id: number, product: Product): Observable<void> {
     return this.http.put<void>(this.myAppUrl + this.myApiUrl + id, product)

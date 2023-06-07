@@ -23,6 +23,9 @@ import { CajaComponent } from './components/caja/caja.component';
 import { UsuariosComponent } from './components/seguridad/usuarios/usuarios.component';
 import { RolesComponent } from './components/seguridad/roles/roles.component';
 import { FacturasComponent } from './components/factura/facturas/facturas.component';
+import { ClientesComponent } from './components/clientes/clientes.component';
+import { InicioComponent } from './components/inicio/inicio.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -37,9 +40,12 @@ import { FacturasComponent } from './components/factura/facturas/facturas.compon
     UsuariosComponent,
     RolesComponent,
     FacturasComponent,
+    ClientesComponent,
+    InicioComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -49,6 +55,7 @@ import { FacturasComponent } from './components/factura/facturas/facturas.compon
       positionClass: 'toast-bottom-right',
       enableHtml: true,
     }), // ToastrModule added
+    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

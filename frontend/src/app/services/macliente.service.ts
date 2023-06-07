@@ -25,6 +25,10 @@ export class MaClienteService {
     return this.http.get<MaCliente[]>(this.myAppUrl + this.myApiUrl);
   }
 
+  getCountMaClientes(): Observable<void> {
+    return this.http.get<void>(this.myAppUrl + this.myApiUrl + "/count")
+  }
+
   deleteMaCliente(id: number): Observable<void> {
     return this.http.delete<void>(this.myAppUrl + this.myApiUrl + id)
   }

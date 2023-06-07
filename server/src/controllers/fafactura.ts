@@ -247,17 +247,23 @@ export const updateFaFactura = async (req: Request, res: Response) => {
     }
 }
 
+export const getCountFaFacturas = async (req: Request, res: Response) => {
+    try {
+        const countFaFacturas = await FaFactura.count()
 
-// export const postFindOneFaFactura = async (req: Request, res: Response) => {
-//     const { body } = req;
-//     const fafactura = await FaFactura.findOne({ where: { createdAt: body.createdAt } })
-
-//     if (fafactura) {
-//         res.json(fafactura);
-//     } else {
-//         res.status(401).json({
-//             msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
-//         });
-//     }
-
-// }
+        if (countFaFacturas) {
+            res.json({
+                countFaFacturas: countFaFacturas,
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existen facturas en BDD`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+}

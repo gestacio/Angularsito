@@ -113,3 +113,24 @@ export const sellProduct = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const getCountProducts = async (req: Request, res: Response) => {
+    try {
+        const countProducts = await Producto.count()
+
+        if (countProducts) {
+            res.json({
+                countProducts: countProducts,
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existen productos en BDD`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+}

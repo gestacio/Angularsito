@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
+exports.getCountFaFacturas = exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
 const fafactura_1 = __importDefault(require("../models/fafactura"));
 const maempresa_1 = __importDefault(require("../models/maempresa"));
 const matienda_1 = __importDefault(require("../models/matienda"));
@@ -243,14 +243,25 @@ const updateFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.updateFaFactura = updateFaFactura;
-// export const postFindOneFaFactura = async (req: Request, res: Response) => {
-//     const { body } = req;
-//     const fafactura = await FaFactura.findOne({ where: { createdAt: body.createdAt } })
-//     if (fafactura) {
-//         res.json(fafactura);
-//     } else {
-//         res.status(401).json({
-//             msg: `Credenciales inválidas, no existe el usuario: ${body.xusername}`
-//         });
-//     }
-// }
+const getCountFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const countFaFacturas = yield fafactura_1.default.count();
+        if (countFaFacturas) {
+            res.json({
+                countFaFacturas: countFaFacturas,
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existen facturas en BDD`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+});
+exports.getCountFaFacturas = getCountFaFacturas;

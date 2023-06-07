@@ -1,0 +1,140 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="title my-3">
+        <h4>Listado de Usuarios</h4>
+        <form class="d-flex gap-2">
+            <button (click)="clearForm();" type="button" class="btn btn-info" data-toggle="modal"
+                data-target="#formAgregarCliente" id="btnModal">Agregar Cliente</button>
+
+            <!-- <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button> -->
+        </form>
+    </div>
+
+
+    <table *ngIf="listMaClientes.length > 0" class="table table-info table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Razón Social</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Telf</th>
+                <th scope="col">Dir. 1</th>
+                <th scope="col">Dir. 2</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cliente of listMaClientes" class="table-light">
+                <td>{{ cliente.xbusinessname }}</td>
+                <td>{{ cliente.xdni }}</td>
+                <td>{{ cliente.xtelf }}</td>
+                <td>{{ cliente.xshortaddress }}</td>
+                <td>{{ cliente.xlongaddress }}</td>
+                <td class="text-center">
+                    <button (click)="getMaCliente(cliente.xdni)" data-toggle="modal" data-target="#formEditarCliente"
+                        type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
+                    <button (click)="deleteMaCliente(cliente.id!)" type="button" class="btn btn-danger btn-sm ms-2"><i
+                            class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h5 *ngIf="listMaClientes.length < 1">No hay productos para mostar</h5>
+</div>
+
+
+<!-- MODAL FORMULARIO AGREGAR USUARIO -->
+<div class="modal fade" id="formAgregarCliente" tabindex="-1" role="dialog" aria-labelledby="formAgregarClienteLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-2"></div>
+                <div class="col text-center">
+                    <h3 class="modal-title" id="formAgregarClienteLabel">Agregar Usuario</h3>
+                    <p class="modal-title" id="formAgregarClienteLabel">(Todos los campos son obligatorios)</p>
+                </div>
+                <div class="col-2">
+                    <button (click)="clearForm()" type="button" class="btn-close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+
+
+            </div>
+            <form [formGroup]="formMaCliente" (ngSubmit)="saveMaCliente()">
+                <div class="modal-body">
+                    <label for="xbusinessname">Nombre Cliente</label>
+                    <input formControlName="xbusinessname" type="text" placeholder="Nombre Cliente"
+                        class="form-control mt-2" maxlength="40" minlength="1" autofocus="autofocus">
+                    <label for="xdni">Cédula</label>
+                    <input formControlName="xdni" (keypress)="numberOnly($event)" type="text" placeholder="Cédula"
+                        class="form-control mt-2" maxlength="9" minlength="5">
+                    <label for="xtelf">Teléfono</label>
+                    <input formControlName="xtelf" type="text" class="form-control mt-2" placeholder="Teléfono"
+                        maxlength="11">
+                    <label for="xshortaddress">Dirección Corta</label>
+                    <input formControlName="xshortaddress" type="text" class="form-control mt-2"
+                        placeholder="Direccción Corta" maxlength="40">
+                    <label for="xlongaddress">Dirección Larga</label>
+                    <input formControlName="xlongaddress" type="text" class="form-control mt-2"
+                        placeholder="Dirección Larga">
+                </div>
+                <div class="modal-footer">
+                    <button (click)="clearForm()" type="button" class="btn btn-danger" id="cancelAddModal"
+                        data-dismiss="modal">Cancelar</button>
+                    <button [disabled]="formMaCliente.invalid" type="submit" class="btn btn-info">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL FORMULARIO EDITAR USUARIO -->
+<div class="modal fade" id="formEditarCliente" tabindex="-1" role="dialog" aria-labelledby="formEditarClienteLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-2"></div>
+                <div class="col text-center">
+                    <h3 class="modal-title" id="formEditarClienteLabel">Editar Usuario</h3>
+                    <p class="modal-title" id="formEditarClienteLabel">(Todos los campos son obligatorios)</p>
+                </div>
+                <div class="col-2">
+                    <button (click)="clearForm()" type="button" class="btn-close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+
+
+            </div>
+            <form [formGroup]="formMaCliente" (ngSubmit)="editMaCliente()">
+                <div class="modal-body">
+                    <label for="xbusinessname">Nombre Cliente</label>
+                    <input formControlName="xbusinessname" type="text" placeholder="Nombre Cliente"
+                        class="form-control mt-2" maxlength="40" minlength="1" autofocus="autofocus">
+                    <label for="xdni">Cédula</label>
+                    <input formControlName="xdni" (keypress)="numberOnly($event)" type="text" placeholder="Cédula"
+                        class="form-control mt-2" maxlength="9" minlength="5">
+                    <label for="xtelf">Teléfono</label>
+                    <input formControlName="xtelf" type="text" class="form-control mt-2" placeholder="Teléfono"
+                    maxlength="11">
+                    <label for="xshortaddress">Dirección Corta</label>
+                    <input formControlName="xshortaddress" type="text" class="form-control mt-2"
+                        placeholder="Direccción Corta" maxlength="40">
+                    <label for="xlongaddress">Dirección Larga</label>
+                    <input formControlName="xlongaddress" type="text" class="form-control mt-2"
+                        placeholder="Dirección Larga">
+                </div>
+                <div class="modal-footer">
+                    <button (click)="clearForm()" type="button" class="btn btn-danger" id="cancelEditModal"
+                        data-dismiss="modal">Cancelar</button>
+                    <button [disabled]="formMaCliente.invalid" type="submit" class="btn btn-info">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

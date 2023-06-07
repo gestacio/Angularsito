@@ -107,3 +107,26 @@ export const sellMaCliente = async (req: Request, res: Response) => {
         });
     }
 }
+
+
+
+export const getCountMaClientes = async (req: Request, res: Response) => {
+    try {
+        const countMaClientes = await MaCliente.count()
+
+        if (countMaClientes) {
+            res.json({
+                countMaClientes: countMaClientes,
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existen clientes en BDD`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+}
