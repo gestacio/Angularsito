@@ -66,3 +66,26 @@ export var multi = [
       ]
     }
   ];
+
+
+  // single: FarmaciaOpalo[] = [
+  //   // JSON.stringify(this.farmaciaOpalo),
+  //   this.farmaciaOpalo
+    
+  //   // {
+  //   //   "name": "Ópalo",
+  //   //   "value": 500,
+  //   // },
+  //   // {
+  //   //   "name": this.farmaciaOpalo.name ? this.farmaciaOpalo.name : "TotalUSA",
+  //   //   "value": 5000000
+  //   // },
+  //   // {
+  //   //   "name": "France",
+  //   //   "value": 7200000
+  //   // },
+  //   //   {
+  //   //   "name": "UK",
+  //   //   "value": 6200000
+  //   // }
+  // ];

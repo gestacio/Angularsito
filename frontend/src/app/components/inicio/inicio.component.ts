@@ -16,58 +16,42 @@ export class InicioComponent {
   cantidadProductos = 0;
   cantidadClientes = 0;
   cantidadFacturas = 0;
+  countMensualFarmaciaOpalo: any;
 
+  chartMetaMensual: any = {
+    "view": [150, 150],
+    "scheme": {domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA']},
+    "designedTotal": 100,
+  }
 
-  view: [number, number] = [600, 250];
-  viewMetaMensual: [number, number] = [150, 150];
-  designatedTotal: number = 100;
-  // options
-  // gradient: boolean = true;
-  // showLegend: boolean = true;
-  // showLabels: boolean = true;
-  // isDoughnut: boolean = false;
+  get VentaMensualFarciaOpalo() {
+    return this.countMensualFarmaciaOpalo;
+  }
 
-  // options
-  legend: boolean = true;
-  showLabels: boolean = true;
-  animations: boolean = true;
-  xAxis: boolean = true;
-  yAxis: boolean = true;
-  showYAxisLabel: boolean = true;
-  showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Mes';
-  yAxisLabel: string = 'Ventas';
-  timeline: boolean = true;
-  wrapTicks: boolean = true;
+  chartVentasPorMes: any = {
+    scheme: {domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA'],},
+    legend:  false,
+    showYAxisLabel: true,
+    showXAxisLabel: true,
+    showLabels: true,
+    animations: true,
+    xAxis: true,
+    yAxis: true,
+    xAxisLabel: 'Mes',
+    yAxisLabel: 'Ventas',
+    timeline: false,
+    wrapTicks: true,
+    legendTitle: "Venta Por Mes",
+    roundDomains: "no funciona esta wea"
+  }
 
-  colorScheme: any = {
-    domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
   cardColor: string = '#232837';
 
-  farmaciaOpalo!: FarmaciaOpalo
+
   
-  single: FarmaciaOpalo[] = [
-    // JSON.stringify(this.farmaciaOpalo),
-    this.farmaciaOpalo
-    
-    // {
-    //   "name": "Ópalo",
-    //   "value": 500,
-    // },
-    // {
-    //   "name": this.farmaciaOpalo.name ? this.farmaciaOpalo.name : "TotalUSA",
-    //   "value": 5000000
-    // },
-    // {
-    //   "name": "France",
-    //   "value": 7200000
-    // },
-    //   {
-    //   "name": "UK",
-    //   "value": 6200000
-    // }
-  ];
+  
+
+  
 
   constructor(
     private _productService: ProductService,
@@ -78,7 +62,7 @@ export class InicioComponent {
 
   }
 
-  
+
 
 
   onSelect(data: any): void {
@@ -98,7 +82,6 @@ export class InicioComponent {
     this.getCountProducts()
     this.getCountMaClientes()
     this.getCountFaFacturas()
-    this.getFacturas();
   }
 
   getCountProducts() {
@@ -119,25 +102,17 @@ export class InicioComponent {
 
   getCountFaFacturas() {
     this.loading = true;
-    this._fafacturaService.getCountFaFacturas().subscribe((data: FarmaciaOpalo) => {
-      this.cantidadFacturas = data.value;
-      console.log("agregando");
-      this.farmaciaOpalo = data;
-      this.single.push(this.farmaciaOpalo)
-      console.log(this.farmaciaOpalo);
-
+    this._fafacturaService.getCountFaFacturas().subscribe((data: any) => {
+      this.cantidadFacturas = data.countAllFaFacturas;
+      var arraysito: FarmaciaOpalo[] = [data.countThisMonthFaFacturas];
+      this.countMensualFarmaciaOpalo = arraysito;
       this.loading = false;
     })
   }
 
-  getFacturas() {
-    this._fafacturaService.getListFaFacturas().subscribe((data: FaFactura[]) => {
-      this.listFaFacturas = data;
-      // console.log(this.listFaFacturas);
-    });
-  }
 
-  multi = [
+
+  getAnualVenta = [
     {
       "name": "Opalo",
       "series": [
@@ -194,5 +169,37 @@ export class InicioComponent {
   ];
 
 
+  view: any[] = [500, 400];
+  legend: boolean = true;
+  legendPosition: any = 'right';
+  colorScheme: any = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+  };
+  single: any = [
+    {
+      "name": "Germany",
+      "value": 8940000
+    },
+    {
+      "name": "USA",
+      "value": 5000000
+    },
+    {
+      "name": "France",
+      "value": 7200000
+    },
+    {
+      "name": "UK",
+      "value": 5200000
+    },
+    {
+      "name": "Italy",
+      "value": 7700000
+    },
+    {
+      "name": "Spain",
+      "value": 4300000
+    }
+  ];
 
 }

@@ -6,6 +6,7 @@ import MaCliente from '../models/macliente';
 import SeUsuario from '../models/seusuario';
 import FaVenta from '../models/faventa';
 import sequelize from '../db/connection';
+import { QueryTypes } from 'sequelize';
 
 
 export const getFaFactura = async (req: Request, res: Response) => {
@@ -248,13 +249,68 @@ export const updateFaFactura = async (req: Request, res: Response) => {
 }
 
 export const getCountFaFacturas = async (req: Request, res: Response) => {
-    try {
-        const countFaFacturas = await FaFactura.count()
+    const month = new Date().getMonth() + 1
+    const year = new Date() .getFullYear()
 
-        if (countFaFacturas) {
+    try {
+        const countAllFaFacturas = await FaFactura.count();
+        const countThisMonthFaFacturas = await sequelize.query(
+            `
+            --SELECT count(*) as value, '' as name FROM fafacturas 
+            --LEFT JOIN matiendas on fafacturas.matiendaId = matiendas.id
+            --WHERE MONTH(fafacturas.createdAt) = ${month} and YEAR(fafacturas.createdAt) = ${year}
+            select count(id) as value, 'Opalo' as name from fafacturas 
+            where MONTH(createdAt) = ${month} and YEAR(createdAt) = ${year} and matiendaId = 1
+            `
+        , { type: QueryTypes.SELECT })
+        // const countFaFacturas = await FaFactura.findAll({
+        //     attributes: {
+        //         include: [
+        //             [sequelize.literal(`
+
+        //             `),
+        //                 'ThisMonth'
+        //             ]
+        //         ]
+        //     }
+        // })
+
+        if (countAllFaFacturas && countThisMonthFaFacturas) {
             res.json({
-                name: "Opalo",
-                value: countFaFacturas,
+                "countAllFaFacturas": countAllFaFacturas,
+                "countThisMonthFaFacturas": countThisMonthFaFacturas[0]
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existen facturas en BDD`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+}
+
+export const getCountMonthsFaFacturas = async (req: Request, res: Response) => {
+    const year = new Date() .getFullYear()
+
+    try {
+        const countMonthsFaFacturas = await sequelize.query(
+            `
+            SELECT    COUNT(*) 
+            FROM      fafacturas
+            WHERE     YEAR(createdAt) = ${year}
+            and matiendaId = 1
+            GROUP BY  MONTH(createdAt)
+            --ORDER BY MONTH(createdAt)
+            `
+        , { type: QueryTypes.SELECT })
+
+        if (countMonthsFaFacturas) {
+            res.json({
+                "countMonthsFaFacturas": countMonthsFaFacturas[0]
             })
         } else {
             res.status(404).json({

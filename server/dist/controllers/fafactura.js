@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCountFaFacturas = exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
+exports.getCountMonthsFaFacturas = exports.getCountFaFacturas = exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
 const fafactura_1 = __importDefault(require("../models/fafactura"));
 const maempresa_1 = __importDefault(require("../models/maempresa"));
 const matienda_1 = __importDefault(require("../models/matienda"));
@@ -20,6 +20,7 @@ const macliente_1 = __importDefault(require("../models/macliente"));
 const seusuario_1 = __importDefault(require("../models/seusuario"));
 const faventa_1 = __importDefault(require("../models/faventa"));
 const connection_1 = __importDefault(require("../db/connection"));
+const sequelize_1 = require("sequelize");
 const getFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const fafactura = yield fafactura_1.default.findByPk(id, {
@@ -244,12 +245,31 @@ const updateFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.updateFaFactura = updateFaFactura;
 const getCountFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
     try {
-        const countFaFacturas = yield fafactura_1.default.count();
-        if (countFaFacturas) {
+        const countAllFaFacturas = yield fafactura_1.default.count();
+        const countThisMonthFaFacturas = yield connection_1.default.query(`
+            --SELECT count(*) as value, '' as name FROM fafacturas 
+            --LEFT JOIN matiendas on fafacturas.matiendaId = matiendas.id
+            --WHERE MONTH(fafacturas.createdAt) = ${month} and YEAR(fafacturas.createdAt) = ${year}
+            select count(id) as value, 'Opalo' as name from fafacturas 
+            where MONTH(createdAt) = ${month} and YEAR(createdAt) = ${year} and matiendaId = 1
+            `, { type: sequelize_1.QueryTypes.SELECT });
+        // const countFaFacturas = await FaFactura.findAll({
+        //     attributes: {
+        //         include: [
+        //             [sequelize.literal(`
+        //             `),
+        //                 'ThisMonth'
+        //             ]
+        //         ]
+        //     }
+        // })
+        if (countAllFaFacturas && countThisMonthFaFacturas) {
             res.json({
-                name: "Opalo",
-                value: countFaFacturas,
+                "countAllFaFacturas": countAllFaFacturas,
+                "countThisMonthFaFacturas": countThisMonthFaFacturas[0]
             });
         }
         else {
@@ -266,3 +286,33 @@ const getCountFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getCountFaFacturas = getCountFaFacturas;
+const getCountMonthsFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const year = new Date().getFullYear();
+    try {
+        const countMonthsFaFacturas = yield connection_1.default.query(`
+            SELECT    COUNT(*) 
+            FROM      fafacturas
+            WHERE     YEAR(createdAt) = ${year}
+            and matiendaId = 1
+            GROUP BY  MONTH(createdAt)
+            --ORDER BY MONTH(createdAt)
+            `, { type: sequelize_1.QueryTypes.SELECT });
+        if (countMonthsFaFacturas) {
+            res.json({
+                "countMonthsFaFacturas": countMonthsFaFacturas[0]
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existen facturas en BDD`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+});
+exports.getCountMonthsFaFacturas = getCountMonthsFaFacturas;
