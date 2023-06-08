@@ -12,7 +12,7 @@ import { ClientesComponent } from './components/clientes/clientes.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: InicioComponent },
   { path: 'products', component: ListProductsComponent },

@@ -253,7 +253,8 @@ export const getCountFaFacturas = async (req: Request, res: Response) => {
 
         if (countFaFacturas) {
             res.json({
-                countFaFacturas: countFaFacturas,
+                name: "Opalo",
+                value: countFaFacturas,
             })
         } else {
             res.status(404).json({

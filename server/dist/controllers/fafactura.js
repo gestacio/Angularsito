@@ -248,7 +248,8 @@ const getCountFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const countFaFacturas = yield fafactura_1.default.count();
         if (countFaFacturas) {
             res.json({
-                countFaFacturas: countFaFacturas,
+                name: "Opalo",
+                value: countFaFacturas,
             });
         }
         else {

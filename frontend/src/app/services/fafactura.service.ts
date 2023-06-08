@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FaFactura } from '../interfaces/fafactura';
+import { FarmaciaOpalo } from '../interfaces/farmaciaOpalo';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +30,8 @@ export class FaFacturaService {
     return this.http.get<FaFactura[]>(this.myAppUrl + this.myApiUrl);
   }
 
-  getCountFaFacturas(): Observable<void> {
-    return this.http.get<void>(this.myAppUrl + this.myApiUrl + "/count")
+  getCountFaFacturas(): Observable<FarmaciaOpalo> {
+    return this.http.get<FarmaciaOpalo>(this.myAppUrl + this.myApiUrl + "/count")
   }
 
 //   deleteFaFactura(id: number): Observable<void> {

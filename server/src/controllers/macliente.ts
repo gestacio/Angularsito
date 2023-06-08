@@ -109,7 +109,6 @@ export const sellMaCliente = async (req: Request, res: Response) => {
 }
 
 
-
 export const getCountMaClientes = async (req: Request, res: Response) => {
     try {
         const countMaClientes = await MaCliente.count()
@@ -117,6 +116,37 @@ export const getCountMaClientes = async (req: Request, res: Response) => {
         if (countMaClientes) {
             res.json({
                 countMaClientes: countMaClientes,
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existen clientes en BDD`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+}
+
+export const getChartMaClientes = async (req: Request, res: Response) => {
+    try {
+        const maclientes = await MaCliente.findAll({
+            // attributes: {
+            //     exclude: [
+            //         'maempresaId',
+            //         'matiendaId',
+            //         'maclienteId',
+            //         'seusuarioId',
+            //         'updatedAt',
+            //     ]
+            // },
+        });
+
+        if (maclientes) {
+            res.json({
+                maclientes: maclientes,
             })
         } else {
             res.status(404).json({

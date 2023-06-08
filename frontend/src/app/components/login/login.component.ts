@@ -96,7 +96,7 @@ export class LoginComponent {
       const sessionJson = JSON.stringify(obj);
       sessionStorage.setItem('MaTienda', sessionJson);
 
-      this.router.navigate(['/products'])
+      this.router.navigate(['/inicio'])
     })
 
   }

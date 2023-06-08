@@ -4,6 +4,7 @@ const express_1 = require("express");
 const macliente_1 = require("../controllers/macliente");
 const router = (0, express_1.Router)();
 router.get('/', macliente_1.getMaClientes);
+router.get('/chart', macliente_1.getChartMaClientes);
 router.get('/count', macliente_1.getCountMaClientes);
 router.get('/:xdni', macliente_1.getMaCliente);
 router.delete('/:id', macliente_1.deleteMaCliente);

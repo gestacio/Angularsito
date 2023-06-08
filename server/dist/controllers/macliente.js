@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCountMaClientes = exports.sellMaCliente = exports.updateMaCliente = exports.postMaCliente = exports.deleteMaCliente = exports.getMaClientes = exports.getMaCliente = void 0;
+exports.getChartMaClientes = exports.getCountMaClientes = exports.sellMaCliente = exports.updateMaCliente = exports.postMaCliente = exports.deleteMaCliente = exports.getMaClientes = exports.getMaCliente = void 0;
 const connection_1 = __importDefault(require("../db/connection"));
 const macliente_1 = __importDefault(require("../models/macliente"));
 const getMaCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -139,3 +139,35 @@ const getCountMaClientes = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getCountMaClientes = getCountMaClientes;
+const getChartMaClientes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const maclientes = yield macliente_1.default.findAll({
+        // attributes: {
+        //     exclude: [
+        //         'maempresaId',
+        //         'matiendaId',
+        //         'maclienteId',
+        //         'seusuarioId',
+        //         'updatedAt',
+        //     ]
+        // },
+        });
+        if (maclientes) {
+            res.json({
+                maclientes: maclientes,
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existen clientes en BDD`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+});
+exports.getChartMaClientes = getChartMaClientes;

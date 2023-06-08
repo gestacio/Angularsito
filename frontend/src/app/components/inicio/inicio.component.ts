@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FaFactura } from 'src/app/interfaces/fafactura';
+import { FarmaciaOpalo } from 'src/app/interfaces/farmaciaOpalo';
 import { FaFacturaService } from 'src/app/services/fafactura.service';
 import { MaClienteService } from 'src/app/services/macliente.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -9,53 +11,79 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent {
-  // listProducts: Product[] = []
+  listFaFacturas: FaFactura[] = []
   loading: boolean = false;
   cantidadProductos = 0;
   cantidadClientes = 0;
   cantidadFacturas = 0;
 
-  view: [number, number] = [500, 250];
+
+  view: [number, number] = [600, 250];
+  viewMetaMensual: [number, number] = [150, 150];
+  designatedTotal: number = 100;
   // options
-  gradient: boolean = true;
-  showLegend: boolean = true;
+  // gradient: boolean = true;
+  // showLegend: boolean = true;
+  // showLabels: boolean = true;
+  // isDoughnut: boolean = false;
+
+  // options
+  legend: boolean = true;
   showLabels: boolean = true;
-  isDoughnut: boolean = false;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Mes';
+  yAxisLabel: string = 'Ventas';
+  timeline: boolean = true;
+  wrapTicks: boolean = true;
 
   colorScheme: any = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA']
   };
+  cardColor: string = '#232837';
 
-  single = [
-    {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
-      "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
-    },
-      {
-      "name": "UK",
-      "value": 6200000
-    }
+  farmaciaOpalo!: FarmaciaOpalo
+  
+  single: FarmaciaOpalo[] = [
+    // JSON.stringify(this.farmaciaOpalo),
+    this.farmaciaOpalo
+    
+    // {
+    //   "name": "Ópalo",
+    //   "value": 500,
+    // },
+    // {
+    //   "name": this.farmaciaOpalo.name ? this.farmaciaOpalo.name : "TotalUSA",
+    //   "value": 5000000
+    // },
+    // {
+    //   "name": "France",
+    //   "value": 7200000
+    // },
+    //   {
+    //   "name": "UK",
+    //   "value": 6200000
+    // }
   ];
 
   constructor(
     private _productService: ProductService,
     private _maclienteService: MaClienteService,
-    private _fafacturaService: FaFacturaService
+    private _fafacturaService: FaFacturaService,
   ) {
     // Object.assign(this, { single })
-   }
+
+  }
+
+  
 
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+
   }
 
   onActivate(data: any): void {
@@ -70,6 +98,7 @@ export class InicioComponent {
     this.getCountProducts()
     this.getCountMaClientes()
     this.getCountFaFacturas()
+    this.getFacturas();
   }
 
   getCountProducts() {
@@ -90,11 +119,79 @@ export class InicioComponent {
 
   getCountFaFacturas() {
     this.loading = true;
-    this._fafacturaService.getCountFaFacturas().subscribe((data: any) => {
-      this.cantidadFacturas = data.countFaFacturas;
+    this._fafacturaService.getCountFaFacturas().subscribe((data: FarmaciaOpalo) => {
+      this.cantidadFacturas = data.value;
+      console.log("agregando");
+      this.farmaciaOpalo = data;
+      this.single.push(this.farmaciaOpalo)
+      console.log(this.farmaciaOpalo);
+
       this.loading = false;
     })
   }
+
+  getFacturas() {
+    this._fafacturaService.getListFaFacturas().subscribe((data: FaFactura[]) => {
+      this.listFaFacturas = data;
+      // console.log(this.listFaFacturas);
+    });
+  }
+
+  multi = [
+    {
+      "name": "Opalo",
+      "series": [
+        {
+          "name": "Enero",
+          "value": 12
+        },
+        {
+          "name": "Febrero",
+          "value": 20
+        },
+        {
+          "name": "Marzo",
+          "value": 50
+        },
+        {
+          "name": "Abril",
+          "value": 35
+        },
+        {
+          "name": "Mayo",
+          "value": 43
+        },
+        {
+          "name": "Junio",
+          "value": 50
+        },
+        {
+          "name": "Julio",
+          "value": 75
+        },
+        {
+          "name": "Agosto",
+          "value": 85
+        },
+        {
+          "name": "Septiembre",
+          "value": 72
+        },
+        {
+          "name": "Octubre",
+          "value": 56
+        },
+        {
+          "name": "Noviembre",
+          "value": 83
+        },
+        {
+          "name": "Diciembre",
+          "value": 125
+        },
+      ]
+    },
+  ];
 
 
 
