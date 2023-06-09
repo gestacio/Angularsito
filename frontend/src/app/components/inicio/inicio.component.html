@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-3">
             <div class="card bg-light mb-3" style="max-width: 20rem; height: 12rem;">
-                <div class="card-header">Productos</div>
+                <div class="card-header">Total Productos</div>
                 <div class="card-body">
                     <h1 class="card-title text-center"><strong>{{ cantidadProductos }}</strong></h1>
                     <hr>
@@ -13,7 +13,7 @@
         </div>
         <div class="col-3">
             <div class="card bg-light mb-3" style="max-width: 20rem; height: 12rem;">
-                <div class="card-header">Clientes</div>
+                <div class="card-header">Total Clientes</div>
                 <div class="card-body">
                     <h1 class="card-title text-center"><strong>{{ cantidadClientes }}</strong></h1>
                     <hr>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-3">
             <div class="card bg-light mb-3" style="max-width: 20rem; height: 12rem;">
-                <div class="card-header">Facturas</div>
+                <div class="card-header">Total Ventas</div>
                 <div class="card-body">
                     <h1 class="card-title text-center"><strong>{{ cantidadFacturas }}</strong></h1>
                     <hr>
@@ -53,7 +53,7 @@
         <div class="col-6">
 
             <div class="card bg-light mb-3" style="height: 50vh">
-                <div class="card-header">Productos</div>
+                <div class="card-header">Resumen Anual por Meses</div>
                 <div class="card-body text-center" style="max-height: 80%; max-width: 90%;">
                     <ngx-charts-area-chart
                         [scheme]="chartVentasPorMes.scheme"
@@ -65,8 +65,10 @@
                         [xAxisLabel]="chartVentasPorMes.xAxisLabel"
                         [yAxisLabel]="chartVentasPorMes.yAxisLabel"
                         [timeline]="chartVentasPorMes.timeline"
-                        [results]="getAnualVenta"
+                        [results]="VentaPorMesFarmaciaOpalo"
                         [legendTitle]="chartVentasPorMes.legendTitle"
+                        [yScaleMax]="150"
+                        [gradient]="true"
                         (select)="onSelect($event)">
                     </ngx-charts-area-chart>
                     <!-- <hr> -->
@@ -78,17 +80,15 @@
         <div class="col-6">
 
             <div class="card bg-light mb-3" style="height: 50vh">
-                <div class="card-header">Productos</div>
+                <div class="card-header">Resumen Metas Tiendas Este Mes</div>
                 <div class="card-body text-center" style="height: 40%; width: 90%;">
                     <ngx-charts-gauge
-                        [scheme]="colorScheme"
-                        [results]="single"
-                        [legend]="legend"
-                        [legendPosition]="legendPosition"
-                        (select)="onSelect($event)"
-                        (activate)="onActivate($event)"
-                        (deactivate)="onDeactivate($event)"
-                        legendTitle=""
+                        [scheme]="chartResumenMetasTiendas.scheme"
+                        [results]="VentaMensualPorTiendas"
+                        [legend]="chartResumenMetasTiendas.legend"
+                        [legendPosition]="chartResumenMetasTiendas.legendPosition"
+                        [max]="100"
+                        legendTitle="Tiendas"
                         >
                     </ngx-charts-gauge>
                 </div>

@@ -89,3 +89,59 @@ export var multi = [
   //   //   "value": 6200000
   //   // }
   // ];
+
+let getAnualVenta = [
+    {
+      "name": "Opalo",
+      "series": [
+        {
+          "name": "Enero",
+          "value": 12
+        },
+        {
+          "name": "Febrero",
+          "value": 20
+        },
+        {
+          "name": "Marzo",
+          "value": 50
+        },
+        {
+          "name": "Abril",
+          "value": 35
+        },
+        {
+          "name": "Mayo",
+          "value": 43
+        },
+        {
+          "name": "Junio",
+          "value": 50
+        },
+        {
+          "name": "Julio",
+          "value": 75
+        },
+        {
+          "name": "Agosto",
+          "value": 85
+        },
+        {
+          "name": "Septiembre",
+          "value": 72
+        },
+        {
+          "name": "Octubre",
+          "value": 56
+        },
+        {
+          "name": "Noviembre",
+          "value": 83
+        },
+        {
+          "name": "Diciembre",
+          "value": 125
+        },
+      ]
+    },
+  ];

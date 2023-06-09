@@ -250,7 +250,7 @@ export const updateFaFactura = async (req: Request, res: Response) => {
 
 export const getCountFaFacturas = async (req: Request, res: Response) => {
     const month = new Date().getMonth() + 1
-    const year = new Date() .getFullYear()
+    const year = new Date().getFullYear()
 
     try {
         const countAllFaFacturas = await FaFactura.count();
@@ -294,24 +294,57 @@ export const getCountFaFacturas = async (req: Request, res: Response) => {
 }
 
 export const getCountMonthsFaFacturas = async (req: Request, res: Response) => {
-    const year = new Date() .getFullYear()
+    const year = new Date().getFullYear()
 
     try {
-        const countMonthsFaFacturas = await sequelize.query(
+        const series = await sequelize.query(
             `
-            SELECT    COUNT(*) 
+            SET language 'Español'
+            SELECT    COUNT(*) as value, 
+            DATENAME(MONTH, MAX(createdAt)) as name
             FROM      fafacturas
             WHERE     YEAR(createdAt) = ${year}
             and matiendaId = 1
-            GROUP BY  MONTH(createdAt)
-            --ORDER BY MONTH(createdAt)
+            GROUP BY  MONTH(createdAt), YEAR(createdAt)
+            ORDER BY YEAR(createdAt), MONTH(createdAt)
             `
-        , { type: QueryTypes.SELECT })
+        , )
 
-        if (countMonthsFaFacturas) {
+        if (series) {
             res.json({
-                "countMonthsFaFacturas": countMonthsFaFacturas[0]
+                "name": "Opalo",
+                "series": series[0]
             })
+        } else {
+            res.status(404).json({
+                msg: `No existen facturas en BDD`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+}
+
+export const getCountMonthStoresFaFacturas = async (req: Request, res: Response) => {
+    const month = new Date().getMonth() + 1
+    const year = new Date().getFullYear()
+
+    try {
+        const ventaMesActualPorTienda = await sequelize.query(
+            `
+            select count(fafacturas.id) as value, matiendas.xname as name from fafacturas 
+            INNER JOIN matiendas on fafacturas.matiendaId = matiendas.id
+            where MONTH(fafacturas.createdAt) = ${month} and YEAR(fafacturas.createdAt) = ${year}
+            group by matiendas.xname
+            order by count(fafacturas.id) DESC
+            `
+        , {type: QueryTypes.SELECT})
+
+        if (ventaMesActualPorTienda) {
+            res.json(ventaMesActualPorTienda)
         } else {
             res.status(404).json({
                 msg: `No existen facturas en BDD`

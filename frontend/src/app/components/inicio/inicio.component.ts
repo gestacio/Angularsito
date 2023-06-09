@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FaFactura } from 'src/app/interfaces/fafactura';
-import { FarmaciaOpalo } from 'src/app/interfaces/farmaciaOpalo';
+import { FarmaciaOpalo, VentaMensualPorMeses } from 'src/app/interfaces/farmaciaOpalo';
 import { FaFacturaService } from 'src/app/services/fafactura.service';
 import { MaClienteService } from 'src/app/services/macliente.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -17,20 +17,18 @@ export class InicioComponent {
   cantidadClientes = 0;
   cantidadFacturas = 0;
   countMensualFarmaciaOpalo: any;
+  countMonthsFaFacturas: any;
+  countMonthStoresFaFacturas: any;
 
   chartMetaMensual: any = {
     "view": [150, 150],
-    "scheme": {domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA']},
+    "scheme": { domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA'] },
     "designedTotal": 100,
   }
 
-  get VentaMensualFarciaOpalo() {
-    return this.countMensualFarmaciaOpalo;
-  }
-
   chartVentasPorMes: any = {
-    scheme: {domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA'],},
-    legend:  false,
+    scheme: { domain: ['#148a9c', '#A10A28', '#C7B42C', '#AAAAAA'], },
+    legend: false,
     showYAxisLabel: true,
     showXAxisLabel: true,
     showLabels: true,
@@ -42,16 +40,36 @@ export class InicioComponent {
     timeline: false,
     wrapTicks: true,
     legendTitle: "Venta Por Mes",
-    roundDomains: "no funciona esta wea"
+    roundDomains: "no funciona esta wea",
   }
 
-  cardColor: string = '#232837';
+  chartResumenMetasTiendas: any = {
+    view: [500, 400],
+    legend:true,
+    legendPosition: 'right',
+    scheme: {domain: ['#148a9c', '#28a745', '#ffc107', '#dc3545', '#888', '#f7f7f9']},
+    "designedTotal": 100,
+  }
 
+  get VentaMensualFarciaOpalo() {
+    return this.countMensualFarmaciaOpalo;
+  }
+
+  get VentaPorMesFarmaciaOpalo() {
+    return this.countMonthsFaFacturas;
+  }
+
+  get VentaMensualPorTiendas() {
+    return this.countMonthStoresFaFacturas;
+  }
 
   
-  
 
-  
+
+
+
+
+
 
   constructor(
     private _productService: ProductService,
@@ -82,6 +100,8 @@ export class InicioComponent {
     this.getCountProducts()
     this.getCountMaClientes()
     this.getCountFaFacturas()
+    this.getCountMonthsFaFacturas()
+    this.getCountMonthStoresFaFacturas()
   }
 
   getCountProducts() {
@@ -110,96 +130,155 @@ export class InicioComponent {
     })
   }
 
+  getCountMonthsFaFacturas() {
+    this.loading = true;
+    this._fafacturaService.getCountMonthsFaFacturas().subscribe((data: VentaMensualPorMeses) => {
+      data = this.formatearDataVentaMensualPorMeses(data)
+      var arraysito: VentaMensualPorMeses[] = [data];
+      this.countMonthsFaFacturas = arraysito;
+
+      this.loading = false;
+    })
+  }
+
+  getCountMonthStoresFaFacturas() {
+    this.loading = true;
+    this._fafacturaService.getCountMonthStoresFaFacturas().subscribe((data: any) => {
+      // var arraysito = [data];
+      this.countMonthStoresFaFacturas = data;
+      console.log(this.countMonthStoresFaFacturas);
+
+      this.loading = false;
+    })
+    
+  }
 
 
-  getAnualVenta = [
-    {
-      "name": "Opalo",
-      "series": [
-        {
-          "name": "Enero",
-          "value": 12
-        },
-        {
-          "name": "Febrero",
-          "value": 20
-        },
-        {
-          "name": "Marzo",
-          "value": 50
-        },
-        {
-          "name": "Abril",
-          "value": 35
-        },
-        {
-          "name": "Mayo",
-          "value": 43
-        },
-        {
-          "name": "Junio",
-          "value": 50
-        },
-        {
-          "name": "Julio",
-          "value": 75
-        },
-        {
-          "name": "Agosto",
-          "value": 85
-        },
-        {
-          "name": "Septiembre",
-          "value": 72
-        },
-        {
-          "name": "Octubre",
-          "value": 56
-        },
-        {
-          "name": "Noviembre",
-          "value": 83
-        },
-        {
-          "name": "Diciembre",
-          "value": 125
-        },
-      ]
-    },
-  ];
 
 
-  view: any[] = [500, 400];
-  legend: boolean = true;
-  legendPosition: any = 'right';
-  colorScheme: any = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  };
+
+  
   single: any = [
     {
-      "name": "Germany",
-      "value": 8940000
+      "name": "Opalo",
+      "value": 20
     },
     {
-      "name": "USA",
-      "value": 5000000
+      "name": "Jeanine",
+      "value": 30
     },
     {
-      "name": "France",
-      "value": 7200000
+      "name": "Valerie",
+      "value": 50
     },
     {
-      "name": "UK",
-      "value": 5200000
+      "name": "Roy",
+      "value": 90
     },
     {
-      "name": "Italy",
-      "value": 7700000
+      "name": "Ron",
+      "value": 75
     },
-    {
-      "name": "Spain",
-      "value": 4300000
-    }
+    
   ];
+
+
+
+
+
+
+
+
+  formatearDataVentaMensualPorMeses(data: VentaMensualPorMeses) {
+    while (data.series.length < 12) {
+      
+      if (data.series.length < 1) {
+          data.series.push({
+            "name": `Enero`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 2) {
+          data.series.push({
+            "name": `Febrero`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 3) {
+          data.series.push({
+            "name": `Marzo`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 4) {
+          data.series.push({
+            "name": `Abril`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 5) {
+          data.series.push({
+            "name": `Mayo`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 6) {
+          data.series.push({
+            "name": `Junio`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 7) {
+          data.series.push({
+            "name": `Julio`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 8) {
+          data.series.push({
+            "name": `Agosto`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 9) {
+          data.series.push({
+            "name": `Septiembre`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 10) {
+          data.series.push({
+            "name": `Octubre`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 11) {
+          data.series.push({
+            "name": `Noviembre`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 12) {
+          data.series.push({
+            "name": `Diciembre`,
+            "value": 0
+          });
+          
+        }
+      }
+
+    return data
+  }
 
 }

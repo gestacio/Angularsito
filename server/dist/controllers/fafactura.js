@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCountMonthsFaFacturas = exports.getCountFaFacturas = exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
+exports.getCountMonthStoresFaFacturas = exports.getCountMonthsFaFacturas = exports.getCountFaFacturas = exports.updateFaFactura = exports.postFaFactura = exports.deleteFaFactura = exports.getFaFacturas = exports.generateFaFactura = exports.getFaFactura = void 0;
 const fafactura_1 = __importDefault(require("../models/fafactura"));
 const maempresa_1 = __importDefault(require("../models/maempresa"));
 const matienda_1 = __importDefault(require("../models/matienda"));
@@ -289,17 +289,20 @@ exports.getCountFaFacturas = getCountFaFacturas;
 const getCountMonthsFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const year = new Date().getFullYear();
     try {
-        const countMonthsFaFacturas = yield connection_1.default.query(`
-            SELECT    COUNT(*) 
+        const series = yield connection_1.default.query(`
+            SET language 'Español'
+            SELECT    COUNT(*) as value, 
+            DATENAME(MONTH, MAX(createdAt)) as name
             FROM      fafacturas
             WHERE     YEAR(createdAt) = ${year}
             and matiendaId = 1
-            GROUP BY  MONTH(createdAt)
-            --ORDER BY MONTH(createdAt)
-            `, { type: sequelize_1.QueryTypes.SELECT });
-        if (countMonthsFaFacturas) {
+            GROUP BY  MONTH(createdAt), YEAR(createdAt)
+            ORDER BY YEAR(createdAt), MONTH(createdAt)
+            `);
+        if (series) {
             res.json({
-                "countMonthsFaFacturas": countMonthsFaFacturas[0]
+                "name": "Opalo",
+                "series": series[0]
             });
         }
         else {
@@ -316,3 +319,31 @@ const getCountMonthsFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.getCountMonthsFaFacturas = getCountMonthsFaFacturas;
+const getCountMonthStoresFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+    try {
+        const ventaMesActualPorTienda = yield connection_1.default.query(`
+            select count(fafacturas.id) as value, matiendas.xname as name from fafacturas 
+            INNER JOIN matiendas on fafacturas.matiendaId = matiendas.id
+            where MONTH(fafacturas.createdAt) = ${month} and YEAR(fafacturas.createdAt) = ${year}
+            group by matiendas.xname
+            order by count(fafacturas.id) DESC
+            `, { type: sequelize_1.QueryTypes.SELECT });
+        if (ventaMesActualPorTienda) {
+            res.json(ventaMesActualPorTienda);
+        }
+        else {
+            res.status(404).json({
+                msg: `No existen facturas en BDD`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Upss ocurrió un error'
+        });
+    }
+});
+exports.getCountMonthStoresFaFacturas = getCountMonthStoresFaFacturas;
