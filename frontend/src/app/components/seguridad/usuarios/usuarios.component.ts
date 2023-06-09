@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs';
+import { SeRol } from 'src/app/interfaces/serol';
 import { SeUsuario } from 'src/app/interfaces/seusuario';
+import { SeRolService } from 'src/app/services/serol.service';
 import { SeUsuarioService } from 'src/app/services/seusuario.service';
 
 @Component({
@@ -12,11 +14,13 @@ import { SeUsuarioService } from 'src/app/services/seusuario.service';
 })
 export class UsuariosComponent {
   listSeUsuarios: SeUsuario[] = [];
+  listSeRoles: SeRol[] = [];
   formSeUsuario: FormGroup;
   idEmployee: number = 0;
 
   constructor(
     private _seusuarioService: SeUsuarioService,
+    private _serolService: SeRolService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
   ) {
@@ -32,7 +36,15 @@ export class UsuariosComponent {
   }
 
   ngOnInit(): void {
+    this.getListSeRoles()
     this.getListSeUsuarios()
+  }
+
+  getListSeRoles() {
+    this._serolService.getListSeRoles().subscribe((data: SeRol[]) => {
+      this.listSeRoles = data;
+    });
+
   }
 
   getListSeUsuarios() {

@@ -1,10 +1,10 @@
 <app-navbar></app-navbar>
 <div class="container">
     <div class="title my-3">
-        <h4>Listado de Usuarios</h4>
+        <h4>Listado de Roles</h4>
         <form class="d-flex gap-2">
-            <button (click)="clearForm();" type="button" class="btn btn-info" data-toggle="modal"
-                data-target="#formAgregarRol" id="btnModal">Agregar Rol</button>
+            <!-- <button (click)="clearForm();" type="button" class="btn btn-info" data-toggle="modal"
+                data-target="#formAgregarRol" id="btnModal">Agregar Rol</button> -->
 
             <!-- <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button> -->
         </form>
@@ -95,7 +95,7 @@
             <form [formGroup]="formSeRol" (ngSubmit)="editSeRol()">
                 <div class="modal-body">
                     <label for="xrol">Rol</label>
-                    <input formControlName="xrol" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
+                    <input formControlName="xrol" type="text" placeholder="Rol Empleado"
                         class="form-control mt-2" maxlength="20" autofocus="autofocus">
                 </div>
                 <div class="modal-footer">

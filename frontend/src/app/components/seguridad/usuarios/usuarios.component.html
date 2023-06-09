@@ -36,7 +36,7 @@
             </tr>
         </tbody>
     </table>
-    <h5 *ngIf="listSeUsuarios.length < 1">No hay productos para mostar</h5>
+    <h5 *ngIf="listSeUsuarios.length < 1">No hay usuarios para mostar</h5>
 </div>
 
 
@@ -64,8 +64,9 @@
                 <div class="modal-body">
                     <input formControlName="xcodeemployee" type="text" class="form-control mt-2"
                         placeholder="Código Empleado" minlength="8" maxlength="8">
-                    <input formControlName="serolId" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
-                        class="form-control mt-2" maxlength="2" minlength="1">
+                    <select formControlName="serolId" placeholder="Rol Empleado" class="form-control mt-2">
+                        <option *ngFor="let rol of listSeRoles" value="{{ rol.id }}">{{ rol.xrol }}</option>
+                    </select>
                     <input formControlName="xfirstname" type="text" class="form-control mt-2" placeholder="Nombre"
                         maxlength="40">
                     <input formControlName="xlastname" type="text" class="form-control mt-2" placeholder="Apellido"
@@ -110,8 +111,9 @@
                 <div class="modal-body">
                     <input formControlName="xcodeemployee" type="hidden">
                     <label for="xcodeemployee">Rol</label>
-                    <input formControlName="serolId" (keypress)="numberOnly($event)" type="text" placeholder="Rol Empleado"
-                        class="form-control mt-2" maxlength="2" minlength="1" autofocus="autofocus">
+                    <select formControlName="serolId" placeholder="Rol Empleado" class="form-control mt-2">
+                        <option *ngFor="let rol of listSeRoles" value="{{ rol.id }}">{{ rol.xrol }}</option>
+                    </select>
                     <label for="xfirstname">Nombre</label>
                     <input formControlName="xfirstname" type="text" class="form-control mt-2" placeholder="Nombre"
                         maxlength="40">
