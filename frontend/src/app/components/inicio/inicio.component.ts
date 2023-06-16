@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { GlobalConstants } from 'src/app/common/global-constants';
+import { esCaja, isAllowedRol } from 'src/app/common/verify-rol-id';
 import { FaFactura } from 'src/app/interfaces/fafactura';
 import { FarmaciaOpalo, VentaMensualPorMeses } from 'src/app/interfaces/farmaciaOpalo';
 import { FaFacturaService } from 'src/app/services/fafactura.service';
@@ -11,6 +14,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent {
+  allowedRoles: number[] = [1, 2, 3, 4]
   listFaFacturas: FaFactura[] = []
   loading: boolean = false;
   cantidadProductos = 0;
@@ -19,6 +23,7 @@ export class InicioComponent {
   countMensualFarmaciaOpalo: any;
   countMonthsFaFacturas: any;
   countMonthStoresFaFacturas: any;
+
 
   chartMetaMensual: any = {
     "view": [150, 150],
@@ -63,24 +68,20 @@ export class InicioComponent {
     return this.countMonthStoresFaFacturas;
   }
 
-  
-
-
-
-
-
-
 
   constructor(
     private _productService: ProductService,
     private _maclienteService: MaClienteService,
     private _fafacturaService: FaFacturaService,
+    private router: Router,
   ) {
-    // Object.assign(this, { single })
-
+    if(esCaja()) {
+      router.navigate(['/caja'])  
+    }
+    // if(!isAllowedRol(this.allowedRoles, GlobalConstants.SEUSUARIO.serolId)) {
+    //   router.navigate(['/caja'])
+    // };
   }
-
-
 
 
   onSelect(data: any): void {
@@ -146,7 +147,7 @@ export class InicioComponent {
     this._fafacturaService.getCountMonthStoresFaFacturas().subscribe((data: any) => {
       // var arraysito = [data];
       this.countMonthStoresFaFacturas = data;
-      console.log(this.countMonthStoresFaFacturas);
+      // console.log(this.countMonthStoresFaFacturas);
 
       this.loading = false;
     })

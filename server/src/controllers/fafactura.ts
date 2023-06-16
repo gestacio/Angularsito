@@ -127,27 +127,40 @@ export const generateFaFactura = async (req: Request, res: Response) => {
 }
 
 export const getFaFacturas = async (req: Request, res: Response) => {
-    const listFaFacturas = await FaFactura.findAll({
-        include: [
-            {
-                model: MaEmpresa
-            },
-            {
-                model: MaTienda,
-            },
-            {
-                model: MaCliente
-            },
-            {
-                model: SeUsuario
-            },
-            {
-                model: FaVenta
-            }
-        ]
-    })
 
-    res.json(listFaFacturas);
+    try {
+        const listFaFacturas = await FaFactura.findAll({
+            include: [
+                {
+                    model: MaEmpresa
+                },
+                {
+                    model: MaTienda,
+                },
+                {
+                    model: MaCliente
+                },
+                {
+                    model: SeUsuario
+                },
+                {
+                    model: FaVenta
+                }
+            ]
+        })
+    
+        
+        if (listFaFacturas) {
+            res.json(listFaFacturas);
+        } else {
+            res.status(404).json({
+                msg: `problemillas`,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 export const deleteFaFactura = async (req: Request, res: Response) => {

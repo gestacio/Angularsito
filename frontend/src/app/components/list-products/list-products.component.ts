@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalConstants } from 'src/app/common/global-constants';
+import { esCaja, esCoordinador, isAllowedRol } from 'src/app/common/verify-rol-id';
 import { Product } from 'src/app/interfaces/product';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -12,7 +15,14 @@ export class ListProductsComponent implements OnInit {
   listProducts: Product[] = []
   loading: boolean = false;
 
-  constructor(private _productService: ProductService, private toastr: ToastrService) {}
+  constructor(private _productService: ProductService, private toastr: ToastrService, private router: Router,) {
+    if(esCaja()) {
+      router.navigate(['/caja'])
+    };
+    if(esCoordinador()) {
+      router.navigate(['/inicio'])
+    };
+  }
 
   ngOnInit(): void {
     this.getListProducts()
