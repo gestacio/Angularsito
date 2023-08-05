@@ -7,6 +7,8 @@ import routesMaCliente from './routes/macliente';
 import routesSeRol from './routes/serol';
 import routesFaVenta from './routes/faventa';
 import routesFaFactura from './routes/fafactura';
+// 
+import routesLoginSessionData from './routes/loginsessiondata';
 import db from './db/connection';
 import cors from 'cors';
 // import sequelize from '../db/connection';
@@ -39,12 +41,21 @@ class Server {
         });
     }
 
+    midlewares() {
+        // Parseamos el body
+        this.app.use(express.json())
+
+        // Cors
+        this.app.use(cors());
+    }
+
     routes() {
         this.app.get('/', (req: Request, res: Response) => {
             res.json({
                 msg: 'API Working'
             });
         });
+        this.app.use('/api/sessiondata', routesLoginSessionData)
         this.app.use('/api/maclientes', routesMaCliente)
         this.app.use('/api/maempresas', routesMaEmpresa)
         this.app.use('/api/matiendas', routesMaTienda)
@@ -53,14 +64,7 @@ class Server {
         this.app.use('/api/seusuarios', routesSeUsuario)
         this.app.use('/api/faventas', routesFaVenta)
         this.app.use('/api/fafacturas', routesFaFactura)
-    }
 
-    midlewares() {
-        // Parseamos el body
-        this.app.use(express.json())
-
-        // Cors
-        this.app.use(cors());
     }
 
     async dbConnect() {
@@ -179,7 +183,7 @@ class Server {
 
             // console.log("All models were synchronized successfully.");
             console.log('\x1b[32m --- \x1b[0m');
-            console.log('\x1b[32m All models were synchronized successfully.! \x1b[0m');
+            console.log('\x1b[32m All models were synchronized successfully.! {port: ' + this.port + '} \x1b[0m');
             console.log('\x1b[32m --- \x1b[0m');
 
         } catch (error) {

@@ -10,6 +10,8 @@ import { MaEmpresa } from 'src/app/interfaces/maempresa';
 import { MaTiendaService } from 'src/app/services/matienda.service';
 import { MaTienda } from 'src/app/interfaces/matienda';
 import { LoginSeUsuario } from 'src/app/interfaces/loginseusuario';
+import { SessionDataService } from 'src/app/services/sessiondata.service';
+// import { LoginSessionDataService } from 'src/app/services/loginsessiondata.service';
 
 @Component({
   selector: 'app-login',
@@ -20,12 +22,16 @@ export class LoginComponent {
   form: FormGroup;
   isLogin: boolean = true;
   resSeUsuario!: SeUsuario;
-  
+  seusuarioSessionData: boolean = false;
+  maempresaSessionData: boolean = false;
+  matiendaSessionData: boolean = false;
+  obj: any;
+  sessionJson: any;
+
 
   constructor(
     private _seusuarioService: SeUsuarioService,
-    private _maempresaService: MaEmpresaService,
-    private _matiendaService: MaTiendaService,
+    private _sessionDataService: SessionDataService,
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,) {
@@ -48,57 +54,64 @@ export class LoginComponent {
       }))
       .subscribe((data: SeUsuario) => {
         this.resSeUsuario = data;
-        this.setSessionData();
+
+        this.obj = {
+          'id': this.resSeUsuario.id,
+          'serolId': this.resSeUsuario.serolId,
+          'xfirstname': this.resSeUsuario.xfirstname,
+          'xlastname': this.resSeUsuario.xlastname,
+          'xusername': this.resSeUsuario.xusername,
+        };
+
+        this.sessionJson = JSON.stringify(this.obj)
+        sessionStorage.setItem('SeUsuario', this.sessionJson);
+
+        this._sessionDataService.getSessionData(803)
+          .pipe(catchError(err => {
+            console.log(err);
+            throw "Error: " + err
+          }))
+          .subscribe((data: any) => {
+            data = data.viewLoginSessionData;
+
+            const objMaEmpresa = {
+              'id': data.Expr3,
+              'xrif': data.xrif,
+              'xshortname': data.xshortname,
+              'xlongname': data.xlongname,
+              'xaddress': data.xaddress,
+            };
+
+            const objMaTienda = {
+              'id': data.id,
+              'idempresa': data.idempresa,
+              'xname': data.xname,
+              'nstore': data.nstore,
+              'xtelf': data.xtelf,
+              'xaddress': data.xaddress,
+            };
+
+            const sessionJsonMaEmpresa = JSON.stringify(objMaEmpresa)
+            sessionStorage.setItem('MaEmpresa', sessionJsonMaEmpresa);
+
+            const sessionJsonMaTienda = JSON.stringify(objMaTienda);
+            sessionStorage.setItem('MaTienda', sessionJsonMaTienda);
+
+            switch (this.resSeUsuario.serolId) {
+              case 5: {
+                this.router.navigate(['/caja'])
+                break;
+              }
+              default: {
+                this.router.navigate(['/inicio'])
+                break;
+              }
+            }
+          });
+
+
       })
-    // this.toastr.info(`Usuario ${this.form.value.xusuario} no encontrado`, "Error")
-
   }
-
-  setSessionData() {
-      const obj = {
-        'id': this.resSeUsuario.id,
-        'serolId': this.resSeUsuario.serolId,
-        'xfirstname': this.resSeUsuario.xfirstname,
-        'xlastname': this.resSeUsuario.xlastname,
-        'xusername': this.resSeUsuario.xusername,
-      };
-      
-      const sessionJson = JSON.stringify(obj)
-      sessionStorage.setItem('SeUsuario', sessionJson);
-    
-
-    this._maempresaService.getMaEmpresa().subscribe((data: MaEmpresa) => {
-
-      const obj = {
-        'id': data.id,
-        'xrif': data.xrif,
-        'xshortname': data.xshortname,
-        'xlongname': data.xlongname,
-        'xaddress': data.xaddress,
-      };
-
-      const sessionJson = JSON.stringify(obj)
-      sessionStorage.setItem('MaEmpresa', sessionJson);
-    })
-
-    this._matiendaService.getMaTienda(2189).subscribe((data: MaTienda[]) => {
-      var tienda = data[0];
-
-      const obj = {
-        'id': tienda.id,
-        'idempresa': tienda.idempresa,
-        'xname': tienda.xname,
-        'nstore': tienda.nstore,
-        'xtelf': tienda.xtelf,
-        'xaddress': tienda.xaddress,
-      };
-
-      const sessionJson = JSON.stringify(obj);
-      sessionStorage.setItem('MaTienda', sessionJson);
-
-      this.router.navigate(['/inicio'])
-    })
-
-  }
+  // this.toastr.info(`Usuario ${this.form.value.xusuario} no encontrado`, "Error")
 
 }

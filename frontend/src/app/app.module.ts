@@ -50,12 +50,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
+    NgxChartsModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
       enableHtml: true,
     }), // ToastrModule added
-    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

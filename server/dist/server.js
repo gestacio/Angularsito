@@ -21,6 +21,8 @@ const macliente_1 = __importDefault(require("./routes/macliente"));
 const serol_1 = __importDefault(require("./routes/serol"));
 const faventa_1 = __importDefault(require("./routes/faventa"));
 const fafactura_1 = __importDefault(require("./routes/fafactura"));
+// 
+const loginsessiondata_1 = __importDefault(require("./routes/loginsessiondata"));
 const connection_1 = __importDefault(require("./db/connection"));
 const cors_1 = __importDefault(require("cors"));
 // import sequelize from '../db/connection';
@@ -46,12 +48,19 @@ class Server {
             console.log(`Aplicacion corriendo en el puerto ${this.port}`);
         });
     }
+    midlewares() {
+        // Parseamos el body
+        this.app.use(express_1.default.json());
+        // Cors
+        this.app.use((0, cors_1.default)());
+    }
     routes() {
         this.app.get('/', (req, res) => {
             res.json({
                 msg: 'API Working'
             });
         });
+        this.app.use('/api/sessiondata', loginsessiondata_1.default);
         this.app.use('/api/maclientes', macliente_1.default);
         this.app.use('/api/maempresas', maempresa_1.default);
         this.app.use('/api/matiendas', matienda_1.default);
@@ -60,12 +69,6 @@ class Server {
         this.app.use('/api/seusuarios', seusuario_1.default);
         this.app.use('/api/faventas', faventa_1.default);
         this.app.use('/api/fafacturas', fafactura_1.default);
-    }
-    midlewares() {
-        // Parseamos el body
-        this.app.use(express_1.default.json());
-        // Cors
-        this.app.use((0, cors_1.default)());
     }
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -175,7 +178,7 @@ class Server {
                 });
                 // console.log("All models were synchronized successfully.");
                 console.log('\x1b[32m --- \x1b[0m');
-                console.log('\x1b[32m All models were synchronized successfully.! \x1b[0m');
+                console.log('\x1b[32m All models were synchronized successfully.! {port: ' + this.port + '} \x1b[0m');
                 console.log('\x1b[32m --- \x1b[0m');
             }
             catch (error) {

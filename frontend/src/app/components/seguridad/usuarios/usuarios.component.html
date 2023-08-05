@@ -3,7 +3,7 @@
     <div class="title my-3">
         <h4>Listado de Usuarios</h4>
         <form class="d-flex gap-2">
-            <button (click)="clearForm();" type="button" class="btn btn-info" data-toggle="modal"
+            <button *ngIf="!esCoordinador" (click)="clearForm();" type="button" class="btn btn-info" data-toggle="modal"
                 data-target="#formAgregarUsuario" id="btnModal">Agregar Usuario</button>
 
             <!-- <button type="button" class="btn btn-secondary" routerLink="/sell">Vender Producto</button> -->
@@ -28,9 +28,9 @@
                 <td>{{ usuario.xusername }}</td>
                 <td>{{ usuario.serol!.xrol }}</td>
                 <td class="text-center">
-                    <button (click)="getSeUsuario(usuario.id!)" data-toggle="modal" data-target="#formEditarUsuario"
+                    <button *ngIf="!esCoordinador" (click)="getSeUsuario(usuario.id!)" data-toggle="modal" data-target="#formEditarUsuario"
                         type="button" class="btn btn-success btn-sm ms-2"><i class="bi bi-pencil-square"></i></button>
-                    <button (click)="deleteSeUsuario(usuario.id!)" type="button" class="btn btn-danger btn-sm ms-2"><i
+                    <button *ngIf="!esCoordinador" (click)="deleteSeUsuario(usuario.id!)" type="button" class="btn btn-danger btn-sm ms-2"><i
                             class="bi bi-trash"></i></button>
                 </td>
             </tr>

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs';
+import { esCaja, esCoordinador } from 'src/app/common/verify-rol-id';
 import { SeRol } from 'src/app/interfaces/serol';
 import { SeUsuario } from 'src/app/interfaces/seusuario';
 import { SeRolService } from 'src/app/services/serol.service';
@@ -13,6 +15,9 @@ import { SeUsuarioService } from 'src/app/services/seusuario.service';
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent {
+  esCaja = esCaja();
+  esCoordinador = esCoordinador()
+  // 
   listSeUsuarios: SeUsuario[] = [];
   listSeRoles: SeRol[] = [];
   formSeUsuario: FormGroup;
@@ -23,7 +28,11 @@ export class UsuariosComponent {
     private _serolService: SeRolService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private router: Router,
   ) {
+    if(this.esCaja) {
+      router.navigate(['/caja'])
+    }
 
     this.formSeUsuario = this.formBuilder.group({
       xcodeemployee: ['', Validators.required],

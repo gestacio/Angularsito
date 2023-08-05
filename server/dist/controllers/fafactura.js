@@ -137,26 +137,38 @@ const generateFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.generateFaFactura = generateFaFactura;
 const getFaFacturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listFaFacturas = yield fafactura_1.default.findAll({
-        include: [
-            {
-                model: maempresa_1.default
-            },
-            {
-                model: matienda_1.default,
-            },
-            {
-                model: macliente_1.default
-            },
-            {
-                model: seusuario_1.default
-            },
-            {
-                model: faventa_1.default
-            }
-        ]
-    });
-    res.json(listFaFacturas);
+    try {
+        const listFaFacturas = yield fafactura_1.default.findAll({
+            include: [
+                {
+                    model: maempresa_1.default
+                },
+                {
+                    model: matienda_1.default,
+                },
+                {
+                    model: macliente_1.default
+                },
+                {
+                    model: seusuario_1.default
+                },
+                {
+                    model: faventa_1.default
+                }
+            ]
+        });
+        if (listFaFacturas) {
+            res.json(listFaFacturas);
+        }
+        else {
+            res.status(404).json({
+                msg: `problemillas`,
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 exports.getFaFacturas = getFaFacturas;
 const deleteFaFactura = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
