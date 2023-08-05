@@ -1,3 +1,5 @@
+import { VentaMensualPorMeses } from "src/app/interfaces/farmaciaOpalo";
+
 export var multi = [
     {
       "name": "Germany",
@@ -145,3 +147,103 @@ let getAnualVenta = [
       ]
     },
   ];
+
+
+
+
+
+
+
+
+
+export function formatearDataVentaMensualPorMeses(data: VentaMensualPorMeses) {
+    while (data.series.length < 12) {
+      
+      if (data.series.length < 1) {
+          data.series.push({
+            "name": `Enero`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 2) {
+          data.series.push({
+            "name": `Febrero`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 3) {
+          data.series.push({
+            "name": `Marzo`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 4) {
+          data.series.push({
+            "name": `Abril`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 5) {
+          data.series.push({
+            "name": `Mayo`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 6) {
+          data.series.push({
+            "name": `Junio`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 7) {
+          data.series.push({
+            "name": `Julio`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 8) {
+          data.series.push({
+            "name": `Agosto`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 9) {
+          data.series.push({
+            "name": `Septiembre`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 10) {
+          data.series.push({
+            "name": `Octubre`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 11) {
+          data.series.push({
+            "name": `Noviembre`,
+            "value": 0
+          });
+          
+        }
+        if (data.series.length < 12) {
+          data.series.push({
+            "name": `Diciembre`,
+            "value": 0
+          });
+          
+        }
+      }
+
+    return data
+  }

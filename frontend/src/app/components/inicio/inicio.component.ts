@@ -4,6 +4,7 @@ import { FarmaciaOpalo, VentaMensualPorMeses } from 'src/app/interfaces/farmacia
 import { FaFacturaService } from 'src/app/services/fafactura.service';
 import { MaClienteService } from 'src/app/services/macliente.service';
 import { ProductService } from 'src/app/services/product.service';
+import { formatearDataVentaMensualPorMeses } from './data';
 
 @Component({
   selector: 'app-inicio',
@@ -62,13 +63,6 @@ export class InicioComponent {
   get VentaMensualPorTiendas() {
     return this.countMonthStoresFaFacturas;
   }
-
-  
-
-
-
-
-
 
 
   constructor(
@@ -133,7 +127,7 @@ export class InicioComponent {
   getCountMonthsFaFacturas() {
     this.loading = true;
     this._fafacturaService.getCountMonthsFaFacturas().subscribe((data: VentaMensualPorMeses) => {
-      data = this.formatearDataVentaMensualPorMeses(data)
+      data = formatearDataVentaMensualPorMeses(data)
       var arraysito: VentaMensualPorMeses[] = [data];
       this.countMonthsFaFacturas = arraysito;
 
@@ -144,10 +138,7 @@ export class InicioComponent {
   getCountMonthStoresFaFacturas() {
     this.loading = true;
     this._fafacturaService.getCountMonthStoresFaFacturas().subscribe((data: any) => {
-      // var arraysito = [data];
       this.countMonthStoresFaFacturas = data;
-      console.log(this.countMonthStoresFaFacturas);
-
       this.loading = false;
     })
     
@@ -158,127 +149,5 @@ export class InicioComponent {
 
 
   
-  single: any = [
-    {
-      "name": "Opalo",
-      "value": 20
-    },
-    {
-      "name": "Jeanine",
-      "value": 30
-    },
-    {
-      "name": "Valerie",
-      "value": 50
-    },
-    {
-      "name": "Roy",
-      "value": 90
-    },
-    {
-      "name": "Ron",
-      "value": 75
-    },
-    
-  ];
-
-
-
-
-
-
-
-
-  formatearDataVentaMensualPorMeses(data: VentaMensualPorMeses) {
-    while (data.series.length < 12) {
-      
-      if (data.series.length < 1) {
-          data.series.push({
-            "name": `Enero`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 2) {
-          data.series.push({
-            "name": `Febrero`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 3) {
-          data.series.push({
-            "name": `Marzo`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 4) {
-          data.series.push({
-            "name": `Abril`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 5) {
-          data.series.push({
-            "name": `Mayo`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 6) {
-          data.series.push({
-            "name": `Junio`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 7) {
-          data.series.push({
-            "name": `Julio`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 8) {
-          data.series.push({
-            "name": `Agosto`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 9) {
-          data.series.push({
-            "name": `Septiembre`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 10) {
-          data.series.push({
-            "name": `Octubre`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 11) {
-          data.series.push({
-            "name": `Noviembre`,
-            "value": 0
-          });
-          
-        }
-        if (data.series.length < 12) {
-          data.series.push({
-            "name": `Diciembre`,
-            "value": 0
-          });
-          
-        }
-      }
-
-    return data
-  }
 
 }
